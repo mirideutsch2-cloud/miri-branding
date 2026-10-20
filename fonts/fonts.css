@@ -1,0 +1,11 @@
+/* Miri Block — geometric display sans */
+@font-face { font-family: "Miri Block"; src: url("MiriBlock-Thin.woff2") format("woff2"); font-weight: 100; font-display: swap; }
+@font-face { font-family: "Miri Block"; src: url("MiriBlock-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Miri Block"; src: url("MiriBlock-Bold.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "Miri Block"; src: url("MiriBlock-ExtraBold.woff2") format("woff2"); font-weight: 800; font-display: swap; }
+
+/* Miri Script — brush script */
+@font-face { font-family: "Miri Script"; src: url("MiriScript-Thin.woff2") format("woff2"); font-weight: 100; font-display: swap; }
+@font-face { font-family: "Miri Script"; src: url("MiriScript-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Miri Script"; src: url("MiriScript-Bold.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "Miri Script"; src: url("MiriScript-ExtraBold.woff2") format("woff2"); font-weight: 800; font-display: swap; }
