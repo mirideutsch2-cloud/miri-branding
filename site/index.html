@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="he" dir="rtl" data-display="hangar">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>מירי דייטש · טיוטה</title>
+<meta name="description" content="מגיעה למוצר שלך במה שנראית בינלאומית ומוכרת">
+<link rel="preload" href="fonts-licensed/Sprinter-VF.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts-licensed/Hangar-ExtraBlack.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/site.css">
+<script>document.documentElement.classList.add("js")</script>
+<script src="vendor/gsap.min.js" defer></script>
+<script src="vendor/ScrollTrigger.min.js" defer></script>
+<script src="js/main.js" defer></script>
+<script src="js/cloth.js" type="module"></script>
+</head>
+<body>
+<a class="skip" href="#main">דילוג לתוכן</a>
+
+<!-- 0 · הדר: לוגו · תפריט פתוח · כפתור. סטיקי, בלי רשתות חברתיות.
+     המסכים שהקישורים מובילים אליהם עוד לא נבנו: data-pending מציג הודעה גלויה -->
+<header class="site-header">
+  <div class="site-header__in">
+    <a class="logo" href="#top" aria-label="מירי דייטש, לראש העמוד">
+      <bdi dir="ltr" class="logo__word" aria-hidden="true"><span class="logo__m">M</span>IRI</bdi>
+      <bdi dir="ltr" class="logo__deutsch" aria-hidden="true">DEUTSCH</bdi>
+    </a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">תפריט</button>
+    <nav class="site-nav" id="site-nav" aria-label="ראשי">
+      <ul>
+        <li><a href="#how" data-pending>איך זה עובד</a></li>
+        <li><a href="#projects" data-pending>פרויקטים</a></li>
+        <li><a href="#about" data-pending>אודות</a></li>
+      </ul>
+    </nav>
+    <a class="btn btn--light site-header__cta" href="#contact" data-pending>לשיחת היכרות</a>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- 1 · מסך פתיחה, מחולק לשניים: למעלה הלוגו בלבן מלא, למטה תמונה שהופכת לווילון -->
+  <section class="hero" id="top" aria-labelledby="hero-title">
+    <div class="hero__top">
+      <p class="hero__logo" aria-hidden="true"><bdi dir="ltr"><span class="hero__logo-m">M</span>IRI<span class="hero__logo-deutsch">DEUTSCH</span></bdi></p>
+      <div class="hero__copy">
+        <div class="hero__text">
+          <p class="label"><bdi dir="ltr">SCENE 01</bdi></p>
+          <h1 class="h-2" id="hero-title">מגיעה למוצר שלך <span class="accent">במה</span> שנראית בינלאומית ומוכרת</h1>
+          <p class="lead">אתרי תדמית וחנויות לבעלות ובעלי מוצר <span class="draft">טיוטה</span></p>
+        </div>
+        <div class="hero__action">
+          <a class="btn btn--light" href="#contact" data-pending>לשיחת היכרות</a>
+          <p class="label hero__hint" data-cloth-hint hidden>גררי את הווילון <span class="draft">טיוטה</span></p>
+        </div>
+      </div>
+    </div>
+    <figure class="hero__curtain" data-cloth-slot>
+      <img class="hero__img" src="img/curtain-placeholder.svg" alt="" width="2400" height="1600">
+    </figure>
+    <canvas class="hero__canvas" aria-hidden="true"></canvas>
+  </section>
+
+</main>
+
+<!-- וואטסאפ צף: תמיד גלוי, מימין למטה -->
+<a class="wa" href="#contact" data-wa aria-label="וואטסאפ">
+  <svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16 3.2A12.7 12.7 0 0 0 5.1 22.4L3.3 28.8l6.6-1.7A12.7 12.7 0 1 0 16 3.2Zm0 23.2c-1.9 0-3.8-.5-5.4-1.5l-.4-.2-3.9 1 1-3.8-.3-.4A10.5 10.5 0 1 1 16 26.4Zm5.8-7.9c-.3-.2-1.9-.9-2.2-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1a8.6 8.6 0 0 1-4.3-3.7c-.3-.6.3-.5 1-1.7.1-.2 0-.4 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.2 1.4 3.5c.2.2 2.4 3.6 5.8 5 2.1.9 3 1 4 .8.7-.1 1.9-.8 2.2-1.5.3-.8.3-1.4.2-1.5-.1-.1-.3-.2-.6-.3Z"/></svg>
+</a>
+
+<!-- לוח טיוטה: השוואת פונט כותרות + מצב נפילות לברירת מחדל. להסיר לפני עלייה -->
+<details class="draft-panel">
+  <summary class="label">טיוטה · פונט כותרות</summary>
+  <div class="draft-panel__fonts" role="group" aria-label="פונט כותרות">
+    <button type="button" data-font="hangar" aria-pressed="true"><bdi dir="ltr">Hangar</bdi></button>
+    <button type="button" data-font="nostela" aria-pressed="false"><bdi dir="ltr">Nostela</bdi></button>
+  </div>
+  <ul class="draft-panel__status" data-status></ul>
+</details>
+
+<div class="toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>

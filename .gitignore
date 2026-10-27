@@ -1,1 +1,3 @@
 __pycache__/
+# Licensed fonts (all rights reserved) — never commit while the repo is public
+site/fonts-licensed/
