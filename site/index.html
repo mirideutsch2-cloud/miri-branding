@@ -22,13 +22,16 @@
 
 <main id="main">
 
-  <!-- 1 · מסך פתיחה: למעלה רק הלוגו על רקע שחור (M פוקסיה, IRI לבן), כמעט לכל הרוחב. מתחת תמונה שהופכת לווילון, קצת יותר גבוהה מהלוגו -->
+  <!-- 1 · מסך פתיחה: למעלה הלוגו על שחור (IRI לבן, ה-M חלון לתמונה), כמעט לכל הרוחב. מתחת אותה תמונה כווילון, קצת יותר גבוהה מהלוגו -->
   <section class="hero" id="top" aria-label="מירי דייטש">
+    <!-- ה-M של הלוגו הוא חלון לתמונה: אותה תמונה מונחת על כל המסך ונחשפת רק בצורת ה-M (מסכה ב-main.js).
+         בלי JS ה-M נשאר פוקסיה -->
+    <div class="hero__m" aria-hidden="true"></div>
     <div class="hero__top">
       <svg class="hero__logo" preserveAspectRatio="xMidYMax meet" aria-hidden="true"><use href="img/logo-miri.svg#logo"/></svg>
     </div>
     <figure class="hero__curtain" data-cloth-slot>
-      <img class="hero__img" src="img/curtain.webp" alt="" width="2000" height="1120">
+      <img class="hero__img" src="img/curtain.webp" alt="" width="1672" height="941">
     </figure>
     <canvas class="hero__canvas" aria-hidden="true"></canvas>
     <p class="label hero__hint" data-cloth-hint hidden>גררי את הווילון <span class="draft">טיוטה</span></p>
