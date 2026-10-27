@@ -17,6 +17,7 @@
   --on-dark-dim:rgba(243,243,241,.74);
   --on-light:#0E0D10;
   --line-dark:rgba(243,243,241,.18);
+  --line-light:rgba(14,13,16,.14);
 
   /* פונטים */
   --font-display:"Hangar","Arial Black",Arial,sans-serif;
@@ -76,11 +77,11 @@ p{text-wrap:pretty}
 .skip:focus{top:.75rem}
 
 /* ---------- 0 · הדר ---------- */
-.site-header{position:sticky;top:env(safe-area-inset-top, 0px);z-index:50;background:rgba(14,13,16,.88);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid var(--line-dark)}
+.site-header{position:sticky;top:env(safe-area-inset-top, 0px);z-index:50;background:var(--light);color:var(--on-light);border-bottom:1px solid var(--line-light)}
 .site-header__in{display:flex;align-items:center;gap:var(--gap-m);min-height:var(--header-h);padding-inline:var(--margin)}
 .logo{display:flex;align-items:center;gap:.35rem;text-decoration:none;min-height:44px;direction:ltr;transition:opacity .5s var(--ease),visibility .5s}
 .site-header.hero-logo-visible .logo{opacity:0;visibility:hidden}
-.logo__svg{width:clamp(4.5rem, 3rem + 4vw, 7rem);aspect-ratio:210.24/72.97;--logo-m:var(--fuchsia);--logo-ink:var(--light)}
+.logo__svg{width:clamp(4.5rem, 3rem + 4vw, 7rem);aspect-ratio:210.24/72.97}
 .site-nav{margin-inline-start:auto}
 .site-nav ul{display:flex;gap:var(--gap-m)}
 .site-nav a{display:inline-flex;align-items:center;min-height:44px;text-decoration:none;font-weight:700}
@@ -90,9 +91,9 @@ p{text-wrap:pretty}
 
 @media (max-width:860px){
   .site-header__in{gap:var(--gap-s)}
-  .menu-toggle{display:inline-flex;align-items:center;min-height:44px;margin-inline-start:auto;padding:0 .9rem;background:none;border:1px solid var(--line-dark);border-radius:var(--r-s);color:inherit;font:inherit;font-weight:700;cursor:pointer}
+  .menu-toggle{display:inline-flex;align-items:center;min-height:44px;margin-inline-start:auto;padding:0 .9rem;background:none;border:1px solid var(--line-light);border-radius:var(--r-s);color:inherit;font:inherit;font-weight:700;cursor:pointer}
   .site-header__cta{margin-inline-start:0;padding-inline:1rem}
-  .js .site-nav{position:absolute;top:100%;inset-inline:0;background:var(--dark);border-bottom:1px solid var(--line-dark);padding:var(--gap-s) var(--margin) var(--gap-m);display:none}
+  .js .site-nav{position:absolute;top:100%;inset-inline:0;background:var(--light);border-bottom:1px solid var(--line-light);padding:var(--gap-s) var(--margin) var(--gap-m);display:none}
   .js .site-nav.is-open{display:block}
   .site-nav ul{flex-direction:column;gap:0}
   .site-nav a{min-height:3rem;width:100%}
@@ -104,11 +105,11 @@ p{text-wrap:pretty}
   html:not(.js) .site-header__cta{margin-inline-start:auto}
 }
 
-/* ---------- 1 · מסך פתיחה: חצי עליון רק הלוגו בלבן, ממלא את החצי. חצי תחתון וילון ---------- */
-.hero{position:relative;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(35%,1fr);height:calc(100svh - var(--header-h));min-height:30rem;overflow:clip;isolation:isolate}
-.hero__top{grid-row:1;grid-column:1;min-height:0;padding:clamp(.75rem, .4rem + 1.5vw, 2rem) var(--margin)}
-/* הלוגו ממלא את כל הרוחב, והחצי העליון בגובה הלוגו. במסך נמוך הגובה מוגבל, והלוגו נשאר במרכז */
-.hero__logo{display:block;width:100%;height:auto;aspect-ratio:210.24/72.97;max-height:calc((100svh - var(--header-h)) * .6);--logo-m:var(--light);--logo-ink:var(--light)}
+/* ---------- 1 · מסך פתיחה: שליש עליון לוגו על לבן, שני שלישים וילון ---------- */
+.hero{position:relative;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr) minmax(0,2fr);height:calc(100svh - var(--header-h));min-height:30rem;overflow:clip;isolation:isolate}
+.hero__top{grid-row:1;grid-column:1;min-height:0;background:var(--light);padding:clamp(.5rem, .3rem + 1vw, 1.25rem) var(--margin)}
+/* הלוגו בצבעים המקוריים, ממלא את השליש העליון ובמרכזו */
+.hero__logo{display:block;width:100%;height:100%}
 .hero__curtain{grid-row:2;grid-column:1;position:relative;z-index:1;overflow:hidden}
 .hero__img{width:100%;height:100%;object-fit:cover}
 .hero__canvas{position:absolute;inset:0;z-index:2;width:100%;height:100%;touch-action:pan-y;display:none}

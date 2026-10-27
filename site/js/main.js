@@ -67,7 +67,7 @@
     e.preventDefault();
     showToast(`"${a.textContent.trim()}": המסך הזה עוד לא נבנה.`);
   }));
-  status("ניווט וכפתורים: המסכים הבאים עוד לא נבנו · לחיצה מציגה הודעה");
+  status("ניווט: המסכים הבאים עוד לא נבנו · לחיצה מציגה הודעה");
 
   /* ---------- הלוגו בהדר מוסתר כל עוד הלוגו הגדול גלוי ---------- */
   const header = $(".site-header");
@@ -106,7 +106,8 @@
 
   /* ---------- וואטסאפ ---------- */
   const wa = $("[data-wa]");
-  if (CONFIG.whatsappNumber) {
+  if (!wa) { /* הכפתור הוסר לבינתיים מהדף */ }
+  else if (CONFIG.whatsappNumber) {
     wa.href = `https://wa.me/${CONFIG.whatsappNumber}`;
     wa.target = "_blank";
     wa.rel = "noopener";
