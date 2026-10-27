@@ -23,8 +23,7 @@
 <header class="site-header">
   <div class="site-header__in">
     <a class="logo" href="#top" aria-label="מירי דייטש, לראש העמוד">
-      <bdi dir="ltr" class="logo__word" aria-hidden="true"><span class="logo__m">M</span>IRI</bdi>
-      <bdi dir="ltr" class="logo__deutsch" aria-hidden="true">DEUTSCH</bdi>
+      <svg class="logo__svg" aria-hidden="true"><use href="img/logo-miri.svg#logo"/></svg>
     </a>
     <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">תפריט</button>
     <nav class="site-nav" id="site-nav" aria-label="ראשי">
@@ -40,26 +39,24 @@
 
 <main id="main">
 
-  <!-- 1 · מסך פתיחה, מחולק לשניים: למעלה הלוגו בלבן מלא, למטה תמונה שהופכת לווילון -->
-  <section class="hero" id="top" aria-labelledby="hero-title">
+  <!-- 1 · מסך פתיחה, מחולק לשניים: למעלה רק הלוגו בלבן וממלא את החצי, למטה תמונה שהופכת לווילון -->
+  <section class="hero" id="top" aria-label="מירי דייטש">
     <div class="hero__top">
-      <p class="hero__logo" aria-hidden="true"><bdi dir="ltr"><span class="hero__logo-m">M</span>IRI<span class="hero__logo-deutsch">DEUTSCH</span></bdi></p>
-      <div class="hero__copy">
-        <div class="hero__text">
-          <p class="label"><bdi dir="ltr">SCENE 01</bdi></p>
-          <h1 class="h-2" id="hero-title">מגיעה למוצר שלך <span class="accent">במה</span> שנראית בינלאומית ומוכרת</h1>
-          <p class="lead">אתרי תדמית וחנויות לבעלות ובעלי מוצר <span class="draft">טיוטה</span></p>
-        </div>
-        <div class="hero__action">
-          <a class="btn btn--light" href="#contact" data-pending>לשיחת היכרות</a>
-          <p class="label hero__hint" data-cloth-hint hidden>גררי את הווילון <span class="draft">טיוטה</span></p>
-        </div>
-      </div>
+      <svg class="hero__logo" preserveAspectRatio="xMidYMax meet" aria-hidden="true"><use href="img/logo-miri.svg#logo"/></svg>
     </div>
     <figure class="hero__curtain" data-cloth-slot>
       <img class="hero__img" src="img/curtain-placeholder.svg" alt="" width="2400" height="1600">
     </figure>
     <canvas class="hero__canvas" aria-hidden="true"></canvas>
+    <p class="label hero__hint" data-cloth-hint hidden>גררי את הווילון <span class="draft">טיוטה</span></p>
+  </section>
+
+  <!-- המשפט, השורה והכפתור: מתחת למסך הפתיחה, כי בחצי העליון יש רק לוגו -->
+  <section class="intro" aria-labelledby="hero-title">
+    <p class="label"><bdi dir="ltr">SCENE 01</bdi></p>
+    <h1 class="h-2" id="hero-title">מגיעה למוצר שלך <span class="accent">במה</span> שנראית בינלאומית ומוכרת</h1>
+    <p class="lead">אתרי תדמית וחנויות לבעלות ובעלי מוצר <span class="draft">טיוטה</span></p>
+    <a class="btn btn--light" href="#contact" data-pending>לשיחת היכרות</a>
   </section>
 
 </main>

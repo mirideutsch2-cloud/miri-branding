@@ -21,6 +21,7 @@ const fallbackSlide = (why) => {
 
 const start = () => {
   if (!hero || !canvas || !slot || !img) return;
+  MIRI.clothLoaded = true;
   if (MIRI.reduce) { MIRI.status("וילון: reduced-motion · תמונה סטטית"); return; }
 
   let renderer;

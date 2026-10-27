@@ -1,9 +1,7 @@
 /* מירי דייטש · האתר האישי · דף הבית (טיוטה)
    כרגע: מסך הפתיחה בלבד (הדר, מסך פתיחה, וואטסאפ צף). מקור האמת לטקסטים ולהחלטות: docs/BRIEF.md
-   פונטים: Miri Block/Script מהריפו (../../fonts). Hangar/Nostela/Sprinter/Pompei Narrow הם קבצים מורשים
+   הלוגו: img/logo-miri.svg (מקובץ ה-EPS של מירי). Hangar/Nostela/Sprinter/Pompei Narrow הם קבצים מורשים
    שנמצאים ב-fonts-licensed/ ולא נכנסים לגיט כל עוד הריפו ציבורי. */
-@import "../../fonts/fonts.css";
-
 @font-face{font-family:"Hangar";src:url("../fonts-licensed/Hangar-ExtraBlack.woff2") format("woff2");font-weight:800;font-display:swap}
 @font-face{font-family:"Nostela";src:url("../fonts-licensed/Nostela-VF.woff2") format("woff2");font-weight:100 800;font-display:swap}
 @font-face{font-family:"Sprinter";src:url("../fonts-licensed/Sprinter-VF.woff2") format("woff2");font-weight:100 800;font-display:swap}
@@ -14,7 +12,7 @@
   --dark:#0E0D10;
   --light:#FFFFFF;
   --concrete:#F3F3F1; /* רקעים בהירים, למסכים הבאים */
-  --fuchsia:#E0218A; /* מקום שמור. לדגום מה-M של הלוגו [פתוח] */
+  --fuchsia:#EC008C; /* נדגם מה-M בקובץ הלוגו */
   --on-dark:#F3F3F1;
   --on-dark-dim:rgba(243,243,241,.74);
   --on-light:#0E0D10;
@@ -24,12 +22,9 @@
   --font-display:"Hangar","Arial Black",Arial,sans-serif;
   --font-body:"Sprinter",Arial,"Noto Sans Hebrew",system-ui,sans-serif;
   --font-label:"Pompei Narrow","Arial Narrow",Arial,sans-serif;
-  --font-wordmark:"Miri Block",Arial,sans-serif;
-  --font-wordmark-m:"Miri Script","Miri Block",Arial,sans-serif;
 
-  /* טיפוגרפיה: דרגת ענק אחת + 4 גדלים. 3 משקלים: 400 · 700 · 800 */
+  /* טיפוגרפיה: 4 גדלים (הדרגה הענקית היא הלוגו עצמו). 3 משקלים: 400 · 700 · 800 */
   --display-scale:1;
-  --fs-display:min(25vw, 30svh);
   --fs-1:calc(clamp(3rem, 1.6rem + 6vw, 7.5rem) * var(--display-scale));
   --fs-2:calc(clamp(1.5rem, 1rem + 1.6vw, 2.5rem) * var(--display-scale));
   --fs-body:clamp(1rem, .9rem + .4vw, 1.25rem);
@@ -85,14 +80,12 @@ p{text-wrap:pretty}
 .site-header__in{display:flex;align-items:center;gap:var(--gap-m);min-height:var(--header-h);padding-inline:var(--margin)}
 .logo{display:flex;align-items:center;gap:.35rem;text-decoration:none;min-height:44px;direction:ltr;transition:opacity .5s var(--ease),visibility .5s}
 .site-header.hero-logo-visible .logo{opacity:0;visibility:hidden}
-.logo__word{font-family:var(--font-wordmark);font-weight:800;font-size:1.75rem;line-height:1}
-.logo__m{font-family:var(--font-wordmark-m);color:var(--fuchsia)}
-.logo__deutsch{writing-mode:vertical-rl;transform:rotate(180deg);font-family:var(--font-wordmark);font-weight:700;font-size:.4375rem;letter-spacing:.12em;line-height:1}
+.logo__svg{width:clamp(4.5rem, 3rem + 4vw, 7rem);aspect-ratio:210.24/72.97;--logo-m:var(--fuchsia);--logo-ink:var(--light)}
 .site-nav{margin-inline-start:auto}
 .site-nav ul{display:flex;gap:var(--gap-m)}
 .site-nav a{display:inline-flex;align-items:center;min-height:44px;text-decoration:none;font-weight:700}
 .site-nav a:hover{color:var(--fuchsia)}
-.site-header__cta{margin-inline-start:var(--gap-m)}
+.site-header__cta{margin-inline-start:var(--gap-m);white-space:nowrap}
 .menu-toggle{display:none}
 
 @media (max-width:860px){
@@ -111,34 +104,24 @@ p{text-wrap:pretty}
   html:not(.js) .site-header__cta{margin-inline-start:auto}
 }
 
-/* ---------- 1 · מסך פתיחה: חצי עליון לוגו, חצי תחתון וילון ---------- */
-.hero{position:relative;display:grid;grid-template-rows:minmax(0,1fr) minmax(0,1fr);height:calc(100svh - var(--header-h));min-height:34rem;overflow:clip;isolation:isolate}
-.hero__top{position:relative;display:flex;flex-direction:column;justify-content:space-between;gap:var(--gap-m);padding:var(--gap-m) var(--margin)}
-.hero__logo{flex:1;display:grid;place-items:center;font-family:var(--font-wordmark);font-weight:800;font-size:var(--fs-display);line-height:.8;white-space:nowrap;color:var(--light);user-select:none}
-.hero__logo bdi{display:flex;align-items:center}
-.hero__logo-m{font-family:var(--font-wordmark-m)}
-.hero__logo-deutsch{writing-mode:vertical-rl;transform:rotate(180deg);font-weight:700;font-size:.085em;letter-spacing:.12em;line-height:1;margin-inline-start:.06em}
-.hero__copy{position:relative;z-index:3;display:flex;align-items:flex-end;justify-content:space-between;gap:var(--gap-m);pointer-events:none}
-.hero__copy a,.hero__copy .draft{pointer-events:auto}
-.hero__text{display:flex;flex-direction:column;gap:var(--gap-s);max-width:40rem}
-.hero__action{display:flex;flex-direction:column;align-items:flex-end;gap:var(--gap-s)}
-.hero .lead{color:var(--on-dark-dim)}
-.hero__hint{color:var(--on-dark-dim)}
-.hero__curtain{position:relative;z-index:1;overflow:hidden}
+/* ---------- 1 · מסך פתיחה: חצי עליון רק הלוגו בלבן, ממלא את החצי. חצי תחתון וילון ---------- */
+.hero{position:relative;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(35%,1fr);height:calc(100svh - var(--header-h));min-height:30rem;overflow:clip;isolation:isolate}
+.hero__top{grid-row:1;grid-column:1;min-height:0;padding:clamp(.75rem, .4rem + 1.5vw, 2rem) var(--margin)}
+/* הלוגו ממלא את כל הרוחב, והחצי העליון בגובה הלוגו. במסך נמוך הגובה מוגבל, והלוגו נשאר במרכז */
+.hero__logo{display:block;width:100%;height:auto;aspect-ratio:210.24/72.97;max-height:calc((100svh - var(--header-h)) * .6);--logo-m:var(--light);--logo-ink:var(--light)}
+.hero__curtain{grid-row:2;grid-column:1;position:relative;z-index:1;overflow:hidden}
 .hero__img{width:100%;height:100%;object-fit:cover}
 .hero__canvas{position:absolute;inset:0;z-index:2;width:100%;height:100%;touch-action:pan-y;display:none}
 .cloth-on .hero__canvas{display:block}
 .cloth-on .hero__img{visibility:hidden}
 .cloth-grab .hero__canvas{cursor:grab}
 .cloth-grabbing .hero__canvas{cursor:grabbing}
+.hero__hint{grid-row:2;grid-column:1;align-self:start;justify-self:start;z-index:3;margin:var(--gap-s) var(--margin);padding:.45rem .8rem;border-radius:var(--r-s);background:rgba(14,13,16,.78);color:var(--on-dark);pointer-events:none}
 
-@media (max-width:860px){
-  .hero{grid-template-rows:auto minmax(44svh,1fr);height:auto;min-height:calc(100svh - var(--header-h))}
-  .hero__top{gap:var(--gap-m)}
-  .hero__logo{padding-block:var(--gap-s);font-size:min(28vw, 30svh)}
-  .hero__copy{flex-direction:column;align-items:stretch}
-  .hero__action{align-items:flex-start}
-}
+/* המשפט, השורה והכפתור: מתחת למסך הפתיחה */
+.intro{display:flex;flex-direction:column;align-items:flex-start;gap:var(--gap-m);padding:var(--gap-l) var(--margin)}
+.intro .h-2{max-width:40rem}
+.intro .lead{color:var(--on-dark-dim)}
 
 /* ---------- וואטסאפ צף (מימין למטה) ---------- */
 .wa{position:fixed;z-index:60;right:max(1rem, env(safe-area-inset-right));bottom:max(1rem, env(safe-area-inset-bottom));display:grid;place-items:center;width:3.75rem;height:3.75rem;border-radius:50%;background:var(--fuchsia);color:var(--dark);box-shadow:0 .75rem 1.5rem rgba(0,0,0,.3);transition:transform .4s var(--ease)}

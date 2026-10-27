@@ -96,8 +96,6 @@
     ["800 1em Nostela", "Nostela"],
     ["400 1em Sprinter", "Sprinter"],
     ["700 1em 'Pompei Narrow'", "Pompei Narrow"],
-    ["800 1em 'Miri Block'", "Miri Block"],
-    ["800 1em 'Miri Script'", "Miri Script"],
   ];
   FONTS.forEach(([spec, name]) =>
     document.fonts.load(spec, "אבג MIRI").then(
@@ -119,6 +117,11 @@
       showToast("מספר הוואטסאפ עוד לא הוגדר [להשלמה].");
     });
   }
+
+  // cloth.js הוא מודול שמייבא את Three.js. אם הייבוא נכשל, המודול לא רץ בכלל, אז בודקים מכאן
+  addEventListener("load", () => setTimeout(() => {
+    if (!window.MIRI.clothLoaded) status("וילון: Three.js לא נטען · מוצגת תמונה סטטית");
+  }, 4000));
 
   if (!window.gsap || !window.ScrollTrigger) status("GSAP לא נטען · מוצג מצב סופי בלי תנועה");
   else gsap.registerPlugin(ScrollTrigger);

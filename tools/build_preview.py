@@ -53,6 +53,15 @@ def main():
 
     body = re.sub(r'src="(img/[^"]+)"', lambda m: f'src="{data_uri(SITE / m.group(1))}"', body)
 
+    # <use href="img/x.svg#id"> → ספרייט SVG אחד בתוך הדף, כי הדף בתצוגה הוא קובץ יחיד
+    sprites = []
+    for file in dict.fromkeys(re.findall(r'href="(img/[^"#]+\.svg)#[\w-]+"', body)):
+        svg = (SITE / file).read_text(encoding="utf-8")
+        inner = re.sub(r"<!--.*?-->", "", svg[svg.index(">", svg.index("<svg")) + 1:svg.rindex("</svg>")], flags=re.S)
+        sprites.append(f'<svg width="0" height="0" style="position:absolute" aria-hidden="true">{inner.strip()}</svg>')
+        body = body.replace(f'href="{file}#', 'href="#')
+    body = "\n".join(sprites + [body])
+
     main_js = (SITE / "js" / "main.js").read_text(encoding="utf-8")
     cloth_js = (SITE / "js" / "cloth.js").read_text(encoding="utf-8")
     cloth_js = cloth_js.replace('"../vendor/three.module.min.js"', f'"{CDN["../vendor/three.module.min.js"]}"')
