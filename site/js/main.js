@@ -74,22 +74,8 @@
   }));
   if ($("[data-pending]")) status("ניווט: המסכים הבאים עוד לא נבנו · לחיצה מציגה הודעה");
 
-  /* ---------- לוח טיוטה: Hangar מול Nostela ---------- */
-  const fontButtons = $$("[data-font]");
-  const setDisplay = (name) => {
-    document.documentElement.dataset.display = name;
-    fontButtons.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.font === name)));
-    try { localStorage.setItem("miri-display-font", name); } catch (e) { /* לא קריטי */ }
-  };
-  fontButtons.forEach((b) => b.addEventListener("click", () => setDisplay(b.dataset.font)));
-  try {
-    const saved = localStorage.getItem("miri-display-font");
-    if (saved === "hangar" || saved === "nostela") setDisplay(saved);
-  } catch (e) { /* לא קריטי */ }
-
   /* ---------- בדיקת פונטים: פונט חסר מדווח בגלוי ---------- */
   const FONTS = [
-    ["800 1em Hangar", "Hangar"],
     ["800 1em Nostela", "Nostela"],
     ["400 1em Sprinter", "Sprinter"],
     ["700 1em 'Pompei Narrow'", "Pompei Narrow"],

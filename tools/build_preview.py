@@ -69,7 +69,7 @@ def main():
     boot = (
         "<script>(()=>{const d=document.documentElement;"
         f"d.lang={html_attrs['lang']!r};d.dir={html_attrs['dir']!r};"
-        f"d.dataset.display={html_attrs['data-display']!r};d.classList.add('js')}})()</script>"
+        "d.classList.add('js')})()</script>"
     )
     out = "\n".join([
         title,

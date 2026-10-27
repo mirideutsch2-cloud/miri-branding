@@ -1,8 +1,7 @@
 /* מירי דייטש · האתר האישי · דף הבית (טיוטה)
    כרגע: מסך הפתיחה בלבד (הדר, מסך פתיחה, וואטסאפ צף). מקור האמת לטקסטים ולהחלטות: docs/BRIEF.md
-   הלוגו: img/logo-miri.svg (מקובץ ה-EPS של מירי). Hangar/Nostela/Sprinter/Pompei Narrow הם קבצים מורשים
+   הלוגו: img/logo-miri.svg (מקובץ ה-EPS של מירי). Nostela/Sprinter/Pompei Narrow הם קבצים מורשים
    שנמצאים ב-fonts-licensed/ ולא נכנסים לגיט כל עוד הריפו ציבורי. */
-@font-face{font-family:"Hangar";src:url("../fonts-licensed/Hangar-ExtraBlack.woff2") format("woff2");font-weight:800;font-display:swap}
 @font-face{font-family:"Nostela";src:url("../fonts-licensed/Nostela-VF.woff2") format("woff2");font-weight:100 800;font-display:swap}
 @font-face{font-family:"Sprinter";src:url("../fonts-licensed/Sprinter-VF.woff2") format("woff2");font-weight:100 800;font-display:swap}
 @font-face{font-family:"Pompei Narrow";src:url("../fonts-licensed/PompeiNarrow-VF.woff2") format("woff2");font-weight:100 800;font-display:swap}
@@ -20,12 +19,12 @@
   --line-light:rgba(14,13,16,.14);
 
   /* פונטים */
-  --font-display:"Hangar","Arial Black",Arial,sans-serif;
+  --font-display:"Nostela","Arial Black",Arial,sans-serif; /* כותרות: Nostela, בחירת מירי 27.10 */
   --font-body:"Sprinter",Arial,"Noto Sans Hebrew",system-ui,sans-serif;
   --font-label:"Pompei Narrow","Arial Narrow",Arial,sans-serif;
 
   /* טיפוגרפיה: 4 גדלים (הדרגה הענקית היא הלוגו עצמו). 3 משקלים: 400 · 700 · 800 */
-  --display-scale:1;
+  --display-scale:.74; /* Nostela רחב (~150%), אז הכותרות קטנות בהתאם */
   --fs-1:calc(clamp(3rem, 1.6rem + 6vw, 7.5rem) * var(--display-scale));
   --fs-2:calc(clamp(1.5rem, 1rem + 1.6vw, 2.5rem) * var(--display-scale));
   --fs-body:clamp(1rem, .9rem + .4vw, 1.25rem);
@@ -44,7 +43,6 @@
 
   --ease:cubic-bezier(.22,1,.36,1);
 }
-html[data-display="nostela"]{--font-display:"Nostela","Arial Black",Arial,sans-serif;--display-scale:.74}
 
 *,*::before,*::after{box-sizing:border-box}
 html{color-scheme:dark;background:var(--dark);color:var(--on-dark);-webkit-text-size-adjust:100%;font-synthesis:none;scroll-padding-top:var(--header-h)}
@@ -125,10 +123,7 @@ p{text-wrap:pretty}
 .draft-panel{position:fixed;z-index:59;left:max(1rem, env(safe-area-inset-left));bottom:max(1rem, env(safe-area-inset-bottom));max-width:min(19rem, calc(100vw - 7rem));background:rgba(14,13,16,.92);color:var(--on-dark);border:1.5px dashed var(--fuchsia);border-radius:var(--r-m);padding:.25rem .9rem}
 .draft-panel summary{display:flex;align-items:center;min-height:44px;cursor:pointer}
 .draft-panel[open]{padding-block-end:.8rem}
-.draft-panel__fonts{display:flex;gap:.5rem}
-.draft-panel__fonts button{flex:1;min-height:44px;background:transparent;color:inherit;border:1px solid var(--line-dark);border-radius:var(--r-s);font:inherit;font-weight:700;cursor:pointer}
-.draft-panel__fonts button[aria-pressed="true"]{background:var(--light);color:var(--on-light)}
-.draft-panel__status{margin-block-start:.6rem;display:grid;gap:.3rem;font-family:var(--font-label);font-size:var(--fs-label);font-weight:700;color:var(--on-dark-dim)}
+.draft-panel__status{margin-block-start:.2rem;display:grid;gap:.3rem;font-family:var(--font-label);font-size:var(--fs-label);font-weight:700;color:var(--on-dark-dim)}
 .draft-panel__status:empty{display:none}
 
 .toast{position:fixed;z-index:70;left:50%;bottom:6rem;translate:-50% 0;width:max-content;max-width:calc(100vw - 2rem);background:var(--light);color:var(--on-light);padding:.9rem 1.2rem;border-radius:var(--r-s);font-weight:700;box-shadow:0 1rem 2rem rgba(0,0,0,.3)}
