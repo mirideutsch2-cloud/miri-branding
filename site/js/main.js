@@ -57,7 +57,7 @@
     toggle.setAttribute("aria-expanded", String(open));
     nav.classList.toggle("is-open", open);
   });
-  $$("a", nav).forEach((a) => a.addEventListener("click", () => {
+  if (nav) $$("a", nav).forEach((a) => a.addEventListener("click", () => {
     toggle?.setAttribute("aria-expanded", "false");
     nav.classList.remove("is-open");
   }));
@@ -67,7 +67,7 @@
     e.preventDefault();
     showToast(`"${a.textContent.trim()}": המסך הזה עוד לא נבנה.`);
   }));
-  status("ניווט: המסכים הבאים עוד לא נבנו · לחיצה מציגה הודעה");
+  if ($("[data-pending]")) status("ניווט: המסכים הבאים עוד לא נבנו · לחיצה מציגה הודעה");
 
   /* ---------- הלוגו בהדר מוסתר כל עוד הלוגו הגדול גלוי ---------- */
   const header = $(".site-header");
