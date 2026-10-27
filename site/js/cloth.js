@@ -38,30 +38,46 @@ const start = () => {
   const FOV = 30;
   const camera = new THREE.PerspectiveCamera(FOV, 1, 1, 20000);
 
-  // הצללה: אור קשה מלמעלה-שמאל. וילון שטוח = התמונה המקורית בדיוק, קפלים מוארים או בצל.
+  // הצללה בגימור סאטן: וילון שטוח = התמונה המקורית בדיוק. בקפלים יש אור וצל רכים,
+  // ברק לבן (specular) במקום שהבד מחזיר את האור, וזוהר בקצוות שנוטים מהצופה (sheen).
+  // כל רכיב מחושב ביחס למצב השטוח, ולכן כשהבד נח לא נוסף לתמונה שום אור.
   // uvScale/uvOffset = חיתוך "cover", כמו object-fit בתמונה הסטטית.
   const material = new THREE.ShaderMaterial({
     side: THREE.DoubleSide,
     transparent: true,
     uniforms: {
       map: { value: null },
-      L: { value: new THREE.Vector3(-0.55, 0.65, 0.52).normalize() },
+      L: { value: new THREE.Vector3(-0.45, 0.6, 0.66).normalize() },
       uvScale: { value: new THREE.Vector2(1, 1) },
       uvOffset: { value: new THREE.Vector2(0, 0) },
+      gloss: { value: 0.75 },
     },
     vertexShader: `
-      varying vec2 vUv; varying vec3 vN;
+      varying vec2 vUv; varying vec3 vN; varying vec3 vView;
       void main(){ vUv = uv; vN = normalize(normalMatrix * normal);
-        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
+        vec4 mv = modelViewMatrix * vec4(position, 1.0);
+        vView = -mv.xyz;
+        gl_Position = projectionMatrix * mv; }`,
     fragmentShader: `
-      uniform sampler2D map; uniform vec3 L; uniform vec2 uvScale; uniform vec2 uvOffset;
-      varying vec2 vUv; varying vec3 vN;
+      uniform sampler2D map; uniform vec3 L; uniform vec2 uvScale; uniform vec2 uvOffset; uniform float gloss;
+      varying vec2 vUv; varying vec3 vN; varying vec3 vView;
       void main(){
         vec3 n = normalize(vN) * (gl_FrontFacing ? 1.0 : -1.0);
-        float d = dot(n, L) - L.z;
-        float shade = clamp(1.0 + 1.6 * d, 0.22, 1.4);
+        vec3 V = normalize(vView);
+        vec3 N0 = vec3(0.0, 0.0, 1.0);
+        vec3 H = normalize(L + V);
+        // אור וצל רכים
+        float shade = clamp(1.0 + 1.1 * (dot(n, L) - dot(N0, L)), 0.5, 1.3);
+        // ברק: רק מה שמעבר למצב השטוח
+        float spec = max(0.0, pow(max(dot(n, H), 0.0), 48.0) - pow(max(dot(N0, H), 0.0), 48.0));
+        float spec2 = max(0.0, pow(max(dot(n, H), 0.0), 8.0) - pow(max(dot(N0, H), 0.0), 8.0));
+        // זוהר סאטן בקצוות הקפלים
+        float sheen = pow(1.0 - clamp(abs(dot(n, V)), 0.0, 1.0), 2.5);
         vec4 c = texture2D(map, uvOffset + vUv * uvScale);
-        gl_FragColor = vec4(c.rgb * shade, c.a);
+        vec3 col = c.rgb * shade;
+        col += vec3(1.0) * (spec * 0.9 + spec2 * 0.25) * gloss;
+        col = mix(col, vec3(1.0, 0.94, 0.97), sheen * 0.3 * gloss);
+        gl_FragColor = vec4(col, c.a);
       }`,
   });
 
@@ -83,8 +99,9 @@ const start = () => {
 
     // רשת לפי היחס של הווילון, תאים קרובים לריבוע
     const cw = sr.width, ch = sr.height;
-    NX = Math.round(Math.min(36, Math.max(14, cw / 36)));
-    NY = Math.max(8, Math.round(NX * (ch / cw)));
+    // רשת צפופה (תאים של ~18px) כדי שהקפלים והקצוות יהיו חלקים
+    NX = Math.round(Math.min(80, Math.max(22, cw / 18)));
+    NY = Math.max(12, Math.min(60, Math.round(NX * (ch / cw))));
     const count = (NX + 1) * (NY + 1);
     pos = new Float32Array(count * 3);
     prev = new Float32Array(count * 3);
