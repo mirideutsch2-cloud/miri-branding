@@ -51,7 +51,7 @@
 html[data-display="nostela"]{--font-display:"Nostela","Arial Black",Arial,sans-serif;--display-scale:.74}
 
 *,*::before,*::after{box-sizing:border-box}
-html{background:var(--dark);color:var(--on-dark);-webkit-text-size-adjust:100%;font-synthesis:none;scroll-padding-top:var(--header-h)}
+html{color-scheme:dark;background:var(--dark);color:var(--on-dark);-webkit-text-size-adjust:100%;font-synthesis:none;scroll-padding-top:var(--header-h)}
 body{margin:0;font-family:var(--font-body);font-size:var(--fs-body);font-weight:400;line-height:1.5;-webkit-font-smoothing:antialiased;background:var(--dark)}
 img,svg,canvas{display:block;max-width:100%}
 h1,h2,h3,p,ul,ol,figure,blockquote{margin:0;padding:0}
@@ -81,7 +81,7 @@ p{text-wrap:pretty}
 .skip:focus{top:.75rem}
 
 /* ---------- 0 · הדר ---------- */
-.site-header{position:sticky;top:0;z-index:50;background:rgba(14,13,16,.88);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid var(--line-dark)}
+.site-header{position:sticky;top:env(safe-area-inset-top, 0px);z-index:50;background:rgba(14,13,16,.88);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid var(--line-dark)}
 .site-header__in{display:flex;align-items:center;gap:var(--gap-m);min-height:var(--header-h);padding-inline:var(--margin)}
 .logo{display:flex;align-items:center;gap:.35rem;text-decoration:none;min-height:44px;direction:ltr;transition:opacity .5s var(--ease),visibility .5s}
 .site-header.hero-logo-visible .logo{opacity:0;visibility:hidden}
