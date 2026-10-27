@@ -76,34 +76,18 @@ p{text-wrap:pretty}
 .skip{position:absolute;inset-inline-start:var(--margin);top:-5rem;z-index:100;background:var(--light);color:var(--on-light);padding:.8em 1.2em;border-radius:var(--r-s)}
 .skip:focus{top:.75rem}
 
-/* ---------- 0 · הדר ---------- */
-.site-header{position:sticky;top:env(safe-area-inset-top, 0px);z-index:50;background:var(--light);color:var(--on-light);border-bottom:1px solid var(--line-light)}
-.site-header__in{display:flex;align-items:center;gap:var(--gap-m);min-height:var(--header-h);padding-inline:var(--margin)}
-.logo{display:flex;align-items:center;gap:.35rem;text-decoration:none;min-height:44px;direction:ltr;transition:opacity .5s var(--ease),visibility .5s}
-.site-header.hero-logo-visible .logo{opacity:0;visibility:hidden}
-.logo__svg{width:clamp(4.5rem, 3rem + 4vw, 7rem);aspect-ratio:208.77/65.08}
-.site-nav{margin-inline-start:auto}
-.site-nav ul{display:flex;gap:var(--gap-m)}
-.site-nav a{display:inline-flex;align-items:center;min-height:44px;text-decoration:none;font-weight:700}
-.site-nav a:hover{color:var(--fuchsia)}
-.site-header__cta{margin-inline-start:var(--gap-m);white-space:nowrap}
-.menu-toggle{display:none}
-
-@media (max-width:860px){
-  .site-header__in{gap:var(--gap-s)}
-  .menu-toggle{display:inline-flex;align-items:center;min-height:44px;margin-inline-start:auto;padding:0 .9rem;background:none;border:1px solid var(--line-light);border-radius:var(--r-s);color:inherit;font:inherit;font-weight:700;cursor:pointer}
-  .site-header__cta{margin-inline-start:0;padding-inline:1rem}
-  .js .site-nav{position:absolute;top:100%;inset-inline:0;background:var(--light);border-bottom:1px solid var(--line-light);padding:var(--gap-s) var(--margin) var(--gap-m);display:none}
-  .js .site-nav.is-open{display:block}
-  .site-nav ul{flex-direction:column;gap:0}
-  .site-nav a{min-height:3rem;width:100%}
-  html:not(.js) .menu-toggle{display:none}
-  html:not(.js) .site-header__in{flex-wrap:wrap}
-  html:not(.js) .site-nav{order:3;width:100%;margin:0}
-  html:not(.js) .site-nav ul{flex-direction:row;flex-wrap:wrap;column-gap:var(--gap-m)}
-  html:not(.js) .site-nav a{width:auto}
-  html:not(.js) .site-header__cta{margin-inline-start:auto}
-}
+/* ---------- 0 · הדר: שקוף מעל החלק השחור, המבורגר לבן ---------- */
+.site-header{position:absolute;top:env(safe-area-inset-top, 0px);inset-inline:0;z-index:10;display:flex;padding:.5rem calc(var(--margin) - .75rem);pointer-events:none}
+.menu-btn{position:relative;z-index:2;pointer-events:auto;display:grid;place-content:center;gap:6px;width:3rem;height:3rem;padding:0;background:none;border:0;border-radius:var(--r-s);color:var(--light);cursor:pointer}
+.menu-btn span{display:block;width:1.75rem;height:2px;border-radius:2px;background:currentColor;transition:transform .45s var(--ease),opacity .3s var(--ease)}
+.menu-btn[aria-expanded="true"] span:nth-child(1){transform:translateY(8px) rotate(45deg)}
+.menu-btn[aria-expanded="true"] span:nth-child(2){opacity:0}
+.menu-btn[aria-expanded="true"] span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
+.site-menu{position:fixed;inset:0;z-index:1;display:none;place-items:center;background:var(--dark);pointer-events:auto}
+.site-menu.is-open{display:grid}
+.site-menu ul{display:grid;gap:var(--gap-m);text-align:center}
+.site-menu a{font-family:var(--font-display);font-size:var(--fs-1);font-weight:800;line-height:1;color:var(--light);text-decoration:none}
+.site-menu a:hover{color:var(--fuchsia)}
 
 /* ---------- 1 · מסך פתיחה: לוגו על שחור למעלה, וילון קצת יותר גבוה מתחתיו ---------- */
 .hero{--hero-h:max(100svh, 30rem);position:relative;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr);height:var(--hero-h);overflow:clip;isolation:isolate}

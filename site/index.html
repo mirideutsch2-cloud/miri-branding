@@ -18,7 +18,20 @@
 <body>
 <a class="skip" href="#main">דילוג לתוכן</a>
 
-<!-- 0 · הדר: הוסר לבינתיים, לבקשת מירי (27.10). העיצוב שלו נשאר ב-site.css -->
+<!-- 0 · הדר: שקוף מעל החלק השחור. כרגע רק אייקון המבורגר לבן שפותח תפריט מסך מלא.
+     המסכים שהקישורים מובילים אליהם עוד לא נבנו: data-pending מציג הודעה גלויה -->
+<header class="site-header">
+  <button class="menu-btn" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="תפריט">
+    <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
+  </button>
+  <nav class="site-menu" id="site-menu" aria-label="ראשי">
+    <ul>
+      <li><a href="#how" data-pending>איך זה עובד</a></li>
+      <li><a href="#projects" data-pending>פרויקטים</a></li>
+      <li><a href="#about" data-pending>אודות</a></li>
+    </ul>
+  </nav>
+</header>
 
 <main id="main">
 

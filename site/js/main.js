@@ -49,18 +49,23 @@
     toastTimer = setTimeout(() => (toast.hidden = true), 5000);
   };
 
-  /* ---------- תפריט נייד ---------- */
-  const toggle = $(".menu-toggle");
-  const nav = $("#site-nav");
-  toggle?.addEventListener("click", () => {
-    const open = toggle.getAttribute("aria-expanded") !== "true";
-    toggle.setAttribute("aria-expanded", String(open));
-    nav.classList.toggle("is-open", open);
-  });
-  if (nav) $$("a", nav).forEach((a) => a.addEventListener("click", () => {
-    toggle?.setAttribute("aria-expanded", "false");
-    nav.classList.remove("is-open");
-  }));
+  /* ---------- תפריט: המבורגר שפותח תפריט מסך מלא ---------- */
+  const menuBtn = $(".menu-btn");
+  const menu = $("#site-menu");
+  const setMenu = (open) => {
+    menuBtn.setAttribute("aria-expanded", String(open));
+    menuBtn.setAttribute("aria-label", open ? "סגירת התפריט" : "תפריט");
+    menu.classList.toggle("is-open", open);
+    document.documentElement.style.overflow = open ? "hidden" : "";
+    if (open) $("a", menu)?.focus();
+  };
+  if (menuBtn && menu) {
+    menuBtn.addEventListener("click", () => setMenu(menuBtn.getAttribute("aria-expanded") !== "true"));
+    $$("a", menu).forEach((a) => a.addEventListener("click", () => setMenu(false)));
+    addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && menu.classList.contains("is-open")) { setMenu(false); menuBtn.focus(); }
+    });
+  }
 
   /* ---------- קישורים למסכים שעוד לא נבנו ---------- */
   $$("[data-pending]").forEach((a) => a.addEventListener("click", (e) => {
@@ -68,14 +73,6 @@
     showToast(`"${a.textContent.trim()}": המסך הזה עוד לא נבנה.`);
   }));
   if ($("[data-pending]")) status("ניווט: המסכים הבאים עוד לא נבנו · לחיצה מציגה הודעה");
-
-  /* ---------- הלוגו בהדר מוסתר כל עוד הלוגו הגדול גלוי ---------- */
-  const header = $(".site-header");
-  const heroLogo = $(".hero__logo");
-  if (header && heroLogo && "IntersectionObserver" in window) {
-    new IntersectionObserver(([en]) => header.classList.toggle("hero-logo-visible", en.isIntersecting))
-      .observe(heroLogo);
-  }
 
   /* ---------- לוח טיוטה: Hangar מול Nostela ---------- */
   const fontButtons = $$("[data-font]");
