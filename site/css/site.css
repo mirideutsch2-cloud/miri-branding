@@ -110,20 +110,22 @@ p{text-wrap:pretty}
 .hero__top{grid-row:1;grid-column:1;min-height:0;background:var(--dark);padding:var(--logo-pad) var(--margin) 5px} /* הלוגו צמוד לתמונה, 5px רווח */
 /* הלוגו כמעט לכל הרוחב. הגובה שלו מוגבל ל-44% מהמסך, כדי שהתמונה תמיד תהיה קצת יותר גבוהה ממנו */
 .hero{--logo-pad:clamp(.75rem, .4rem + 1.5vw, 2rem)}
-.hero__logo{position:relative;z-index:2;display:block;width:100%;height:auto;aspect-ratio:208.77/65.08;max-height:calc(44svh - var(--logo-pad) - 5px);--logo-ink:var(--light)} /* רקע שחור: IRI בלבן */
-/* ה-M כחלון לתמונה: שכבה בגודל כל המסך עם אותה תמונה (cover), במסכה בצורת ה-M. בלי מסכה ה-M נשאר פוקסיה */
-.hero__m{position:absolute;inset:0;z-index:1;display:none;pointer-events:none;background:center/cover no-repeat}
-.m-masked .hero__m{display:block}
-.m-masked .hero__logo{--logo-m:transparent}
+.hero__logo{position:relative;z-index:2;display:block;width:100%;height:auto;aspect-ratio:208.77/65.08;max-height:calc(44svh - var(--logo-pad) - 5px);--logo-ink:var(--light)} /* רקע שחור: IRI בלבן, ה-M נשאר פוקסיה */
 .hero__curtain{grid-row:2;grid-column:1;position:relative;z-index:1;overflow:hidden}
-/* התמונה הסטטית היא החלק התחתון של אותה תמונה במסך מלא, כדי שתתיישר עם ה-M */
-.hero__img{position:absolute;left:0;bottom:0;width:100%;height:var(--hero-h);max-width:none;object-fit:cover}
+.hero__img{width:100%;height:100%;object-fit:cover}
 .hero__canvas{position:absolute;inset:0;z-index:3;width:100%;height:100%;touch-action:pan-y;display:none}
 .cloth-on .hero__canvas{display:block}
 .cloth-on .hero__img{visibility:hidden}
 .cloth-grab .hero__canvas{cursor:grab}
 .cloth-grabbing .hero__canvas{cursor:grabbing}
 .hero__hint{grid-row:2;grid-column:1;align-self:start;justify-self:start;z-index:4;margin:var(--gap-s) var(--margin);padding:.45rem .8rem;border-radius:var(--r-s);background:rgba(14,13,16,.78);color:var(--on-dark);pointer-events:none}
+
+/* טלפון: כמו ברפרנס של BORN. החלק השחור גבוה יותר (כ-54%), הלוגו יושב בתחתית שלו, 5px מעל התמונה */
+@media (max-width:600px){
+  .hero{grid-template-rows:minmax(0,54fr) minmax(0,46fr)}
+  .hero__top{display:flex;align-items:flex-end}
+  .hero__logo{max-height:none}
+}
 
 /* המשפט, השורה והכפתור: מתחת למסך הפתיחה */
 .intro{display:flex;flex-direction:column;align-items:flex-start;gap:var(--gap-m);padding:var(--gap-l) var(--margin)}

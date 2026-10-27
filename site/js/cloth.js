@@ -41,7 +41,7 @@ const start = () => {
   // הצללה בגימור סאטן: וילון שטוח = התמונה המקורית בדיוק. בקפלים יש אור וצל רכים,
   // ברק לבן (specular) במקום שהבד מחזיר את האור, וזוהר בקצוות שנוטים מהצופה (sheen).
   // כל רכיב מחושב ביחס למצב השטוח, ולכן כשהבד נח לא נוסף לתמונה שום אור.
-  // uvScale/uvOffset = המיקום של הווילון בתוך התמונה המלאה (ראו build).
+  // uvScale/uvOffset = חיתוך "cover", כמו object-fit בתמונה הסטטית.
   const material = new THREE.ShaderMaterial({
     side: THREE.DoubleSide,
     transparent: true,
@@ -107,14 +107,11 @@ const start = () => {
     prev = new Float32Array(count * 3);
     pinned = new Uint8Array(count);
 
-    // התמונה מונחת על כל מסך הפתיחה (cover), והווילון הוא החלק התחתון שלה.
-    // כך היא מתיישרת בדיוק עם ה-M שבלוגו, שמראה את אותה תמונה דרך מסכה.
+    // חיתוך cover של הטקסטורה, כמו object-fit בתמונה הסטטית
     const tex = material.uniforms.map.value;
-    const ia = tex.image.width / tex.image.height, ha = W / H;
-    const kx = ha > ia ? 1 : ha / ia, ky = ha > ia ? ia / ha : 1;
-    const sxN = (sr.left - hr.left) / W, syN = (sr.top - hr.top) / H, swN = cw / W, shN = ch / H;
-    material.uniforms.uvScale.value.set(swN * kx, shN * ky);
-    material.uniforms.uvOffset.value.set(0.5 + (sxN - 0.5) * kx, 0.5 - (syN + shN - 0.5) * ky);
+    const ia = tex.image.width / tex.image.height, sa = cw / ch;
+    if (sa > ia) { material.uniforms.uvScale.value.set(1, ia / sa); material.uniforms.uvOffset.value.set(0, (1 - ia / sa) / 2); }
+    else { material.uniforms.uvScale.value.set(sa / ia, 1); material.uniforms.uvOffset.value.set((1 - sa / ia) / 2, 0); }
 
     // 1 יחידה = 1 פיקסל במישור z=0
     const x0 = sr.left - hr.left - W / 2;

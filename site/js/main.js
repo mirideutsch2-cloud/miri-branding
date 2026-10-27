@@ -77,51 +77,6 @@
       .observe(heroLogo);
   }
 
-  /* ---------- מסך פתיחה: ה-M של הלוגו כחלון לתמונה ----------
-     המסכה נבנית מקובץ הלוגו עצמו (img/logo-miri.svg): ה-M בשחור, IRI שקוף.
-     השכבה מכסה את כל מסך הפתיחה עם אותה תמונה, והמסכה ממוקמת בדיוק על ה-M. */
-  const hero = $(".hero");
-  const mLayer = $(".hero__m");
-  const heroLogo2 = $(".hero__logo");
-  const heroImg = $(".hero__img");
-  const logoSource = async () => {
-    const inline = document.querySelector("symbol#logo");
-    if (inline) return inline.ownerSVGElement.outerHTML;
-    const res = await fetch(heroLogo2.querySelector("use").getAttribute("href").split("#")[0]);
-    if (!res.ok) throw new Error(res.status);
-    return res.text();
-  };
-  const setupMask = async () => {
-    const doc = new DOMParser().parseFromString(await logoSource(), "image/svg+xml");
-    const symbol = doc.querySelector("symbol#logo");
-    const vb = symbol.getAttribute("viewBox").split(/\s+/).map(Number);
-    const defs = doc.querySelector("defs");
-    const parts = [...defs.children].filter((el) => el !== symbol).map((el) => el.outerHTML).join("");
-    const art = symbol.innerHTML
-      .replace(/var\(--logo-m,[^)]*\)/g, "#000")
-      .replace(/var\(--logo-ink,[^)]*\)/g, "transparent");
-    const maskSvg = `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="${vb.join(" ")}"><defs>${parts}</defs>${art}</svg>`;
-    const url = `url("data:image/svg+xml;charset=utf-8,${encodeURIComponent(maskSvg)}")`;
-    mLayer.style.backgroundImage = `url("${heroImg.currentSrc || heroImg.src}")`;
-    mLayer.style.maskImage = mLayer.style.webkitMaskImage = url;
-    mLayer.style.maskRepeat = mLayer.style.webkitMaskRepeat = "no-repeat";
-    const place = () => {
-      // מיקום תוכן הלוגו בתוך ה-SVG (preserveAspectRatio: xMidYMid meet)
-      const h = hero.getBoundingClientRect(), r = heroLogo2.getBoundingClientRect();
-      const k = Math.min(r.width / vb[2], r.height / vb[3]);
-      const w = vb[2] * k, hh = vb[3] * k;
-      const x = r.left - h.left + (r.width - w) / 2, y = r.top - h.top + (r.height - hh) / 2;
-      mLayer.style.maskSize = mLayer.style.webkitMaskSize = `${w}px ${hh}px`;
-      mLayer.style.maskPosition = mLayer.style.webkitMaskPosition = `${x}px ${y}px`;
-    };
-    place();
-    new ResizeObserver(place).observe(hero);
-    hero.classList.add("m-masked");
-  };
-  if (hero && mLayer && heroLogo2 && heroImg) {
-    setupMask().catch((e) => status(`לוגו: מסכת ה-M לא נבנתה (${e.message}) · ה-M מוצג בפוקסיה`));
-  }
-
   /* ---------- לוח טיוטה: Hangar מול Nostela ---------- */
   const fontButtons = $$("[data-font]");
   const setDisplay = (name) => {
