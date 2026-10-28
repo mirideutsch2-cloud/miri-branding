@@ -12,23 +12,24 @@
 <script>document.documentElement.classList.add("js")</script>
 <script src="vendor/gsap.min.js" defer></script>
 <script src="vendor/ScrollTrigger.min.js" defer></script>
+<script src="vendor/Flip.min.js" defer></script>
 <script src="js/main.js" defer></script>
 <script src="js/cloth.js" type="module"></script>
 </head>
 <body>
 <a class="skip" href="#main">דילוג לתוכן</a>
 
-<!-- 0 · הדר: שקוף מעל הווילון. כרגע רק אייקון המבורגר לבן שפותח תפריט מסך מלא.
-     המסכים שהקישורים מובילים אליהם עוד לא נבנו: data-pending מציג הודעה גלויה -->
+<!-- 0 · הדר: שקוף מעל הווילון. המבורגר לבן בשני פסים שפותח תפריט מסך מלא -->
 <header class="site-header">
   <button class="menu-btn menu-btn--two" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="תפריט">
     <span aria-hidden="true"></span><span aria-hidden="true"></span>
   </button>
   <nav class="site-menu" id="site-menu" aria-label="ראשי">
     <ul>
-      <li><a href="#how" data-pending>איך זה עובד</a></li>
-      <li><a href="#projects" data-pending>פרויקטים</a></li>
-      <li><a href="#about" data-pending>אודות</a></li>
+      <li><a href="#how">איך זה עובד</a></li>
+      <li><a href="#projects">פרויקטים</a></li>
+      <li><a href="#about">אודות</a></li>
+      <li><a href="#contact">יצירת קשר</a></li>
     </ul>
   </nav>
 </header>
@@ -49,7 +50,167 @@
     <h1 class="h-1 hero__title" id="hero-title">מגיעה למוצר שלך במה שנראית בינלאומית ומוכרת</h1>
   </section>
 
+  <!-- 2 · הסט + שלושת השלבים: קלוז-אפ ← התרחקות -->
+  <section class="set" id="how" aria-labelledby="set-title">
+    <div class="set__visual">
+      <div class="set__frame">
+        <img class="set__img" src="img/chair-top-placeholder.svg" alt="" width="1200" height="1200">
+      </div>
+    </div>
+    <div class="set__copy">
+      <p class="label"><bdi dir="ltr">SCENE 02</bdi></p>
+      <h2 class="h-2" id="set-title">אני בונה למוצר שלך במה שנראית בינלאומית ומוכרת <span class="accent">מהיום הראשון</span>.</h2>
+      <p>אני בונה לכל מוצר במה שלמה: סיפור, מיתוג ואתר שמובילים את הלקוח צעד אחרי צעד עד הקנייה, עם מערכת פשוטה שהיא מנהלת לבד.</p>
+      <div class="callsheet">
+        <p class="label callsheet__head"><bdi dir="ltr">CALL SHEET</bdi> <span class="draft">טיוטה</span></p>
+        <ol class="callsheet__rows">
+          <li><span class="label callsheet__num"><bdi dir="ltr">01</bdi></span><p>שיחה אחת להבנת המוצר והקהל</p></li>
+          <li><span class="label callsheet__num"><bdi dir="ltr">02</bdi></span><p>עיצוב ובנייה, עם טקסטים שמובילים לקנייה</p></li>
+          <li><span class="label callsheet__num"><bdi dir="ltr">03</bdi></span><p>השקה, עם מערכת ניהול ודיוור שמפעילים לבד.</p></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · פרויקטים: מסך לבן של נייר תסריט -->
+  <section class="projects" id="projects" aria-labelledby="projects-title">
+    <header class="sec-head">
+      <p class="label"><bdi dir="ltr">SCENE 03</bdi></p>
+      <h2 class="h-1" id="projects-title">פרויקטים</h2>
+    </header>
+
+    <article class="project">
+      <div class="mock" aria-hidden="true">
+        <div class="mock__bar"><i></i><i></i><i></i></div>
+        <div class="mock__screen"><span class="slot">[צילום מסך במוקאפ · לבהבר]</span></div>
+      </div>
+      <div class="project__info">
+        <p class="label"><bdi dir="ltr">01</bdi></p>
+        <h3 class="h-2">לבהבר</h3>
+        <p>חנות בגדי ילדים · באוויר</p>
+        <p>כ-6 הזמנות מאז שעלתה</p>
+        <p>מה עשיתי: <span class="todo">[להשלמה]</span></p>
+        <p>עמוד הפרויקט: <span class="todo">[להשלמה]</span></p>
+      </div>
+    </article>
+
+    <article class="project">
+      <div class="mock" aria-hidden="true">
+        <div class="mock__bar"><i></i><i></i><i></i></div>
+        <div class="mock__screen"><span class="slot">[צילום מסך במוקאפ · עוגן]</span></div>
+      </div>
+      <div class="project__info">
+        <p class="label"><bdi dir="ltr">02</bdi></p>
+        <h3 class="h-2">עוגן</h3>
+        <p>אתר תדמית <bdi dir="ltr">One Page</bdi> · יוצג כשיעלה</p>
+        <p>מה עשיתי: <span class="todo">[להשלמה]</span></p>
+        <p>עמוד הפרויקט: <span class="todo">[להשלמה]</span></p>
+      </div>
+    </article>
+
+    <article class="project">
+      <div class="mock" aria-hidden="true">
+        <div class="mock__bar"><i></i><i></i><i></i></div>
+        <div class="mock__screen"><span class="slot">[צילום מסך במוקאפ · הבית של שרי]</span></div>
+      </div>
+      <div class="project__info">
+        <p class="label"><bdi dir="ltr">03</bdi></p>
+        <h3 class="h-2">הבית של שרי</h3>
+        <p><span class="todo">[להשלמה]</span> · יוצג כשיעלה</p>
+        <p>מה עשיתי: <span class="todo">[להשלמה]</span></p>
+        <p>עמוד הפרויקט: <span class="todo">[להשלמה]</span></p>
+      </div>
+    </article>
+
+    <!-- דפי התסריט על הכסא: לחיצה על המדבקה פותחת גריד של כל הפרויקטים -->
+    <div class="scripts" data-state="stack">
+      <div class="scripts__chair" aria-hidden="true">
+        <img src="img/chair-top-placeholder.svg" alt="" width="1200" height="1200" loading="lazy">
+      </div>
+      <ul class="scripts__pages" id="all-projects" aria-label="כל הפרויקטים">
+        <li class="page"><p class="label"><bdi dir="ltr">01</bdi></p><p class="page__name">לבהבר</p><p>חנות בגדי ילדים</p></li>
+        <li class="page"><p class="label"><bdi dir="ltr">02</bdi></p><p class="page__name">עוגן</p><p>אתר תדמית <bdi dir="ltr">One Page</bdi></p></li>
+        <li class="page"><p class="label"><bdi dir="ltr">03</bdi></p><p class="page__name">הבית של שרי</p><p><span class="todo">[להשלמה]</span></p></li>
+        <li class="page"><p class="label"><bdi dir="ltr">04</bdi></p><p class="page__name"><span class="todo">[פתוח]</span></p><p>פרויקט נוסף</p></li>
+      </ul>
+      <button class="sticker" type="button" aria-expanded="false" aria-controls="all-projects">לתיקי העבודות שלי</button>
+    </div>
+  </section>
+
+  <!-- 4 · אודות: הקלאפר -->
+  <section class="about" id="about" aria-labelledby="about-title">
+    <div class="about__media">
+      <svg class="clapper" viewBox="0 0 400 300" aria-hidden="true">
+        <g class="clapper__stick">
+          <rect x="20" y="40" width="360" height="52" rx="6" fill="#F3F3F1"/>
+          <g fill="#0E0D10">
+            <polygon points="60,40 100,40 76,92 36,92"/>
+            <polygon points="140,40 180,40 156,92 116,92"/>
+            <polygon points="220,40 260,40 236,92 196,92"/>
+            <polygon points="300,40 340,40 316,92 276,92"/>
+          </g>
+        </g>
+        <g class="clapper__board">
+          <rect x="20" y="100" width="360" height="190" rx="6" fill="#F3F3F1"/>
+          <rect x="20" y="100" width="360" height="22" fill="#EC008C"/>
+          <g stroke="#0E0D10" stroke-width="3">
+            <line x1="20" y1="170" x2="380" y2="170"/>
+            <line x1="20" y1="230" x2="380" y2="230"/>
+            <line x1="200" y1="122" x2="200" y2="230"/>
+          </g>
+          <g font-family="Pompei Narrow, Arial, sans-serif" font-size="22" font-weight="700" fill="#0E0D10" direction="ltr">
+            <text x="36" y="156">SCENE 04</text>
+            <text x="216" y="156">TAKE 1</text>
+            <text x="36" y="214">MIRI DEUTSCH</text>
+          </g>
+        </g>
+      </svg>
+      <figure class="portrait">
+        <span class="slot">[תמונה אמיתית של מירי · מיום הצילום]</span>
+      </figure>
+    </div>
+    <div class="about__copy">
+      <p class="label"><bdi dir="ltr">SCENE 04 · TAKE 1</bdi></p>
+      <h2 class="h-2" id="about-title">המוצר שלך שווה שכל העולם יראה אותו, ואסור לך לתת לו להישאר <span class="accent">שקוף</span>.</h2>
+      <div class="story" data-lines>
+        <p>הרבה בעלות מותג עובדות שנה על המוצר, ומגיעות להשקה בלי חנות. אז הן מוכרות בוואטסאפ, או בונות לבד אתר בפלטפורמה מוכנה. אבל הבעיה האמיתית היא שהלקוחה נכנסת ולא מבינה בשנייה למה לקנות. היא יוצאת, וההשקה עוברת בשקט.</p>
+        <p>אני מכירה את הרגע הזה, כי שנים אני מעצבת מותגים. אז בניתי מסלול השקה: שיחה אחת כדי להבין את המוצר ואת מי שקונה אותו, ואז חנות בעיצוב של מותג בינלאומי, עם מערכת פשוטה לניהול ולדיוור. ומה שגורם לזה לעבוד: כל מילה בחנות כתובה כדי להוביל לקנייה.</p>
+        <p>בעלות המותג שבונות אצלי משיקות לחנות שמוכרת מהיום הראשון. הלקוחה נכנסת, מבינה וקונה, בלי לשלוח אף הודעה. כל שקל בפרסום חוזר כמכירות, והן מנהלות הכול לבד. שנה של עבודה על המוצר מקבלת סוף סוף במה. ומי שמשיקה בשקט עכשיו, אלה המתחרות.</p>
+      </div>
+      <blockquote class="message" data-lines>
+        <p>אני עוזרת לבעלות ובעלי מוצר שרוצים לצאת לעולם לפני שמישהו יקדים אותם, להיראות מהשנייה הראשונה בטופ ולמכור, באמצעות במה שלמה: סיפור, מיתוג ואתר עם חנות שהם מנהלים לבד. כי אסור לתת למוצר טוב להישאר שקוף.</p>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- 5 · המלצות: מוסתר עד שיהיו 3-4 המלצות אמיתיות. לא ממציאים. -->
+
 </main>
+
+<!-- 6 · פוטר: אזור ההמרה. MIRI ענק חתוך בתחתית -->
+<footer class="footer" id="contact">
+  <div class="footer__chair">
+    <img src="img/chair-top-placeholder.svg" alt="" width="1200" height="1200" loading="lazy">
+    <span class="footer__light" aria-hidden="true"></span>
+    <p class="footer__chair-label">המוצר שלך</p>
+  </div>
+  <div class="footer__cta">
+    <p class="label"><bdi dir="ltr">SCENE 05</bdi></p>
+    <h2 class="h-2" id="contact-title">השאירי פרטים, ותוך 24 שעות אחזור אלייך לשיחה קצרה על המוצר שלך. <span class="draft">טיוטה</span></h2>
+    <form class="form" aria-labelledby="contact-title" novalidate>
+      <label class="field" for="f-name"><span class="label">שם</span><input id="f-name" name="name" autocomplete="name" required></label>
+      <label class="field" for="f-phone"><span class="label">טלפון</span><input id="f-phone" name="phone" type="tel" dir="ltr" autocomplete="tel" required></label>
+      <label class="field" for="f-product"><span class="label">מה המוצר?</span><input id="f-product" name="product" dir="auto"></label>
+      <button class="btn btn--light" type="submit">שליחה</button>
+      <p class="form__status" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+  <div class="footer__meta">
+    <p>אינסטגרם <span class="todo">[להשלמה]</span></p>
+    <p>הצהרת נגישות · פרטיות · תנאים <span class="todo">[עמודים בהכנה]</span></p>
+  </div>
+  <svg class="footer__logo" aria-hidden="true"><use href="img/logo-miri.svg#logo-mono"/></svg>
+</footer>
 
 <!-- וואטסאפ צף הוסר לבינתיים, לבקשת מירי (27.10). הקוד והעיצוב שלו נשארו ב-main.js וב-site.css -->
 <!-- לוח טיוטה: מצב נפילות לברירת מחדל (פונט חסר, מספר חסר וכו'). להסיר לפני עלייה -->

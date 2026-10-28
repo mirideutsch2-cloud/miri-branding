@@ -107,6 +107,122 @@
     if (!window.MIRI.clothLoaded) status("וילון: Three.js לא נטען · מוצגת תמונה סטטית");
   }, 4000));
 
-  if (!window.gsap || !window.ScrollTrigger) status("GSAP לא נטען · מוצג מצב סופי בלי תנועה");
-  else gsap.registerPlugin(ScrollTrigger);
+  /* ---------- טופס ---------- */
+  const form = $(".form");
+  if (form) status("טופס: לא מחובר לשליחה [להשלמה]");
+  form?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const out = $(".form__status", form);
+    if (!form.name.value.trim() || !form.phone.value.trim()) {
+      out.textContent = "צריך למלא שם וטלפון.";
+      return;
+    }
+    out.textContent = "הטופס עוד לא מחובר לשום מערכת [להשלמה], ולכן הפרטים לא נשלחו.";
+  });
+
+  /* ---------- פוטר: הכסא השני מקבל אור ---------- */
+  const chair = $(".footer__chair");
+  if (chair) {
+    if (reduce || !("IntersectionObserver" in window)) chair.classList.add("is-lit");
+    else {
+      const io = new IntersectionObserver((entries) => {
+        if (entries.some((en) => en.isIntersecting)) { chair.classList.add("is-lit"); io.disconnect(); }
+      }, { threshold: 0.45 });
+      io.observe(chair);
+    }
+  }
+
+  /* ---------- מכאן: תנועה עם GSAP (המסכים שאחרי מסך הפתיחה, גרסה ב) ---------- */
+  if (!window.gsap || !window.ScrollTrigger) { status("GSAP לא נטען · מוצג מצב סופי בלי תנועה"); return; }
+  gsap.registerPlugin(ScrollTrigger);
+  const needsFlip = !!$(".sticker");
+  if (needsFlip && !window.Flip) status("Flip לא נטען · הדפים נפתחים לגריד בלי אנימציה");
+  if (window.Flip) gsap.registerPlugin(Flip);
+  const EASE = window.MIRI.ease;
+  const fontsReady = document.fonts ? document.fonts.ready : Promise.resolve();
+
+  /* מסך 2 · קלוז-אפ ← התרחקות */
+  const setImg = $(".set__img");
+  if (setImg && !reduce) {
+    const mm = gsap.matchMedia();
+    mm.add("(min-width: 1024px) and (min-height: 700px)", () => {
+      gsap.fromTo(setImg, { scale: 3.2 }, {
+        scale: 1, ease: "none",
+        scrollTrigger: { trigger: ".set", start: "top top", end: "+=110%", scrub: 0.6, pin: true, anticipatePin: 1 },
+      });
+    });
+    mm.add("(max-width: 1023px), (max-height: 699px)", () => {
+      gsap.fromTo(setImg, { scale: 3.2 }, {
+        scale: 1, ease: "none",
+        scrollTrigger: { trigger: ".set__frame", start: "top 90%", end: "bottom 35%", scrub: 0.6 },
+      });
+    });
+  }
+
+  /* מסך 3 · הדפים עפים ונפתחים לגריד */
+  const scripts = $(".scripts");
+  const sticker = $(".sticker");
+  sticker?.addEventListener("click", () => {
+    const toGrid = scripts.dataset.state !== "grid";
+    const state = window.Flip ? Flip.getState(".page, .sticker") : null;
+    scripts.dataset.state = toGrid ? "grid" : "stack";
+    sticker.setAttribute("aria-expanded", String(toGrid));
+    if (reduce || !window.Flip) { ScrollTrigger.refresh(); return; }
+    if (!toGrid) gsap.fromTo(".scripts__chair", { opacity: 0 }, { opacity: 0.95, duration: 0.8, ease: EASE });
+    Flip.from(state, {
+      duration: 1.1, ease: EASE, stagger: 0.07, absolute: true,
+      onComplete: () => ScrollTrigger.refresh(),
+    });
+  });
+
+  /* מסך 4 · הקלאפר נסגר פעם אחת, ואז הטקסט נחשף בשורות */
+  const splitLines = (p) => {
+    const original = p.textContent;
+    p.textContent = "";
+    const words = original.trim().split(/\s+/).map((w) => {
+      const s = document.createElement("span");
+      s.textContent = w + " ";
+      p.append(s);
+      return s;
+    });
+    const lines = [];
+    let top = null;
+    words.forEach((w) => {
+      if (w.offsetTop !== top) { lines.push([]); top = w.offsetTop; }
+      lines[lines.length - 1].push(w.textContent);
+    });
+    p.textContent = "";
+    lines.forEach((l) => {
+      const s = document.createElement("span");
+      s.className = "line";
+      s.textContent = l.join("");
+      p.append(s);
+    });
+    return () => { p.textContent = original; };
+  };
+
+  const stick = $(".clapper__stick");
+  const lineBlocks = $$("[data-lines]");
+  if (!reduce && stick) {
+    gsap.set(stick, { rotation: -24, svgOrigin: "26 92" });
+    fontsReady.then(() => {
+      const restores = [];
+      lineBlocks.forEach((b) => {
+        $$("p", b).forEach((p) => restores.push(splitLines(p)));
+        b.classList.add("line-reveal");
+      });
+      const lines = $$(".line-reveal .line");
+      const tl = gsap.timeline({
+        paused: true,
+        onComplete: () => {
+          // אחרי החשיפה מחזירים את הטקסט המקורי, כדי ששינוי רוחב לא ישבור שורות
+          restores.forEach((r) => r());
+          lineBlocks.forEach((b) => b.classList.remove("line-reveal"));
+        },
+      });
+      tl.to(stick, { rotation: 0, duration: 0.5, ease: EASE })
+        .to(lines, { opacity: 1, y: 0, duration: 0.8, ease: EASE, stagger: 0.05 }, "+=0.1");
+      ScrollTrigger.create({ trigger: ".about", start: "top 65%", once: true, onEnter: () => tl.play() });
+    });
+  }
 })();

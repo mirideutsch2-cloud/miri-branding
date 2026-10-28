@@ -19,6 +19,7 @@ OUT_DIR = ROOT / "build" / "preview"
 CDN = {
     "vendor/gsap.min.js": "https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js",
     "vendor/ScrollTrigger.min.js": "https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js",
+    "vendor/Flip.min.js": "https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Flip.min.js",
     "../vendor/three.module.min.js": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.min.js",
 }
 MIME = {".woff2": "font/woff2", ".svg": "image/svg+xml", ".png": "image/png", ".jpg": "image/jpeg", ".webp": "image/webp"}
@@ -50,7 +51,7 @@ def main():
     page = sys.argv[1] if len(sys.argv) > 1 else "index.html"
     html = (SITE / page).read_text(encoding="utf-8")
     title = re.search(r"<title>.*?</title>", html, re.S).group(0)
-    body = re.search(r"<body>(.*)</body>", html, re.S).group(1)
+    body = re.search(r"<body[^>]*>(.*)</body>", html, re.S).group(1)
     html_attrs = dict(re.findall(r'(\w[\w-]*)="([^"]*)"', re.search(r"<html([^>]*)>", html).group(1)))
 
     body = re.sub(r'src="(img/[^"]+)"', lambda m: f'src="{data_uri(SITE / m.group(1))}"', body)
@@ -64,6 +65,12 @@ def main():
         body = body.replace(f'href="{file}#', 'href="#')
     body = "\n".join(sprites + [body])
 
+    # ספריות מ-vendor/ שהדף טוען, באותו סדר, מה-CDN
+    head = html[:html.index("<body")]
+    vendor = re.findall(r'<script src="(vendor/[^"]+\.js)" defer></script>', head)
+    missing = [v for v in vendor if v not in CDN]
+    if missing:
+        sys.exit(f"אין כתובת CDN עבור: {', '.join(missing)}")
     main_js = (SITE / "js" / "main.js").read_text(encoding="utf-8")
     cloth_js = (SITE / "js" / "cloth.js").read_text(encoding="utf-8")
     cloth_js = cloth_js.replace('"../vendor/three.module.min.js"', f'"{CDN["../vendor/three.module.min.js"]}"')
@@ -78,8 +85,7 @@ def main():
         '<meta name="robots" content="noindex">',
         f"<style>\n{build_css()}\n</style>",
         boot,
-        f'<script src="{CDN["vendor/gsap.min.js"]}"></script>',
-        f'<script src="{CDN["vendor/ScrollTrigger.min.js"]}"></script>',
+        *[f'<script src="{CDN[v]}"></script>' for v in vendor],
         body.strip(),
         f"<script>\n{main_js}\n</script>",
         f'<script type="module">\n{cloth_js}\n</script>',

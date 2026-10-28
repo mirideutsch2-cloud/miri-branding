@@ -17,6 +17,7 @@
   --on-light:#0E0D10;
   --line-dark:rgba(243,243,241,.18);
   --line-light:rgba(14,13,16,.14);
+  --on-light-dim:rgba(14,13,16,.72);
 
   /* פונטים */
   --font-display:"Nostela","Arial Black",Arial,sans-serif; /* כותרות: Nostela, בחירת מירי 27.10 */
@@ -35,6 +36,7 @@
   --gap-s:.75rem;
   --gap-m:1.5rem;
   --gap-l:clamp(3rem, 2rem + 4vw, 6rem);
+  --section:clamp(5rem, 3rem + 8vw, 10rem);
   --header-h:4rem;
 
   /* רדיוס: משפחה אחת */
@@ -139,6 +141,122 @@ p{text-wrap:pretty}
 .intro .h-1{max-width:12ch}
 .intro .lead{color:var(--on-dark-dim)}
 
+/* ==================== גרסה ב: המסכים שאחרי מסך הפתיחה (28.10) ====================
+   כל המחלקות כאן קיימות רק ב-full-curtain.html. הבסיס: הטיוטה המלאה מ-27.10, מותאמת ללוגו הסופי ול-Nostela */
+:root:has(.hero--full){--fs-2:calc(clamp(1.75rem, 1rem + 2.4vw, 3.5rem) * var(--display-scale))} /* כותרות משנה גדולות יותר בגרסה ב */
+.todo{background:rgba(236,0,140,.16);border-bottom:1.5px dashed var(--fuchsia);padding-inline:.15em}
+
+/* ---------- 2 · הסט + שלושת השלבים ---------- */
+.set{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--gap-l);align-items:center;padding:var(--section) var(--margin)}
+.set__copy{display:flex;flex-direction:column;gap:var(--gap-m);max-width:36rem}
+.set__copy > p{color:var(--on-dark-dim)}
+.set__visual{order:2}
+.set__frame{position:relative;overflow:hidden;border-radius:var(--r-m);aspect-ratio:1;width:100%;max-height:calc(100svh - 4rem);margin-inline:auto}
+.set__img{width:100%;height:100%;object-fit:cover;transform-origin:36% 40%}
+.callsheet{background:var(--light);color:var(--on-light);border-radius:var(--r-m);padding:var(--gap-m)}
+.callsheet__head{display:flex;align-items:center;justify-content:space-between;gap:var(--gap-s);padding-block-end:var(--gap-s)}
+.callsheet__rows li{display:grid;grid-template-columns:3rem minmax(0,1fr);gap:var(--gap-s);align-items:baseline;padding-block:var(--gap-s);border-top:1px solid var(--line-light)}
+.callsheet__num{color:var(--on-light-dim)}
+
+@media (max-width:1023px){
+  .set{grid-template-columns:minmax(0,1fr)}
+  .set__visual{order:0}
+  .set__frame{max-width:34rem;max-height:none}
+}
+@media (min-width:1024px) and (min-height:700px){
+  .js .set{min-height:100svh;padding-block:2rem}
+}
+
+/* ---------- 3 · פרויקטים (מסך לבן) ---------- */
+.projects{background:var(--light);color:var(--on-light);padding:var(--section) var(--margin);display:flex;flex-direction:column;gap:var(--gap-l)}
+.sec-head{display:flex;flex-direction:column;gap:var(--gap-s)}
+.project{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:var(--gap-l);align-items:center}
+.project:nth-of-type(even) .mock{order:2}
+.project__info{display:flex;flex-direction:column;align-items:flex-start;gap:var(--gap-s)}
+.project__info > p:not(.label){color:var(--on-light-dim)}
+.mock{background:var(--concrete);border-radius:var(--r-m);padding:.6rem;box-shadow:0 1.5rem 3rem rgba(14,13,16,.12)}
+.mock__bar{display:flex;gap:.4rem;padding:.2rem .3rem .6rem;direction:ltr}
+.mock__bar i{width:.6rem;height:.6rem;border-radius:50%;background:rgba(14,13,16,.25)}
+.mock__screen{display:grid;place-items:center;aspect-ratio:16/10;border-radius:calc(var(--r-m) - .6rem);background:var(--light);border:2px dashed var(--line-light);padding:1rem;text-align:center}
+.slot{font-family:var(--font-label);font-size:var(--fs-label);font-weight:700;color:var(--on-light-dim)}
+
+@media (max-width:860px){
+  .project{grid-template-columns:minmax(0,1fr);gap:var(--gap-m)}
+  .project:nth-of-type(even) .mock{order:0}
+}
+
+/* דפי התסריט על הכסא */
+.scripts{position:relative;display:flex;flex-direction:column;align-items:center;gap:var(--gap-m);padding-block-start:var(--gap-l)}
+.scripts__chair{display:none}
+.scripts__pages{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--gap-m);width:100%}
+.page{display:flex;flex-direction:column;gap:var(--gap-s);aspect-ratio:3/4;padding:var(--gap-m);background:var(--light);color:var(--on-light);border:1px solid var(--line-light);border-radius:var(--r-s);box-shadow:0 1rem 2rem rgba(14,13,16,.1)}
+.page__name{font-family:var(--font-display);font-size:var(--fs-2);font-weight:800;line-height:1.1}
+.page > p:last-child{color:var(--on-light-dim)}
+.sticker{display:grid;place-items:center;width:9.5rem;aspect-ratio:1;padding:1rem;border:0;border-radius:50%;background:var(--fuchsia);color:var(--on-light);font-family:var(--font-body);font-size:var(--fs-2);font-weight:800;line-height:1.05;text-align:center;cursor:pointer;rotate:-8deg;transition:rotate .5s var(--ease),scale .5s var(--ease)}
+.sticker:hover{rotate:-2deg;scale:1.04}
+
+.js .scripts[data-state="stack"]{height:clamp(28rem, 20rem + 20vw, 40rem)}
+.js .scripts[data-state="stack"] .scripts__chair{display:block;position:absolute;inset:0;margin:auto;width:min(36rem, 92vw);height:min(36rem, 92vw);opacity:.95}
+.js .scripts__chair img{width:100%;height:100%;object-fit:cover;border-radius:var(--r-m)}
+.js .scripts[data-state="stack"] .scripts__pages{position:absolute;inset:0;display:block}
+.js .scripts[data-state="stack"] .page{position:absolute;left:50%;top:50%;width:min(13rem, 46vw);transform:translate(-50%,-50%) rotate(var(--r,0deg))}
+.js .scripts[data-state="stack"] .page:nth-child(1){--r:-4deg;z-index:4}
+.js .scripts[data-state="stack"] .page:nth-child(2){--r:5deg;z-index:3}
+.js .scripts[data-state="stack"] .page:nth-child(3){--r:-9deg;z-index:2}
+.js .scripts[data-state="stack"] .page:nth-child(4){--r:10deg;z-index:1}
+.js .scripts[data-state="stack"] .sticker{position:absolute;z-index:5;left:calc(50% - min(13rem, 46vw) / 2 - 3rem);top:calc(50% - 9rem)}
+.js .scripts[data-state="grid"] .scripts__chair{display:none}
+
+@media (max-width:860px){
+  .scripts__pages{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--gap-s)}
+  .page{padding:var(--gap-s)}
+  .sticker{width:8.5rem}
+  .js .scripts[data-state="stack"] .sticker{left:max(0px, calc(50% - min(13rem, 46vw) / 2 - 3rem));top:calc(50% - 10rem)}
+}
+
+/* ---------- 4 · אודות (הקלאפר) ---------- */
+.about{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:var(--gap-l);align-items:start;padding:var(--section) var(--margin)}
+.about__media{position:relative;order:2;padding-block-start:4rem}
+.clapper{position:absolute;z-index:2;top:0;left:-1rem;width:min(16rem, 46vw);rotate:-6deg;overflow:visible}
+.clapper__stick{transform-box:fill-box;transform-origin:3% 100%}
+.portrait{display:grid;place-items:center;aspect-ratio:4/5;border-radius:var(--r-m);border:2px dashed var(--line-dark);background:linear-gradient(135deg,#1c1b1f 0 55%,#121115 55% 100%);padding:1.5rem;text-align:center}
+.portrait .slot{color:var(--on-dark-dim)}
+.about__copy{display:flex;flex-direction:column;gap:var(--gap-m);max-width:40rem}
+.story{display:flex;flex-direction:column;gap:var(--gap-s);color:var(--on-dark-dim)}
+.message{border-inline-start:4px solid var(--fuchsia);padding-inline-start:var(--gap-m);font-weight:700}
+.line{display:block}
+.js .line-reveal .line{opacity:0;transform:translateY(.6em)}
+
+@media (max-width:860px){
+  .about{grid-template-columns:minmax(0,1fr)}
+  .about__media{order:0;max-width:26rem;width:100%;margin-inline:auto}
+}
+
+/* ---------- 6 · פוטר ---------- */
+.footer{position:relative;overflow:clip;display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:var(--gap-l);align-items:center;padding:var(--section) var(--margin) 0;border-top:1px solid var(--line-dark)}
+.footer__chair{position:relative;grid-column:2;grid-row:1;width:100%;max-width:28rem;justify-self:center;border-radius:var(--r-m);overflow:hidden}
+.footer__chair img{width:100%;height:auto;aspect-ratio:1;object-fit:cover;filter:brightness(.3) grayscale(.6);transition:filter 1.4s var(--ease)}
+.footer__light{position:absolute;inset:0;background:radial-gradient(60% 55% at 50% 50%,rgba(255,255,255,.28),transparent 70%);opacity:0;transition:opacity 1.4s var(--ease)}
+.footer__chair.is-lit img,html:not(.js) .footer__chair img{filter:none}
+.footer__chair.is-lit .footer__light,html:not(.js) .footer__light{opacity:1}
+.footer__chair-label{position:absolute;left:50%;top:52%;translate:-50% -50%;width:max-content;max-width:70%;text-align:center;font-family:var(--font-display);font-size:var(--fs-2);font-weight:800;line-height:1.1;color:var(--on-light)}
+.footer__cta{grid-column:1;grid-row:1;display:flex;flex-direction:column;gap:var(--gap-m);max-width:40rem}
+.form{display:grid;gap:var(--gap-m)}
+.field{display:grid;gap:.4rem}
+.field input{min-height:3rem;width:100%;padding:.5rem .1rem;background:transparent;border:0;border-bottom:2px solid var(--line-dark);border-radius:0;color:inherit;font:inherit}
+.field input:focus-visible{outline:none;border-bottom-color:var(--fuchsia)}
+.field input[dir="ltr"]{text-align:end}
+.form .btn{justify-self:start}
+.form__status:empty{display:none}
+.footer__meta{grid-column:1/-1;display:flex;flex-wrap:wrap;justify-content:space-between;gap:var(--gap-s);padding-block:var(--gap-m);border-top:1px solid var(--line-dark);color:var(--on-dark-dim)}
+.footer__logo{grid-column:1/-1;display:block;width:100%;height:auto;aspect-ratio:369.45/87.62;margin-block-end:-6%} /* הלוגו הסופי ענק, חתוך בתחתית */
+
+@media (max-width:860px){
+  .footer{grid-template-columns:minmax(0,1fr)}
+  .footer__chair,.footer__cta{grid-column:1;grid-row:auto}
+  .footer__chair{max-width:26rem;width:100%;margin-inline:auto}
+}
+
 /* ---------- וואטסאפ צף (מימין למטה) ---------- */
 .wa{position:fixed;z-index:60;right:max(1rem, env(safe-area-inset-right));bottom:max(1rem, env(safe-area-inset-bottom));display:grid;place-items:center;width:3.75rem;height:3.75rem;border-radius:50%;background:var(--fuchsia);color:var(--dark);box-shadow:0 .75rem 1.5rem rgba(0,0,0,.3);transition:transform .4s var(--ease)}
 .wa svg{width:1.9rem;height:1.9rem}
@@ -156,4 +274,5 @@ p{text-wrap:pretty}
 /* ---------- reduced motion: מצב סופי בלי תנועה ---------- */
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important}
+  .js .line-reveal .line{opacity:1;transform:none}
 }
