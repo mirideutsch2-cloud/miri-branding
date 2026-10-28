@@ -114,7 +114,7 @@
 
   // cloth.js הוא מודול שמייבא את Three.js. אם הייבוא נכשל, המודול לא רץ בכלל, אז בודקים מכאן
   addEventListener("load", () => setTimeout(() => {
-    if (!window.MIRI.clothLoaded) status("וילון: Three.js לא נטען · מוצגת תמונה סטטית");
+    if ($(".hero__canvas") && !window.MIRI.clothLoaded) status("וילון: Three.js לא נטען · מוצגת תמונה סטטית");
   }, 4000));
 
   /* ---------- טופס ---------- */

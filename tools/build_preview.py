@@ -39,8 +39,8 @@ def inline_urls(css: str, base: Path) -> str:
     return re.sub(r'url\("(?!data:)([^"]+)"\)', lambda m: f'url("{data_uri((base / m.group(1)).resolve())}")', css)
 
 
-def build_css() -> str:
-    css_path = SITE / "css" / "site.css"
+def build_css(href: str = "css/site.css") -> str:
+    css_path = SITE / href
     css = css_path.read_text(encoding="utf-8")
 
     def expand_import(m):
@@ -82,13 +82,12 @@ def build(page: str, doc: bool):
     missing = [v for v in vendor if v not in CDN]
     if missing:
         sys.exit(f"אין כתובת CDN עבור: {', '.join(missing)}")
+    # כל הסקריפטים מ-js/ שהדף טוען, באותו סדר (רגילים ומודולים)
     scripts = []
-    if 'src="js/main.js"' in head:
-        scripts.append(f"<script>\n{(SITE / 'js' / 'main.js').read_text(encoding='utf-8')}\n</script>")
-    if 'src="js/cloth.js"' in head:
-        cloth_js = (SITE / "js" / "cloth.js").read_text(encoding="utf-8")
-        cloth_js = cloth_js.replace('"../vendor/three.module.min.js"', f'"{CDN["../vendor/three.module.min.js"]}"')
-        scripts.append(f'<script type="module">\n{cloth_js}\n</script>')
+    for src, module in re.findall(r'<script src="(js/[^"]+\.js)"( type="module")?[^>]*></script>', head):
+        js = (SITE / src).read_text(encoding="utf-8")
+        js = js.replace('"../vendor/three.module.min.js"', f'"{CDN["../vendor/three.module.min.js"]}"')
+        scripts.append(f'<script{module}>\n{js}\n</script>')
     if doc:
         body = re.sub(r'href="full-curtain\.html', 'href="index.html', body)
 
@@ -100,20 +99,21 @@ def build(page: str, doc: bool):
     parts = [
         title,
         '<meta name="robots" content="noindex">',
-        f"<style>\n{build_css()}\n</style>",
+        *[f"<style>\n{build_css(href)}\n</style>" for href in re.findall(r'<link rel="stylesheet" href="(css/[^"]+\.css)">', head)],
         boot,
         *[f'<script src="{CDN[v]}"></script>' for v in vendor],
         body.strip(),
         *scripts,
         "",
     ]
+    head_n = parts.index(boot) + 1
     if doc:
         # קובץ נוסף בתצוגה לא מקבל שלד אוטומטי, אז הוא מסמך שלם
         parts = [
             "<!doctype html>",
             f'<html lang="{html_attrs["lang"]}" dir="{html_attrs["dir"]}">',
             '<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">',
-            *parts[:4], "</head>", "<body>", *parts[4:-1], "</body>", "</html>", "",
+            *parts[:head_n], "</head>", "<body>", *parts[head_n:-1], "</body>", "</html>", "",
         ]
     out = "\n".join(parts)
     out_path = OUT_DIR / page
