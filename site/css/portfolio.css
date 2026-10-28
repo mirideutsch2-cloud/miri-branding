@@ -1,0 +1,140 @@
+/* גרסה ד (portfolio.html, 28.10): "לוח יציאות". נטען אחרי site.css, וכל המחלקות כאן קיימות רק בגרסה ד.
+   קצב: לוח כהה (פתיחה, איך, פרויקטים, פוטר) מול נייר בהיר (כאבים, חבילות, אודות). פוקסיה רק להנעה לפעולה ולסטטוס "באוויר". */
+
+:root:has(.d-page){
+  --flap:#1C1B20;      /* לוחית של אות */
+  --flap-hi:#232228;   /* החצי העליון, קצת בהיר יותר */
+  --g:clamp(3px, .35vw, 6px); /* רווח בין לוחיות */
+}
+.sr-only{font-size:var(--fs-body);position:absolute!important;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+/* ---------- הלוח: אותיות מתהפכות (js/board.js) ---------- */
+.board{--cols:16;display:grid;grid-template-columns:repeat(var(--cols),minmax(0,1fr));gap:var(--g);container-type:inline-size;direction:rtl}
+.fl{position:relative;aspect-ratio:.74;perspective:400px;font-family:var(--font-display);font-weight:800;color:var(--on-dark);font-size:calc((100cqw - (var(--cols) - 1) * var(--g)) / var(--cols) * .66)}
+.fl__h{position:absolute;inset-inline:0;height:50%;overflow:hidden;background:var(--flap);backface-visibility:hidden}
+.fl__t{top:0;border-radius:3px 3px 0 0;transform-origin:50% 100%;background:var(--flap-hi)}
+.fl__b{bottom:0;border-radius:0 0 3px 3px;transform-origin:50% 0}
+.fl__h > span{position:absolute;inset-inline:0;height:200%;display:grid;place-items:center;line-height:1}
+.fl__t > span{top:0}
+.fl__b > span{bottom:0}
+.fl__ft,.fl__fb{z-index:2;visibility:hidden}
+.fl::after{content:"";position:absolute;inset-inline:0;top:calc(50% - .5px);z-index:3;height:1px;background:rgba(0,0,0,.65)}
+/* בלי JavaScript: הטקסט כרגיל */
+.board:empty::before{content:attr(data-board);grid-column:1 / -1;font-family:var(--font-display);font-weight:800;font-size:var(--fs-1);line-height:.95;color:var(--on-dark)}
+
+/* ---------- 1 · מסך הפתיחה ---------- */
+.d-hero{display:flex;flex-direction:column;gap:var(--gap-l);min-height:max(100svh, 40rem);padding:calc(var(--header-h) + var(--gap-m)) var(--margin) calc(var(--frame) + 4.5rem);background:var(--dark)}
+.d-meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:var(--gap-s);padding-block-end:var(--gap-s);border-bottom:1px solid var(--line-dark);color:var(--on-dark-dim);margin-block-end:auto}
+.d-clock{font-variant-numeric:tabular-nums;color:var(--on-dark)}
+.d-hero__foot{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:var(--gap-m) var(--gap-l)}
+.d-hero__lede{max-width:34rem;color:var(--on-dark);text-wrap:balance}
+.d-actions{display:flex;flex-wrap:wrap;align-items:center;gap:var(--gap-m) var(--gap-l)}
+.d-actions .link-more{color:var(--on-dark)}
+
+/* ---------- אזורים ---------- */
+.d-sec{padding:var(--section) var(--margin);background:var(--dark);color:var(--on-dark)}
+.d-sec--light{background:var(--concrete);color:var(--on-light)}
+.d-wrap{display:flex;flex-direction:column;gap:var(--gap-m);width:100%;max-width:92rem;margin-inline:auto}
+.d-head{display:flex;flex-direction:column;gap:var(--gap-s);margin-block-end:var(--gap-m)}
+.d-dim{color:var(--on-dark-dim)}
+.d-dim-l{color:var(--on-light-dim)}
+.d-sec--light .label{color:var(--on-light-dim)}
+.d-sec--light .link-more{color:var(--on-light)}
+.accent-l{color:var(--fuchsia-deep)}
+
+/* 2 · כאבים */
+.d-quote{max-width:24ch}
+.d-pains{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap-m);margin-block:var(--gap-l) var(--gap-m)}
+.d-pains li{display:flex;flex-direction:column;gap:var(--gap-s);padding-block-start:var(--gap-m);border-top:2px solid var(--on-light)}
+.d-pains__q{font-size:var(--fs-body);font-weight:700;line-height:1.3}
+.d-pains li > p{color:var(--on-light-dim)}
+.d-pains li > .d-pains__a{margin-block-start:auto;color:var(--on-light);font-weight:700}
+.d-pains__a::before{content:"← ";color:var(--fuchsia-deep)}
+
+/* 3 · איך זה עובד: כרטיס עלייה */
+.d-how{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:var(--gap-l);align-items:center}
+.d-how__copy{display:flex;flex-direction:column;gap:var(--gap-m)}
+.pass{display:grid;grid-template-columns:minmax(0,1fr) clamp(7rem, 5rem + 5vw, 11rem);background:var(--paper);color:var(--on-light);border-radius:var(--r-m);overflow:hidden;box-shadow:0 15px 30px rgba(0,0,0,.1)}
+.pass__main{display:flex;flex-direction:column;gap:var(--gap-m);padding:clamp(1.25rem, .75rem + 2vw, 2.5rem)}
+.pass__head{display:flex;align-items:center;justify-content:space-between;gap:var(--gap-s);color:var(--on-light-dim)}
+.pass__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--gap-s) var(--gap-m)}
+.pass__grid div{display:flex;flex-direction:column;gap:.25rem}
+.pass__grid dt{color:var(--on-light-dim)}
+.pass__grid dd{margin:0;font-family:var(--font-display);font-weight:800;font-size:var(--fs-2);line-height:1.1}
+.pass__wide{grid-column:1 / -1}
+.pass__gates{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap-m);padding-block-start:var(--gap-m);border-top:1.5px dashed rgba(14,13,16,.3)}
+.pass__gates li{display:flex;flex-direction:column;gap:.4rem}
+.pass__gates .label{color:var(--fuchsia-deep)}
+.pass__stub{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:var(--gap-m);padding:var(--gap-m) var(--gap-s);background:var(--fuchsia);border-inline-start:2px dashed rgba(14,13,16,.35)}
+.pass__stub::before,.pass__stub::after{content:"";position:absolute;inset-inline-start:-11px;width:20px;height:20px;border-radius:50%;background:var(--dark)} /* חירור */
+.pass__stub::before{top:-10px}
+.pass__stub::after{bottom:-10px}
+.pass__logo{width:100%;max-width:8rem;aspect-ratio:369.44/87.62;--logo-mono:var(--dark)}
+.pass__code{width:100%;height:4.5rem;background:repeating-linear-gradient(90deg, var(--dark) 0 2px, transparent 2px 5px, var(--dark) 5px 6px, transparent 6px 9px, var(--dark) 9px 12px, transparent 12px 14px)}
+
+/* 4 · מה אני בונה */
+.d-classes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap-m);margin-block-end:var(--gap-m)}
+.d-class{display:flex;flex-direction:column;gap:var(--gap-m);padding-block-start:var(--gap-m);border-top:2px solid var(--on-light);transition:border-color .4s var(--ease)}
+.d-class:hover{border-top-color:var(--fuchsia-deep)}
+.d-class ul{display:grid}
+.d-class ul li{padding-block:.5rem;border-top:1px solid var(--line-light);color:var(--on-light-dim)}
+
+/* 5 · פרויקטים: לוח היציאות */
+.dep{display:grid;margin-block-end:var(--gap-m);border-top:1px solid var(--line-dark)}
+.dep__row{position:relative;display:grid;grid-template-columns:6rem minmax(0,1.3fr) minmax(0,1.2fr) 8rem;gap:var(--gap-s) var(--gap-m);align-items:center;padding:var(--gap-m) var(--gap-s);border-bottom:1px solid var(--line-dark);transition:background-color .4s var(--ease)}
+.dep__row:not(.dep__row--head):hover{background:rgba(243,243,241,.035)}
+.dep__row--head{padding-block:var(--gap-s);color:var(--on-dark-dim)}
+.dep__row > .label{color:var(--on-dark-dim)}
+.board--name{--cols:11;width:min(100%, 24rem)}
+.dep__more{grid-column:2 / -1;display:flex;flex-wrap:wrap;align-items:center;gap:var(--gap-s) var(--gap-l);color:var(--on-dark-dim)}
+.dep__more .link-more{color:var(--on-dark)}
+.status{display:inline-flex;align-items:center;gap:.5em;font-family:var(--font-body);font-size:var(--fs-label);font-weight:700;color:var(--on-dark-dim)}
+.status::before{content:"";width:.55rem;height:.55rem;border-radius:50%;background:currentColor}
+.status--live{color:var(--fuchsia)}
+.status--live::before{animation:d-blink 1.6s var(--ease) infinite}
+@keyframes d-blink{50%{opacity:.25}}
+.d-preview{position:fixed;z-index:40;left:0;top:0;width:clamp(15rem, 10rem + 12vw, 24rem);pointer-events:none;opacity:0;scale:.92;transition:opacity .35s var(--ease),scale .35s var(--ease)}
+.d-preview.is-on{opacity:1;scale:1}
+
+/* 6 · אודות */
+.d-about{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:var(--gap-l);align-items:start}
+.d-about__copy{display:flex;flex-direction:column;gap:var(--gap-m)}
+.d-message{border-inline-start:4px solid var(--fuchsia-deep);padding-inline-start:var(--gap-m);font-weight:700}
+.d-portrait{display:grid;place-items:center;aspect-ratio:4/5;width:100%;max-width:28rem;justify-self:end;border:2px dashed var(--line-light);border-radius:var(--r-m);background:rgba(14,13,16,.04);padding:1.5rem;text-align:center}
+
+/* 7 · פוטר */
+.d-footer{position:relative;overflow:clip;display:grid;gap:var(--gap-l);padding:var(--section) var(--margin) 0;background:var(--dark);border-top:1px solid var(--line-dark)}
+.d-footer__top{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:var(--gap-l);align-items:start}
+.d-next{display:flex;flex-direction:column;gap:var(--gap-s)}
+.d-next .label{color:var(--on-dark-dim)}
+.board--next{--cols:9}
+.d-footer__cta{display:flex;flex-direction:column;gap:var(--gap-m)}
+
+/* ---------- חשיפה בגלילה: מצב סופי גלוי בלי JavaScript ---------- */
+.js .rv{opacity:0;transform:translateY(1.25rem);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.js .rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){ .js .rv{opacity:1;transform:none} .status--live::before{animation:none} }
+.a11y-motion .rv{opacity:1!important;transform:none!important}
+
+/* ---------- טאבלט וטלפון ---------- */
+@media (max-width:1023px){
+  .board--hero{--cols:12}
+  .d-how,.d-about,.d-footer__top{grid-template-columns:minmax(0,1fr)}
+  .d-portrait{justify-self:start;max-width:22rem}
+}
+@media (max-width:860px){
+  .d-pains,.d-classes{grid-template-columns:minmax(0,1fr)}
+  .dep__row--head{display:none}
+  .dep__row{grid-template-columns:4.5rem minmax(0,1fr);padding-inline:0}
+  .dep__row > :nth-child(3),.dep__row > :nth-child(4),.dep__more{grid-column:2}
+}
+@media (max-width:600px){
+  .board--hero{--cols:9}
+  .pass{grid-template-columns:minmax(0,1fr)}
+  .pass__stub{flex-direction:row;border-inline-start:0;border-top:2px dashed rgba(14,13,16,.35)}
+  .pass__stub::before,.pass__stub::after{inset-inline-start:auto;top:-11px}
+  .pass__stub::before{right:-10px}
+  .pass__stub::after{left:-10px;bottom:auto}
+  .pass__gates{grid-template-columns:minmax(0,1fr)}
+  .pass__code{height:3rem}
+}

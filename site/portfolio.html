@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>מירי דייטש · לוח יציאות</title>
+<meta name="description" content="מגיעה למוצר שלך במה שנראית בינלאומית ומוכרת">
+<link rel="preload" href="fonts-licensed/Sprinter-VF.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts-licensed/Nostela-VF.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/site.css">
+<link rel="stylesheet" href="css/portfolio.css">
+<script>document.documentElement.classList.add("js")</script>
+<script src="js/main.js" defer></script>
+<script src="js/board.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">דילוג לתוכן</a>
+
+<!-- גרסה ד (28.10): "לוח יציאות". רעיון חדש מאפס, בלי הווילון, הבמה או הצבע מהגרסאות הקודמות.
+     הבידול "בינלאומית" והפרסונה שרוצה "לצאת לעולם עכשיו": האתר בנוי כמו לוח יציאות בשדה תעופה.
+     מסך הפתיחה הוא לוח אותיות מתהפכות (js/board.js), הפרויקטים הם טיסות עם סטטוס, והתהליך הוא כרטיס עלייה.
+     הטקסטים מגרסה ב (מהאסטרטגיה בדרימי). תוויות הלוח (יציאות, באוויר, בקרוב, שער, יעד...) הן הצעה שלי: טיוטה. -->
+
+<header class="site-header site-header--b">
+  <a class="corner-logo" href="#top" aria-label="מירי דייטש, לראש העמוד"><svg aria-hidden="true"><use href="img/logo-miri.svg#logo-mono"/></svg></a>
+  <a class="btn btn--cta header-cta" href="#contact">לשיחת היכרות</a>
+  <button class="menu-btn menu-btn--two" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="תפריט">
+    <span aria-hidden="true"></span><span aria-hidden="true"></span>
+  </button>
+  <nav class="site-menu" id="site-menu" aria-label="ראשי">
+    <ul>
+      <li><a href="#pain">זה מוכר לך?</a></li>
+      <li><a href="#how">איך זה עובד</a></li>
+      <li><a href="#services">מה אני בונה</a></li>
+      <li><a href="#projects">פרויקטים</a></li>
+      <li><a href="#about">אודות</a></li>
+      <li class="site-menu__cta-item"><a class="site-menu__cta" href="#contact">לשיחת היכרות</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="d-page" id="main">
+
+  <!-- 1 · מסך הפתיחה: לוח היציאות. המשפט נבנה על הלוח, אות אחרי אות -->
+  <section class="d-hero" id="top" aria-labelledby="hero-title">
+    <div class="d-meta label" aria-hidden="true">
+      <span>יציאות</span>
+      <span>מירי דייטש · עיצוב ובניית אתרים</span>
+      <span>ישראל <time class="d-clock">--:--</time></span>
+    </div>
+    <h1 class="sr-only" id="hero-title">מגיעה למוצר שלך במה שנראית בינלאומית ומוכרת</h1>
+    <div class="board board--hero" data-board="מגיעה למוצר שלך במה שנראית בינלאומית ומוכרת" aria-hidden="true"></div>
+    <div class="d-hero__foot">
+      <p class="d-hero__lede">חנויות, אתרי תדמית ודפי נחיתה לבעלות ובעלי מוצר שרוצים לצאת לעולם עכשיו</p>
+      <div class="d-actions">
+        <a class="btn btn--cta" href="#contact">לשיחת היכרות על המוצר שלך</a>
+        <a class="link-more" href="#projects">ללוח הפרויקטים</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 · הכאבים של הפרסונה (בהיר) -->
+  <section class="d-sec d-sec--light" id="pain" aria-labelledby="pain-title">
+    <div class="d-wrap">
+      <p class="label"><bdi dir="ltr">02</bdi> · זה מוכר לך?</p>
+      <h2 class="h-2 d-quote rv" id="pain-title">"המוצר שלי מדהים, אבל מחוץ למעגל הקרוב אף אחד לא יודע שהוא קיים."</h2>
+      <ol class="d-pains">
+        <li class="rv">
+          <span class="label d-num"><bdi dir="ltr">01</bdi></span>
+          <h3 class="d-pains__q">"אני צריכה חנות שתשקף את המוצר כמו שמגיע לו"</h3>
+          <p>עבדתי על זה כל כך קשה, ואני מרגישה שקופה.</p>
+          <p class="d-pains__a">העולם מתחיל להכיר את המוצר, ונכנסות הזמנות מאנשים שאת לא מכירה.</p>
+        </li>
+        <li class="rv">
+          <span class="label d-num"><bdi dir="ltr">02</bdi></span>
+          <h3 class="d-pains__q">"בניתי לבד בוויקס, וזה יצא חובבני"</h3>
+          <p>האתר לא נראה ברמה של המוצר, ואנשים לא סומכים מספיק כדי לקנות.</p>
+          <p class="d-pains__a">הלקוחות מבינים מהשנייה הראשונה שזה מוצר ברמה גבוהה, וסומכים לקנות.</p>
+        </li>
+        <li class="rv">
+          <span class="label d-num"><bdi dir="ltr">03</bdi></span>
+          <h3 class="d-pains__q">"הקולקציה יוצאת בעוד חודש, ואין לי איפה למכור אותה"</h3>
+          <p>אם לא אהיה מוכנה בזמן, העונה תעבור והסחורה תישאר אצלי.</p>
+          <p class="d-pains__a">את יוצאת לשוק בזמן, והעונה מוכרת.</p>
+        </li>
+      </ol>
+      <a class="link-more" href="#contact">לשיחת היכרות על המוצר שלך</a>
+    </div>
+  </section>
+
+  <!-- 3 · איך זה עובד: כרטיס עלייה עם שלושה שערים -->
+  <section class="d-sec" id="how" aria-labelledby="how-title">
+    <div class="d-wrap d-how">
+      <div class="d-how__copy">
+        <p class="label"><bdi dir="ltr">03</bdi> · איך זה עובד</p>
+        <h2 class="h-2 rv" id="how-title">אני בונה למוצר שלך במה שנראית בינלאומית ומוכרת <span class="accent">מהיום הראשון</span>.</h2>
+        <p class="d-dim rv">אני בונה לכל מוצר במה שלמה: סיפור, מיתוג ואתר שמובילים את הלקוח צעד אחרי צעד עד הקנייה, עם מערכת פשוטה שהיא מנהלת לבד.</p>
+        <a class="link-more" href="#contact">לשיחת היכרות על המוצר שלך</a>
+      </div>
+      <article class="pass rv" aria-label="כרטיס עלייה: שלושת השלבים">
+        <div class="pass__main">
+          <p class="label pass__head"><span>כרטיס עלייה</span> <span class="draft">טיוטה</span></p>
+          <dl class="pass__grid">
+            <div><dt class="label">נוסע</dt><dd>המוצר שלך</dd></div>
+            <div><dt class="label">יעד</dt><dd>העולם</dd></div>
+            <div class="pass__wide"><dt class="label">מסלול</dt><dd>סיפור · מיתוג · אתר</dd></div>
+          </dl>
+          <ol class="pass__gates">
+            <li><span class="label">שער <bdi dir="ltr">01</bdi></span><p>שיחה אחת להבנת המוצר והקהל</p></li>
+            <li><span class="label">שער <bdi dir="ltr">02</bdi></span><p>עיצוב ובנייה, עם טקסטים שמובילים לקנייה</p></li>
+            <li><span class="label">שער <bdi dir="ltr">03</bdi></span><p>השקה, עם מערכת ניהול ודיוור שמפעילים לבד.</p></li>
+          </ol>
+        </div>
+        <div class="pass__stub" aria-hidden="true">
+          <svg class="pass__logo"><use href="img/logo-miri.svg#logo-mono"/></svg>
+          <span class="pass__code"></span>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- 4 · מה אני בונה: שלוש מחלקות (בהיר) -->
+  <section class="d-sec d-sec--light" id="services" aria-labelledby="services-title">
+    <div class="d-wrap">
+      <div class="d-head">
+        <p class="label"><bdi dir="ltr">04</bdi></p>
+        <h2 class="h-1 rv" id="services-title">מה אני בונה</h2>
+      </div>
+      <ol class="d-classes">
+        <li class="d-class rv">
+          <p class="label"><bdi dir="ltr">01</bdi> · חנות</p>
+          <h3 class="h-2">חנות שמוכרת מהיום הראשון</h3>
+          <ul>
+            <li>שיחת היכרות להבנת המוצר והקהל</li>
+            <li>כתיבת טקסטים שמובילים לקנייה</li>
+            <li>עיצוב ברמה של מותג</li>
+          </ul>
+        </li>
+        <li class="d-class rv">
+          <p class="label"><bdi dir="ltr">02</bdi> · אתר תדמית</p>
+          <h3 class="h-2">אתר תדמית שבונה אמון</h3>
+          <ul>
+            <li>שיחת היכרות להבנת העסק והקהל</li>
+            <li>עיצוב</li>
+            <li>בניית אתר עד 6 עמודים</li>
+            <li>טופס יצירת קשר</li>
+          </ul>
+        </li>
+        <li class="d-class rv">
+          <p class="label"><bdi dir="ltr">03</bdi> · דף נחיתה</p>
+          <h3 class="h-2">דף נחיתה שמביא פניות</h3>
+          <ul>
+            <li>שיחת היכרות להבנת ההצעה והקהל</li>
+            <li>כתיבת טקסטים</li>
+            <li>עיצוב</li>
+            <li>בניית דף אחד, עד 7 אזורים</li>
+          </ul>
+        </li>
+      </ol>
+      <p class="d-dim-l">וגם: מיתוג שנותן למוצר פנים · אפליקציה שעובדת בשבילך <span class="todo">[פירוט מלא של כל חבילה: להשלמה]</span></p>
+      <a class="link-more" href="#contact">לשיחת היכרות על המוצר שלך</a>
+    </div>
+  </section>
+
+  <!-- 5 · פרויקטים: לוח היציאות. כל פרויקט הוא טיסה עם סטטוס, ושם הפרויקט מתהפך בריחוף -->
+  <section class="d-sec" id="projects" aria-labelledby="projects-title">
+    <div class="d-wrap">
+      <div class="d-head">
+        <p class="label"><bdi dir="ltr">05</bdi> · <span class="draft">טיוטה</span> לוח היציאות</p>
+        <h2 class="h-1 rv" id="projects-title">פרויקטים</h2>
+      </div>
+      <div class="dep" role="table" aria-label="פרויקטים">
+        <div class="dep__row dep__row--head label" role="row">
+          <span role="columnheader">טיסה</span><span role="columnheader">פרויקט</span><span role="columnheader">מה</span><span role="columnheader">סטטוס</span>
+        </div>
+        <div class="dep__row" role="row" data-preview="[צילום מסך במוקאפ · לבהבר]">
+          <span class="label" role="cell"><bdi dir="ltr">MD 01</bdi></span>
+          <span role="cell"><span class="sr-only">לבהבר</span><span class="board board--name" data-board="לבהבר" aria-hidden="true"></span></span>
+          <span class="d-dim" role="cell">חנות בגדי ילדים · כ-6 הזמנות מאז שעלתה</span>
+          <span role="cell"><span class="status status--live">באוויר</span></span>
+          <span class="dep__more" role="cell">מה עשיתי: <span class="todo">[להשלמה]</span> <a class="link-more" href="#" data-pending>לפרויקט המלא</a></span>
+        </div>
+        <div class="dep__row" role="row" data-preview="[צילום מסך במוקאפ · עוגן]">
+          <span class="label" role="cell"><bdi dir="ltr">MD 02</bdi></span>
+          <span role="cell"><span class="sr-only">עוגן</span><span class="board board--name" data-board="עוגן" aria-hidden="true"></span></span>
+          <span class="d-dim" role="cell">אתר תדמית <bdi dir="ltr">One Page</bdi></span>
+          <span role="cell"><span class="status">בקרוב</span></span>
+          <span class="dep__more" role="cell">מה עשיתי: <span class="todo">[להשלמה]</span> <a class="link-more" href="#" data-pending>לפרויקט המלא</a></span>
+        </div>
+        <div class="dep__row" role="row" data-preview="[צילום מסך במוקאפ · הבית של שרי]">
+          <span class="label" role="cell"><bdi dir="ltr">MD 03</bdi></span>
+          <span role="cell"><span class="sr-only">הבית של שרי</span><span class="board board--name" data-board="הבית של שרי" aria-hidden="true"></span></span>
+          <span class="d-dim" role="cell"><span class="todo">[להשלמה]</span></span>
+          <span role="cell"><span class="status">בקרוב</span></span>
+          <span class="dep__more" role="cell">מה עשיתי: <span class="todo">[להשלמה]</span> <a class="link-more" href="#" data-pending>לפרויקט המלא</a></span>
+        </div>
+      </div>
+      <a class="link-more" href="#" data-pending>לכל הפרויקטים</a>
+    </div>
+  </section>
+
+  <!-- 6 · אודות (בהיר) -->
+  <section class="d-sec d-sec--light" id="about" aria-labelledby="about-title">
+    <div class="d-wrap d-about">
+      <div class="d-about__copy">
+        <p class="label"><bdi dir="ltr">06</bdi> · אודות</p>
+        <h2 class="h-2 rv" id="about-title">המוצר שלך שווה שכל העולם יראה אותו, ואסור לך לתת לו להישאר <span class="accent-l">שקוף</span>.</h2>
+        <p class="d-dim-l rv">אני מכירה את הרגע הזה, כי שנים אני מעצבת מותגים. אז בניתי מסלול השקה: שיחה אחת כדי להבין את המוצר ואת מי שקונה אותו, ואז חנות בעיצוב של מותג בינלאומי, עם מערכת פשוטה לניהול ולדיוור. ומה שגורם לזה לעבוד: כל מילה בחנות כתובה כדי להוביל לקנייה.</p>
+        <blockquote class="d-message rv"><p>אני עוזרת לבעלות ובעלי מוצר שרוצים לצאת לעולם לפני שמישהו יקדים אותם, להיראות מהשנייה הראשונה בטופ ולמכור, באמצעות במה שלמה: סיפור, מיתוג ואתר עם חנות שהם מנהלים לבד. כי אסור לתת למוצר טוב להישאר שקוף.</p></blockquote>
+        <a class="link-more" href="#contact">לשיחת היכרות על המוצר שלך</a>
+      </div>
+      <figure class="d-portrait rv"><span class="slot">[תמונה אמיתית של מירי · מיום הצילום]</span></figure>
+    </div>
+  </section>
+
+  <!-- המלצות: מוסתר עד שיהיו 3-4 המלצות אמיתיות. לא ממציאים. -->
+</main>
+
+<!-- 7 · פוטר: שורה אחרונה בלוח, ויצירת קשר -->
+<footer class="d-footer" id="contact">
+  <div class="d-wrap d-footer__top">
+    <div class="d-next">
+      <p class="label"><span class="draft">טיוטה</span> היציאה הבאה</p>
+      <div class="board board--next" data-board="המוצר שלך" aria-hidden="true"></div>
+    </div>
+    <div class="d-footer__cta">
+      <p class="label"><bdi dir="ltr">07</bdi> · לשיחת היכרות</p>
+      <h2 class="h-2" id="contact-title">השאירי פרטים, ותוך 24 שעות אחזור אלייך לשיחה קצרה על המוצר שלך. <span class="draft">טיוטה</span></h2>
+      <form class="form" aria-labelledby="contact-title" novalidate>
+      <label class="field" for="f-name"><span class="label">שם</span><input id="f-name" name="name" autocomplete="name" required></label>
+      <label class="field" for="f-phone"><span class="label">טלפון</span><input id="f-phone" name="phone" type="tel" dir="ltr" autocomplete="tel" required></label>
+      <label class="field" for="f-product"><span class="label">מה המוצר?</span><input id="f-product" name="product" dir="auto"></label>
+      <button class="btn btn--cta" type="submit">שליחה, ואחזור אלייך</button>
+      <p class="form__status" role="status" aria-live="polite"></p>
+    </form>
+    </div>
+  </div>
+  <div class="d-wrap">
+    <div class="footer__cols">
+    <nav class="footer__col" aria-labelledby="f-nav">
+      <p class="label" id="f-nav">באתר</p>
+      <ul>
+        <li><a href="#pain">זה מוכר לך?</a></li>
+        <li><a href="#how">איך זה עובד</a></li>
+        <li><a href="#services">מה אני בונה</a></li>
+        <li><a href="#projects">פרויקטים</a></li>
+        <li><a href="#about">אודות</a></li>
+      </ul>
+    </nav>
+    <div class="footer__col">
+      <p class="label" id="f-contact">דברי איתי</p>
+      <ul aria-labelledby="f-contact">
+        <li><a href="#" data-wa>וואטסאפ</a></li>
+        <li>טלפון <span class="todo">[להשלמה]</span></li>
+        <li>מייל <span class="todo">[להשלמה]</span></li>
+        <li>אינסטגרם <span class="todo">[להשלמה]</span></li>
+      </ul>
+    </div>
+    <nav class="footer__col" aria-labelledby="f-legal">
+      <p class="label" id="f-legal">מידע</p>
+      <ul>
+        <li><a href="accessibility.html">הצהרת נגישות</a></li>
+        <li><a href="privacy.html">מדיניות פרטיות</a></li>
+        <li><a href="terms.html">תנאי שימוש</a></li>
+      </ul>
+    </nav>
+  </div>
+    <p class="footer__credit">© 2026 מירי דייטש · כל הזכויות שמורות · עיצוב ובנייה: מירי דייטש</p>
+  </div>
+  <svg class="footer__logo" aria-hidden="true"><use href="img/logo-miri.svg#logo-mono"/></svg>
+</footer>
+
+<!-- תצוגה מקדימה שעוקבת אחרי העכבר בריחוף על פרויקט -->
+<div class="d-preview mock" aria-hidden="true"><div class="mock__bar"><i></i><i></i><i></i></div><div class="mock__screen"><span class="slot"></span></div></div>
+
+<a class="wa" href="#" data-wa aria-label="וואטסאפ" title="וואטסאפ">
+  <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7a2.8 2.8 0 0 0 1.8-1.3 2.3 2.3 0 0 0 .2-1.3c-.1-.1-.2-.2-.4-.3z"/></svg>
+</a>
+<div class="a11y">
+  <button class="a11y__btn" type="button" aria-expanded="false" aria-controls="a11y-panel" aria-label="תפריט נגישות" title="נגישות">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="4" r="2"/><path d="M4 7.5 12 9l8-1.5.5 2-6 1.4V14l2.2 7-2 .7L12 15.6l-2.7 6.1-2-.7 2.2-7v-3.1l-6-1.4z"/></svg>
+  </button>
+  <div class="a11y__panel" id="a11y-panel" role="group" aria-label="נגישות" hidden>
+    <p class="label">נגישות</p>
+    <button type="button" data-a11y="text" aria-pressed="false">הגדלת טקסט</button>
+    <button type="button" data-a11y="contrast" aria-pressed="false">ניגודיות גבוהה</button>
+    <button type="button" data-a11y="links" aria-pressed="false">הדגשת קישורים</button>
+    <button type="button" data-a11y="motion" aria-pressed="false">עצירת אנימציות</button>
+    <button type="button" data-a11y-reset>איפוס</button>
+    <a href="accessibility.html">הצהרת נגישות</a>
+  </div>
+</div>
+
+<details class="draft-panel">
+  <summary class="label">טיוטה</summary>
+  <ul class="draft-panel__status" data-status></ul>
+</details>
+
+<div class="toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>
