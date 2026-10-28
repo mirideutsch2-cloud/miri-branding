@@ -8,6 +8,7 @@ html:has(.p-page),body:has(.p-page){background:var(--stage)}
 html:not(.paint-on) .p-canvas{display:none}
 .p-page{position:relative;z-index:1;overflow-x:clip}
 .p-anchor{pointer-events:none}
+.p-tex{display:none!important} /* מרקם לשכבת הצבע בלבד */
 
 /* ---------- 1 · מסך הפתיחה: הטקסט מימין, ה-M משמאל (בטלפון: ה-M בין הכותרת המקדימה לטקסט), בלי חפיפה ---------- */
 .p-hero{position:relative;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));grid-template-rows:auto minmax(0,1fr);gap:var(--gap-m);min-height:max(100svh, 36rem);padding:calc(var(--header-h) + var(--gap-m)) var(--margin) calc(var(--frame) + 4.5rem)}

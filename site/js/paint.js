@@ -120,16 +120,17 @@ const start = () => {
   const mat = new THREE.ShaderMaterial({
     transparent: true, depthTest: false, depthWrite: false, side: THREE.DoubleSide,
     uniforms: { uScale: { value: 1 }, uIntro: { value: 0 }, uDist: { value: DIST },
-      uColors: { value: [new THREE.Color("#F3F3F1"), new THREE.Color("#EC008C"), new THREE.Color("#A8005F")] } },
+      uColors: { value: [new THREE.Color("#F3F3F1"), new THREE.Color("#EC008C"), new THREE.Color("#A8005F")] },
+      uTex: { value: null }, uHasTex: { value: 0 } },
     vertexShader: `
       attribute vec3 aTan; attribute vec2 aOff; attribute vec2 aUv; attribute vec4 aStroke;
-      uniform float uScale, uIntro, uDist;
+      uniform float uScale, uIntro, uDist, uHasTex;
       varying vec2 vUv; varying vec4 vS; varying float vFade, vReveal;
       void main(){
         vec4 mv = modelViewMatrix * vec4(position, 1.0);
         vec3 tv = (modelViewMatrix * vec4(aTan, 0.0)).xyz;
         vec3 side = normalize(cross(normalize(tv + 1e-6), vec3(0.0, 0.0, 1.0)) + 1e-6);
-        float taper = pow(sin(3.14159 * clamp(aUv.x * 0.94 + 0.03, 0.0, 1.0)), 0.45) * (1.0 - 0.45 * aUv.x);
+        float taper = mix(pow(sin(3.14159 * clamp(aUv.x * 0.94 + 0.03, 0.0, 1.0)), 0.45) * (1.0 - 0.45 * aUv.x), 1.0 - 0.12 * aUv.x, uHasTex); // למשיכה הסרוקה כבר יש צורה משלה
         mv.xyz += side * aUv.y * aStroke.x * uScale * taper;
         vec4 cp = projectionMatrix * mv;
         cp.xy += aOff * cp.w;
@@ -140,6 +141,8 @@ const start = () => {
       }`,
     fragmentShader: `
       uniform vec3 uColors[3];
+      uniform sampler2D uTex;
+      uniform float uHasTex;
       varying vec2 vUv; varying vec4 vS; varying float vFade, vReveal;
       float hash(vec2 p){ p = fract(p * vec2(123.34, 456.21)); p += dot(p, p + 45.32); return fract(p.x * p.y); }
       float noise(vec2 p){ vec2 i = floor(p), f = fract(p); vec2 u = f * f * (3.0 - 2.0 * f);
@@ -154,12 +157,31 @@ const start = () => {
         float gaps = smoothstep(0.18 + 0.45 * dry, 0.42 + 0.4 * dry, fine);
         float alpha = edge * mix(1.0, gaps, 0.25 + 0.75 * dry) * smoothstep(0.0, 0.035, a);
         vec3 col = vS.z < 0.5 ? uColors[0] : vS.z < 1.5 ? uColors[1] : uColors[2];
-        col *= 0.86 + 0.2 * fine + 0.08 * (1.0 - abs(c));             // גוף מעוגל ופסים של מכחול
-        col += pow(fine, 6.0) * 0.18;                                  // ברק רטוב
+        if (uHasTex > 0.5){
+          // משיכה אמיתית (img/paint-strokes.webp): R = כמה צבע יש, G = הברק והסיבים בתוכו. שתי משיכות שונות באטלס
+          float row = step(0.5, fract(vS.y * 7.0));
+          vec4 tx = texture2D(uTex, vec2(a, row * 0.5 + clamp(c * 0.5 + 0.5, 0.02, 0.98) * 0.5));
+          alpha = tx.r * smoothstep(0.0, 0.015, a);
+          col = col * (0.9 + 0.22 * tx.g) + pow(tx.g, 3.0) * 0.25;
+        } else {
+          col *= 0.86 + 0.2 * fine + 0.08 * (1.0 - abs(c));           // גוף מעוגל ופסים של מכחול
+          col += pow(fine, 6.0) * 0.18;                                // ברק רטוב
+        }
         gl_FragColor = vec4(col * vFade, alpha * 0.95);
       }`,
   });
   scene.add(new THREE.Mesh(geo, mat));
+
+  // מרקם המשיכות: שתי משיכות מכחול אמיתיות (נוצרו במגניפיק לבקשת מירי, 28.10). בלעדיו: מרקם מחושב, וזה מדווח
+  const texImg = document.querySelector(".p-tex");
+  const useTex = (img) => {
+    const tex = new THREE.Texture(img);
+    tex.colorSpace = THREE.NoColorSpace; tex.anisotropy = renderer.capabilities.getMaxAnisotropy(); tex.needsUpdate = true;
+    mat.uniforms.uTex.value = tex; mat.uniforms.uHasTex.value = 1; wake();
+  };
+  if (texImg?.complete && texImg.naturalWidth) queueMicrotask(() => useTex(texImg)); // אחרי שהכול מוגדר
+  else if (texImg) { texImg.addEventListener("load", () => useTex(texImg)); texImg.addEventListener("error", () => MIRI.status("צבע: מרקם המשיכות לא נטען · מרקם מחושב")); }
+  else MIRI.status("צבע: אין מרקם משיכות · מרקם מחושב");
 
   /* ---------- קלט ---------- */
   const still = () => MIRI.reduce || root.classList.contains("a11y-motion");
