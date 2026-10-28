@@ -81,6 +81,10 @@ p{text-wrap:pretty}
 .menu-btn[aria-expanded="true"] span:nth-child(1){transform:translateY(8px) rotate(45deg)}
 .menu-btn[aria-expanded="true"] span:nth-child(2){opacity:0}
 .menu-btn[aria-expanded="true"] span:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
+/* המבורגר בשני פסים (גרסה ב). בפתיחה שני הפסים נפגשים באמצע ל-X */
+.menu-btn--two{gap:7px}
+.menu-btn--two[aria-expanded="true"] span:nth-child(1){transform:translateY(4.5px) rotate(45deg)}
+.menu-btn--two[aria-expanded="true"] span:nth-child(2){opacity:1;transform:translateY(-4.5px) rotate(-45deg)}
 .site-menu{position:fixed;inset:0;z-index:1;display:none;place-items:center;background:var(--dark);pointer-events:auto}
 .site-menu.is-open{display:grid}
 .site-menu ul{display:grid;gap:var(--gap-m);text-align:center}
