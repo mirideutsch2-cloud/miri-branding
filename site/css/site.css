@@ -177,7 +177,7 @@ p{text-wrap:pretty}
 
 /* ==================== גרסה ב: המסכים שאחרי מסך הפתיחה (28.10) ====================
    כל המחלקות כאן קיימות רק ב-full-curtain.html. הבסיס: הטיוטה המלאה מ-27.10, מותאמת ללוגו הסופי ול-Nostela */
-:root:has(.hero--full),:root:has(.doc),:root:has(.p-page),:root:has(.d-page){
+:root:has(.hero--full),:root:has(.doc),:root:has(.p-page),:root:has(.d-page),:root:has(.sp-page){
   /* סטייליינר 30: שוליים חיצוניים לאלמנטים הסוגרים (לוגו, תפריט, כפתורים צפים), שוליים פנימיים רחבים יותר לתוכן */
   --frame:clamp(1rem, .4rem + 1.5vw, 2rem);
   --margin:clamp(1.25rem, .2rem + 4.6vw, 6rem);
@@ -190,7 +190,7 @@ p{text-wrap:pretty}
   --paper:#FAFAF8; /* אוף-וויט לכרטיסים, במקום לבן מוחלט */
   --fuchsia-deep:#C2006F; /* פוקסיה לטקסט על רקע בהיר: ניגודיות 5.4 על בטון (הפוקסיה הרגילה 3.8) */
 }
-:root:has(.hero--full) body,:root:has(.doc) body,:root:has(.p-page) body,:root:has(.d-page) body{line-height:1.3} /* סטייליינר 25, 30: טקסט רץ 1.3 */
+:root:has(.hero--full) body,:root:has(.doc) body,:root:has(.p-page) body,:root:has(.d-page) body,:root:has(.sp-page) body{line-height:1.3} /* סטייליינר 25, 30: טקסט רץ 1.3 */
 .todo{background:rgba(236,0,140,.16);border-bottom:1.5px dashed var(--fuchsia);padding-inline:.15em}
 
 /* ---------- הנעה לפעולה (סטייליינר 35, 46, 64): כפתור אחד בצבע אחד בכל האתר, עם צל זוהר בצבע הכפתור.
@@ -371,7 +371,7 @@ p{text-wrap:pretty}
 .a11y__panel [aria-pressed="true"]{background:var(--dark);color:var(--on-dark)}
 .a11y__panel [aria-pressed="true"]:hover{background:var(--dark)}
 .a11y__panel [aria-pressed="true"]::after{content:"✓"}
-:root:has(.hero--full) .toast,:root:has(.doc) .toast,:root:has(.p-page) .toast,:root:has(.d-page) .toast{box-shadow:0 15px 30px rgba(0,0,0,.1)}
+:root:has(.hero--full) .toast,:root:has(.doc) .toast,:root:has(.p-page) .toast,:root:has(.d-page) .toast,:root:has(.sp-page) .toast{box-shadow:0 15px 30px rgba(0,0,0,.1)}
 :root:has(.a11y) .draft-panel{bottom:calc(max(1rem, env(safe-area-inset-bottom)) + 3.75rem)} /* לוח הטיוטה מעל כפתור הנגישות */
 /* מצבי הנגישות, על <html> */
 html.a11y-text{font-size:118.75%}
