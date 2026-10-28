@@ -88,6 +88,55 @@ const start = () => {
 
   const idx = (i, j) => j * (NX + 1) + i;
 
+  // ---------- טקסט על הבד (data-cloth-text על מסך הפתיחה) ----------
+  // התמונה (cover), הצללה בתחתית והמשפט מצוירים יחד על קנבס אחד שהוא הטקסטורה של הבד.
+  // המיקום, הגודל והשבירה לשורות נלקחים מהכותרת האמיתית בדף, שנשארת בדף לנגישות (שקופה כשהבד פעיל).
+  const clothText = hero.dataset.clothText ? hero.querySelector(hero.dataset.clothText) : null;
+  let srcImage = null, composed = null;
+  const titleLines = (el) => {
+    const node = el.firstChild, text = node.textContent, lines = [];
+    for (const m of text.matchAll(/\S+/g)) {
+      const r = document.createRange();
+      r.setStart(node, m.index); r.setEnd(node, m.index + m[0].length);
+      const b = r.getBoundingClientRect();
+      const last = lines[lines.length - 1];
+      if (last && Math.abs(last.top - b.top) < b.height / 2) {
+        last.end = m.index + m[0].length; last.left = Math.min(last.left, b.left); last.right = Math.max(last.right, b.right);
+      } else lines.push({ start: m.index, end: m.index + m[0].length, top: b.top, left: b.left, right: b.right });
+    }
+    return lines.map((l) => ({ ...l, text: text.slice(l.start, l.end) }));
+  };
+  const composeTexture = (sr, cw, ch) => {
+    const k = Math.min(Math.min(devicePixelRatio || 1, 2), 4096 / Math.max(cw, ch)); // חדות לפי המסך, עד 4096px
+    const c = document.createElement("canvas");
+    c.width = Math.round(cw * k); c.height = Math.round(ch * k);
+    const ctx = c.getContext("2d");
+    ctx.scale(k, k);
+    // תמונה ב-cover
+    const ia = srcImage.width / srcImage.height, sa = cw / ch;
+    let dw = cw, dh = ch, dx = 0, dy = 0;
+    if (sa > ia) { dh = cw / ia; dy = (ch - dh) / 2; } else { dw = ch * ia; dx = (cw - dw) / 2; }
+    ctx.drawImage(srcImage, dx, dy, dw, dh);
+    // הצללה בתחתית, כמו ב-CSS של .hero__scrim
+    const g = ctx.createLinearGradient(0, ch, 0, 0);
+    g.addColorStop(0, "rgba(14,13,16,.72)"); g.addColorStop(.38, "rgba(14,13,16,.35)"); g.addColorStop(.62, "rgba(14,13,16,0)");
+    ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
+    // המשפט, שורה אחרי שורה, בדיוק במקום של הכותרת בדף
+    const cs = getComputedStyle(clothText);
+    ctx.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+    ctx.fillStyle = cs.color;
+    ctx.direction = "rtl"; ctx.textAlign = "right"; ctx.textBaseline = "alphabetic";
+    for (const l of titleLines(clothText)) {
+      const m = ctx.measureText(l.text);
+      ctx.fillText(l.text, l.right - sr.left, l.top - sr.top + m.fontBoundingBoxAscent);
+    }
+    composed?.dispose();
+    composed = new THREE.CanvasTexture(c);
+    composed.colorSpace = THREE.NoColorSpace;
+    composed.anisotropy = renderer.capabilities.getMaxAnisotropy();
+    material.uniforms.map.value = composed;
+  };
+
   const build = () => {
     const hr = hero.getBoundingClientRect();
     const sr = slot.getBoundingClientRect();
@@ -107,11 +156,18 @@ const start = () => {
     prev = new Float32Array(count * 3);
     pinned = new Uint8Array(count);
 
-    // חיתוך cover של הטקסטורה, כמו object-fit בתמונה הסטטית
-    const tex = material.uniforms.map.value;
-    const ia = tex.image.width / tex.image.height, sa = cw / ch;
-    if (sa > ia) { material.uniforms.uvScale.value.set(1, ia / sa); material.uniforms.uvOffset.value.set(0, (1 - ia / sa) / 2); }
-    else { material.uniforms.uvScale.value.set(sa / ia, 1); material.uniforms.uvOffset.value.set((1 - sa / ia) / 2, 0); }
+    if (clothText) {
+      // הטקסט מצויר על הבד עצמו, ולכן זז ומתקפל איתו כמקשה אחת
+      composeTexture(sr, cw, ch);
+      material.uniforms.uvScale.value.set(1, 1);
+      material.uniforms.uvOffset.value.set(0, 0);
+    } else {
+      // חיתוך cover של הטקסטורה, כמו object-fit בתמונה הסטטית
+      const tex = material.uniforms.map.value;
+      const ia = tex.image.width / tex.image.height, sa = cw / ch;
+      if (sa > ia) { material.uniforms.uvScale.value.set(1, ia / sa); material.uniforms.uvOffset.value.set(0, (1 - ia / sa) / 2); }
+      else { material.uniforms.uvScale.value.set(sa / ia, 1); material.uniforms.uvOffset.value.set((1 - sa / ia) / 2, 0); }
+    }
 
     // 1 יחידה = 1 פיקסל במישור z=0
     const x0 = sr.left - hr.left - W / 2;
@@ -287,6 +343,7 @@ const start = () => {
     tex.colorSpace = THREE.NoColorSpace;
     tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
     material.uniforms.map.value = tex;
+    srcImage = tex.image;
     build();
     let rt;
     new ResizeObserver(() => { clearTimeout(rt); rt = setTimeout(build, 120); }).observe(hero);

@@ -35,14 +35,16 @@
 
 <main id="main">
 
-  <!-- גרסה ב (28.10): הווילון על כל המסך, ועליו המשפט. בלי פס הלוגו ובלי רצועת המשפט שמתחת.
+  <!-- גרסה ב (28.10): הווילון על כל המסך, ועליו המשפט. לוגו קטן בפינה.
+       המשפט מצויר על הבד (data-cloth-text) וזז ומתקפל איתו כמקשה אחת. בלי WebGL: המשפט מוצג מעל תמונה סטטית.
        הגרסה הראשית נשארת ב-index.html; שתיהן משתמשות באותם css/js/img -->
-  <section class="hero hero--full" id="top" aria-labelledby="hero-title">
+  <section class="hero hero--full" id="top" aria-labelledby="hero-title" data-cloth-text=".hero__title">
     <figure class="hero__curtain" data-cloth-slot>
       <img class="hero__img" src="img/curtain.webp" alt="" width="1672" height="941">
     </figure>
     <canvas class="hero__canvas" aria-hidden="true"></canvas>
     <div class="hero__scrim" aria-hidden="true"></div>
+    <a class="corner-logo" href="#top" aria-label="מירי דייטש"><svg aria-hidden="true"><use href="img/logo-miri.svg#logo-mono"/></svg></a>
     <h1 class="h-1 hero__title" id="hero-title">מגיעה למוצר שלך במה שנראית בינלאומית ומוכרת</h1>
     <p class="label hero__hint" data-cloth-hint hidden>גררי את הווילון <span class="draft">טיוטה</span></p>
   </section>
