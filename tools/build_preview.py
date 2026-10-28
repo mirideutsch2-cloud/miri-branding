@@ -6,6 +6,10 @@ so this inlines the CSS, JS, images and fonts, and loads GSAP/Three.js from jsDe
 
     python3 tools/build_preview.py                    # site/index.html → build/preview/index.html
     python3 tools/build_preview.py full-curtain.html  # site/full-curtain.html → build/preview/full-curtain.html
+    python3 tools/build_preview.py --doc accessibility.html privacy.html terms.html 404.html
+
+--doc: עמודי מידע שמתפרסמים כקבצים נוספים ליד הדף הראשי של גרסה ב. הם יוצאים כמסמך HTML שלם
+(רק הדף הראשי עטוף אוטומטית בשלד), והקישורים ל-full-curtain.html מופנים ל-index.html, שהוא הדף הראשי בתצוגה.
 """
 import base64
 import re
@@ -48,7 +52,14 @@ def build_css() -> str:
 
 
 def main():
-    page = sys.argv[1] if len(sys.argv) > 1 else "index.html"
+    args = sys.argv[1:]
+    doc = "--doc" in args
+    pages = [a for a in args if a != "--doc"] or ["index.html"]
+    for page in pages:
+        build(page, doc)
+
+
+def build(page: str, doc: bool):
     html = (SITE / page).read_text(encoding="utf-8")
     title = re.search(r"<title>.*?</title>", html, re.S).group(0)
     body = re.search(r"<body[^>]*>(.*)</body>", html, re.S).group(1)
@@ -71,26 +82,40 @@ def main():
     missing = [v for v in vendor if v not in CDN]
     if missing:
         sys.exit(f"אין כתובת CDN עבור: {', '.join(missing)}")
-    main_js = (SITE / "js" / "main.js").read_text(encoding="utf-8")
-    cloth_js = (SITE / "js" / "cloth.js").read_text(encoding="utf-8")
-    cloth_js = cloth_js.replace('"../vendor/three.module.min.js"', f'"{CDN["../vendor/three.module.min.js"]}"')
+    scripts = []
+    if 'src="js/main.js"' in head:
+        scripts.append(f"<script>\n{(SITE / 'js' / 'main.js').read_text(encoding='utf-8')}\n</script>")
+    if 'src="js/cloth.js"' in head:
+        cloth_js = (SITE / "js" / "cloth.js").read_text(encoding="utf-8")
+        cloth_js = cloth_js.replace('"../vendor/three.module.min.js"', f'"{CDN["../vendor/three.module.min.js"]}"')
+        scripts.append(f'<script type="module">\n{cloth_js}\n</script>')
+    if doc:
+        body = re.sub(r'href="full-curtain\.html', 'href="index.html', body)
 
     boot = (
         "<script>(()=>{const d=document.documentElement;"
         f"d.lang={html_attrs['lang']!r};d.dir={html_attrs['dir']!r};"
         "d.classList.add('js')})()</script>"
     )
-    out = "\n".join([
+    parts = [
         title,
         '<meta name="robots" content="noindex">',
         f"<style>\n{build_css()}\n</style>",
         boot,
         *[f'<script src="{CDN[v]}"></script>' for v in vendor],
         body.strip(),
-        f"<script>\n{main_js}\n</script>",
-        f'<script type="module">\n{cloth_js}\n</script>',
+        *scripts,
         "",
-    ])
+    ]
+    if doc:
+        # קובץ נוסף בתצוגה לא מקבל שלד אוטומטי, אז הוא מסמך שלם
+        parts = [
+            "<!doctype html>",
+            f'<html lang="{html_attrs["lang"]}" dir="{html_attrs["dir"]}">',
+            '<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">',
+            *parts[:4], "</head>", "<body>", *parts[4:-1], "</body>", "</html>", "",
+        ]
+    out = "\n".join(parts)
     out_path = OUT_DIR / page
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(out, encoding="utf-8")

@@ -7,7 +7,13 @@
 
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
-  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  /* ---------- תפריט נגישות: הבחירות נשמרות בדפדפן ומוחלות על <html> לפני כל השאר ---------- */
+  const A11Y_KEY = "miri-a11y";
+  const a11yRead = () => { try { return JSON.parse(localStorage.getItem(A11Y_KEY)) || {}; } catch { return {}; } };
+  const a11y = a11yRead();
+  Object.keys(a11y).forEach((k) => a11y[k] && document.documentElement.classList.add(`a11y-${k}`));
+
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches || !!a11y.motion;
 
   // לוח הטיוטה: כל נפילה לברירת מחדל נרשמת כאן
   const statusList = $("[data-status]");
@@ -75,10 +81,12 @@
   if ($("[data-pending]")) status("ניווט: המסכים הבאים עוד לא נבנו · לחיצה מציגה הודעה");
 
   /* ---------- בדיקת פונטים: פונט חסר מדווח בגלוי ---------- */
+  // בודקים רק פונטים שהדף משתמש בהם (בגרסה ב התוויות ב-Sprinter, בלי Pompei)
+  const labelFont = getComputedStyle(document.documentElement).getPropertyValue("--font-label");
   const FONTS = [
     ["800 1em Nostela", "Nostela"],
     ["400 1em Sprinter", "Sprinter"],
-    ["700 1em 'Pompei Narrow'", "Pompei Narrow"],
+    ...(labelFont.includes("Pompei") ? [["700 1em 'Pompei Narrow'", "Pompei Narrow"]] : []),
   ];
   FONTS.forEach(([spec, name]) =>
     document.fonts.load(spec, "אבג MIRI").then(
@@ -120,6 +128,44 @@
     out.textContent = "הטופס עוד לא מחובר לשום מערכת [להשלמה], ולכן הפרטים לא נשלחו.";
   });
 
+  /* ---------- הדר צף בטלפון: אחרי מסך הפתיחה מקבל רקע ---------- */
+  const headerB = $(".site-header--b");
+  const top = $("#top");
+  if (headerB && top && "IntersectionObserver" in window) {
+    new IntersectionObserver(([en]) => headerB.classList.toggle("is-past", !en.isIntersecting), { rootMargin: "-64px 0px 0px 0px" }).observe(top);
+  }
+
+  /* ---------- תפריט נגישות ---------- */
+  const motionStops = []; // מה שעוצר את האנימציות של GSAP, כשבוחרים "עצירת אנימציות"
+  const a11yBtn = $(".a11y__btn");
+  const a11yPanel = $("#a11y-panel");
+  if (a11yBtn && a11yPanel) {
+    const setPanel = (open) => {
+      a11yBtn.setAttribute("aria-expanded", String(open));
+      a11yPanel.hidden = !open;
+    };
+    const save = () => { try { localStorage.setItem(A11Y_KEY, JSON.stringify(a11y)); } catch { /* בלי אחסון: הבחירה תקפה עד רענון */ } };
+    const apply = (k, on) => {
+      a11y[k] = on;
+      document.documentElement.classList.toggle(`a11y-${k}`, on);
+      $(`[data-a11y="${k}"]`, a11yPanel)?.setAttribute("aria-pressed", String(on));
+      if (k === "text") window.MIRI.clothRebuild?.(); // המשפט על הבד מצויר מחדש בגודל החדש
+      if (k === "motion" && on) motionStops.splice(0).forEach((stop) => stop());
+    };
+    $$("[data-a11y]", a11yPanel).forEach((b) => {
+      const k = b.dataset.a11y;
+      b.setAttribute("aria-pressed", String(!!a11y[k]));
+      b.addEventListener("click", () => { apply(k, !a11y[k]); save(); });
+    });
+    $("[data-a11y-reset]", a11yPanel)?.addEventListener("click", () => {
+      Object.keys(a11y).forEach((k) => apply(k, false));
+      save();
+    });
+    a11yBtn.addEventListener("click", () => setPanel(a11yPanel.hidden));
+    addEventListener("keydown", (e) => { if (e.key === "Escape" && !a11yPanel.hidden) { setPanel(false); a11yBtn.focus(); } });
+    document.addEventListener("click", (e) => { if (!a11yPanel.hidden && !e.target.closest(".a11y")) setPanel(false); });
+  }
+
   /* ---------- פוטר: הכסא השני מקבל אור ---------- */
   const chair = $(".footer__chair");
   if (chair) {
@@ -133,6 +179,7 @@
   }
 
   /* ---------- מכאן: תנועה עם GSAP (המסכים שאחרי מסך הפתיחה, גרסה ב) ---------- */
+  if (!$(".set__img, .sticker, .clapper__stick")) return; // עמוד בלי תנועה (עמודי המידע)
   if (!window.gsap || !window.ScrollTrigger) { status("GSAP לא נטען · מוצג מצב סופי בלי תנועה"); return; }
   gsap.registerPlugin(ScrollTrigger);
   const needsFlip = !!$(".sticker");
@@ -145,6 +192,7 @@
   const setImg = $(".set__img");
   if (setImg && !reduce) {
     const mm = gsap.matchMedia();
+    motionStops.push(() => mm.revert());
     mm.add("(min-width: 1024px) and (min-height: 700px)", () => {
       gsap.fromTo(setImg, { scale: 3.2 }, {
         scale: 1, ease: "none",
@@ -167,7 +215,7 @@
     const state = window.Flip ? Flip.getState(".page, .sticker") : null;
     scripts.dataset.state = toGrid ? "grid" : "stack";
     sticker.setAttribute("aria-expanded", String(toGrid));
-    if (reduce || !window.Flip) { ScrollTrigger.refresh(); return; }
+    if (reduce || a11y.motion || !window.Flip) { ScrollTrigger.refresh(); return; }
     if (!toGrid) gsap.fromTo(".scripts__chair", { opacity: 0 }, { opacity: 0.95, duration: 0.8, ease: EASE });
     Flip.from(state, {
       duration: 1.1, ease: EASE, stagger: 0.07, absolute: true,
@@ -222,7 +270,8 @@
       });
       tl.to(stick, { rotation: 0, duration: 0.5, ease: EASE })
         .to(lines, { opacity: 1, y: 0, duration: 0.8, ease: EASE, stagger: 0.05 }, "+=0.1");
-      ScrollTrigger.create({ trigger: ".about", start: "top 65%", once: true, onEnter: () => tl.play() });
+      const st = ScrollTrigger.create({ trigger: ".about", start: "top 65%", once: true, onEnter: () => tl.play() });
+      motionStops.push(() => { st.kill(); tl.progress(1); }); // קופץ למצב הסופי
     });
   }
 })();

@@ -93,7 +93,9 @@ const start = () => {
   // ---------- טקסט על הבד (data-cloth-text על מסך הפתיחה) ----------
   // התמונה (cover), הצללה בתחתית והמשפט מצוירים יחד על קנבס אחד שהוא הטקסטורה של הבד.
   // המיקום, הגודל והשבירה לשורות נלקחים מהכותרת האמיתית בדף, שנשארת בדף לנגישות (שקופה כשהבד פעיל).
-  const clothText = hero.dataset.clothText ? hero.querySelector(hero.dataset.clothText) : null;
+  // data-cloth-text יכול לכלול כמה סלקטורים (המשפט ושורת ההסבר), וכולם מצוירים על הבד
+  const clothTexts = hero.dataset.clothText ? [...hero.querySelectorAll(hero.dataset.clothText)] : [];
+  const clothText = clothTexts[0] || null;
   let srcImage = null, composed = null;
   const titleLines = (el) => {
     const node = el.firstChild, text = node.textContent, lines = [];
@@ -124,13 +126,15 @@ const start = () => {
     g.addColorStop(0, "rgba(14,13,16,.75)"); g.addColorStop(.4, "rgba(14,13,16,.5)"); g.addColorStop(.68, "rgba(14,13,16,.25)"); g.addColorStop(.88, "rgba(14,13,16,0)");
     ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
     // המשפט, שורה אחרי שורה, בדיוק במקום של הכותרת בדף
-    const cs = getComputedStyle(clothText);
-    ctx.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
-    ctx.fillStyle = cs.color;
     ctx.direction = "rtl"; ctx.textAlign = "right"; ctx.textBaseline = "alphabetic";
-    for (const l of titleLines(clothText)) {
-      const m = ctx.measureText(l.text);
-      ctx.fillText(l.text, l.right - sr.left, l.top - sr.top + m.fontBoundingBoxAscent);
+    for (const el of clothTexts) {
+      const cs = getComputedStyle(el);
+      ctx.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+      ctx.fillStyle = cs.color;
+      for (const l of titleLines(el)) {
+        const m = ctx.measureText(l.text);
+        ctx.fillText(l.text, l.right - sr.left, l.top - sr.top + m.fontBoundingBoxAscent);
+      }
     }
     composed?.dispose();
     composed = new THREE.CanvasTexture(c);
@@ -373,6 +377,7 @@ const start = () => {
     build();
     let rt;
     new ResizeObserver(() => { clearTimeout(rt); rt = setTimeout(build, 120); }).observe(hero);
+    MIRI.clothRebuild = build; // תפריט הנגישות משנה גודל טקסט בלי לשנות את גודל המסך
     hero.classList.add("cloth-on");
     hint?.removeAttribute("hidden");
     MIRI.status("וילון: WebGL פעיל");
