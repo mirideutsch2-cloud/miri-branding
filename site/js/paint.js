@@ -1,304 +1,274 @@
-/* מירי דייטש · גרסה ג · רסיסי צבע (WebGL, בלי ספריות). בנייה שנייה, לפי הסרטון של ingrassiadaniel.it.
-   אלפי רסיסים קטנים (רובם אוף-וויט, מעטים פוקסיה, בגדלים שונים כמו התזה של צבע) על רקע פחם.
-   בכל אזור הם מתקבצים לצורת צבע אחרת, במקום של העוגן שלה בדף (data-paint-shape), ועוברים בגלילה לצורה הבאה:
-   0 ה-M של הלוגו · 1 כתם עם טפטופים · 2 שלוש משיכות מכחול · 3 התזה עגולה · 4 משיכה אלכסונית · 5 ריסוס · 6 מסגרת.
-   כ-12% מהרסיסים הם אבק שנשאר פזור על כל המסך. העכבר והאצבע מזיזים את הרסיסים, ולחיצה מתיזה אותם.
-   כל צורה נדגמת פעם אחת מציור בקנבס דו-ממדי, וכל התנועה מחושבת ב-GPU. כל נפילה מדווחת בלוח הטיוטה. */
+/* מירי דייטש · גרסה ג · משיכות צבע בתלת-ממד (Three.js). בנייה שלישית, לפי הסרטון של ingrassiadaniel.it ובקשת מירי:
+   משיכות מכחול אמיתיות (לא נקודות) שבכל אזור יוצרות צורה אחרת, ומצלמה אחת שמסתובבת סביב הצורה ומשנה זוויות.
+   - כל צורה בנויה ממאות משיכות. כל משיכה היא רצועה שפונה למצלמה, עם מרקם של סיבים, קצוות יבשים,
+     ועובי שמתחיל מלא ונגמר דק, כמו מכחול שנגמר לו הצבע.
+   - הצורות: 0 ה-M · 1 כתם עם טפטופים · 2 שלוש משיכות · 3 כדור עטוף משיכות · 4 רצועה מתפתלת · 5 מערבולת · 6 מסגרת.
+     כל צורה יושבת במקום של העוגן שלה בדף (data-paint-shape). בגלילה המשיכות זורמות מצורה לצורה, וכל משיכה בזמן אחר.
+   - המצלמה מסתובבת סביב הצורה עם הגלילה ועם הזמן, ונוטה קצת אחרי העכבר. מול המסגרת היא מתיישרת, כדי שהמסגרת תשב בדיוק סביב הטופס.
+   - בטעינה המשיכות "נצבעות" על המסך. לחיצה שולחת גל דרך המשיכות.
+   כל נפילה מדווחת בלוח הטיוטה. בלי WebGL הדף עובד עם רקע פחם. */
+import * as THREE from "../vendor/three.module.min.js";
 
 const MIRI = window.MIRI || { status: console.info, reduce: false };
 const root = document.documentElement;
 const canvas = document.querySelector(".p-canvas");
 
-// ה-M של הלוגו (מתוך img/logo-miri.svg, הסמל logo, הנתיב בצבע --logo-m)
-const M_PATH = "M 202.972656 102.066406 L 202.972656 113.355469 C 199.828125 115.476562 197.0625 117.453125 194.191406 119.265625 C 187.148438 123.671875 179.707031 127.082031 171.183594 127.480469 C 165.605469 127.730469 160.28125 126.972656 155.578125 123.78125 C 148.191406 118.757812 145.285156 110.910156 147.992188 101.210938 C 149.730469 94.925781 152.546875 88.929688 154.875 82.800781 C 155.082031 82.265625 155.328125 81.726562 155.261719 80.871094 C 153.28125 82.644531 151.242188 84.332031 149.3125 86.144531 C 138.511719 96.25 127.78125 106.464844 116.871094 116.460938 C 114.125 118.976562 110.910156 121.113281 107.660156 122.976562 C 99.890625 127.390625 91.515625 126.765625 85.359375 121.652344 C 79.738281 116.976562 77.898438 109.050781 80.714844 100.695312 C 82.960938 93.980469 85.410156 87.359375 88.003906 80.066406 C 86.929688 81.011719 86.195312 81.589844 85.558594 82.234375 C 75.523438 92.371094 65.527344 102.546875 55.492188 112.710938 C 51.402344 116.867188 47.136719 120.816406 41.816406 123.382812 C 36.472656 125.976562 31.09375 126.515625 25.8125 123.171875 C 20.800781 120.03125 18.917969 114.511719 21.097656 109.011719 C 23.078125 104.015625 26.398438 99.871094 30.03125 96.03125 C 46.292969 78.832031 64.253906 63.675781 84.464844 51.234375 C 89.914062 47.882812 95.753906 45.523438 102.160156 44.539062 C 111.140625 43.148438 119.691406 47.632812 122.339844 55.429688 C 123.710938 59.5 123.460938 63.667969 122.390625 67.734375 C 121.144531 72.585938 119.691406 77.429688 118.164062 82.820312 C 120.457031 80.960938 122.449219 79.429688 124.320312 77.800781 C 134.511719 69.035156 144.589844 60.125 154.902344 51.523438 C 160.828125 46.578125 167.226562 42.203125 175.015625 40.5 C 182.027344 38.96875 188.359375 40.203125 193.007812 46.042969 C 197.023438 51.074219 197.074219 57.003906 195.324219 62.859375 C 193.382812 69.355469 190.789062 75.640625 188.71875 82.105469 C 187.277344 86.53125 186.152344 91.066406 185.03125 95.601562 C 184.722656 96.886719 184.792969 98.335938 184.96875 99.640625 C 185.507812 103.261719 187.796875 105.726562 191.382812 105.300781 C 195.292969 104.871094 199.074219 103.390625 202.84375 102.15625 C 202.882812 102.136719 202.933594 102.117188 202.972656 102.066406";
-const M_BOX = [18, 38, 206, 129]; // x0 y0 x1 y1 של ה-M ביחידות של ה-SVG
+const small = innerWidth < 768;
+const S = small ? 150 : 260; // משיכות
+const K = 40;                // נקודות בכל משיכה
+const FOV = 35, DIST = 4.2;
+const TAU = Math.PI * 2;
 
-const S = 420; // גודל הקנבס שממנו נדגמות הצורות
-const rnd = (a = 0, b = 1) => a + Math.random() * (b - a);
+/* ---------- אקראיות עם זרע, כדי שכל צורה תיבנה תמיד אותו דבר ---------- */
+let seed = 7;
+const rand = () => ((seed = (seed * 16807) % 2147483647) - 1) / 2147483646;
+const rr = (a, b) => a + rand() * (b - a);
 
-/* ---------- ציור הצורות (לבן על שקוף; השקיפות היא הצפיפות) ---------- */
-const DRAW = [
-  // 0 · ה-M
-  (c) => {
-    const [x0, y0, x1, y1] = M_BOX, k = (S * 0.96) / (x1 - x0);
-    c.save();
-    c.translate(S / 2, S / 2); c.scale(k, k); c.translate(-(x0 + x1) / 2, -(y0 + y1) / 2);
-    c.fillStyle = "#fff"; c.fill(new Path2D(M_PATH));
-    c.restore();
-  },
+// עקומה חלקה (Catmull-Rom) דרך נקודות, בפרמטר 0..1
+const spline = (pts) => (t) => {
+  const n = pts.length - 1, f = Math.min(Math.max(t, 0), 0.9999) * n, i = Math.floor(f), u = f - i;
+  const p0 = pts[Math.max(i - 1, 0)], p1 = pts[i], p2 = pts[i + 1], p3 = pts[Math.min(i + 2, n)];
+  return [0, 1, 2].map((d) => 0.5 * ((2 * p1[d]) + (-p0[d] + p2[d]) * u + (2 * p0[d] - 5 * p1[d] + 4 * p2[d] - p3[d]) * u * u + (-p0[d] + 3 * p1[d] - 3 * p2[d] + p3[d]) * u * u * u));
+};
+
+/* ---------- הצורות: לכל משיכה פונקציה t → נקודה (בתוך רדיוס ~1) ---------- */
+const M_LINE = spline([[-1, -0.6, 0], [-0.82, 0.25, 0], [-0.6, 0.62, 0], [-0.42, 0.2, 0], [-0.18, -0.35, 0], [0.02, 0.15, 0], [0.22, 0.6, 0], [0.42, 0.2, 0], [0.62, -0.35, 0], [0.85, -0.55, 0], [1, -0.4, 0]]);
+let frameAspect = [1.4, 1];
+const SHAPES = [
+  // 0 · ה-M: משיכות לאורך קו ה-M, בשכבות בעומק
+  () => { const a = rr(0, 0.45), b = a + rr(0.35, 0.6), off = rr(-0.13, 0.13), z = rr(-0.22, 0.22); return (t) => { const p = M_LINE(a + (b - a) * t), q = M_LINE(Math.min(a + (b - a) * t + 0.01, 1)); const nx = -(q[1] - p[1]), ny = q[0] - p[0], l = Math.hypot(nx, ny) || 1; return [p[0] + nx / l * off, p[1] + ny / l * off, z + 0.05 * Math.sin(t * 6 + off * 20)]; }; },
   // 1 · כתם עם טפטופים
-  (c) => {
-    c.fillStyle = "#fff";
-    c.beginPath();
-    for (let i = 0; i <= 120; i++) {
-      const a = (i / 120) * Math.PI * 2;
-      const r = 118 * (1 + 0.1 * Math.sin(a * 3 + 1) + 0.06 * Math.sin(a * 7 + 2) + 0.04 * Math.sin(a * 11));
-      c.lineTo(S / 2 + Math.cos(a) * r, 165 + Math.sin(a) * r * 0.9);
-    }
-    c.fill();
-    [[150, 120, 9], [192, 175, 11], [238, 95, 8], [268, 140, 7]].forEach(([x, len, w]) => {
-      c.fillRect(x - w / 2, 230, w, len);
-      c.beginPath(); c.arc(x, 230 + len, w * 1.15, 0, Math.PI * 2); c.fill();
-    });
-    [[80, 70, 7], [340, 90, 5], [330, 300, 6], [70, 260, 4]].forEach(([x, y, r]) => { c.beginPath(); c.arc(x, y, r, 0, Math.PI * 2); c.fill(); });
+  () => {
+    if (rand() < 0.22) { const x = rr(-0.45, 0.45), len = rr(0.35, 0.75), z = rr(-0.1, 0.1); return (t) => [x + 0.02 * Math.sin(t * 5), -0.3 - len * t, z]; }
+    const a0 = rr(0, TAU), sweep = rr(0.8, 2.2), r0 = rr(0, 0.12), r1 = rr(0.35, 0.8), z = rr(-0.25, 0.25);
+    return (t) => { const a = a0 + sweep * t, r = r0 + (r1 - r0) * Math.sin(t * Math.PI * 0.5 + 0.3); return [Math.cos(a) * r, 0.18 + Math.sin(a) * r * 0.85, z * Math.cos(t * 2)]; };
   },
-  // 2 · שלוש משיכות מכחול, מסיבים דקים
-  (c) => {
-    for (let k = 0; k < 3; k++) {
-      const yc = 110 + k * 100, x0 = 30 + rnd(0, 30), x1 = 390 - rnd(0, 50);
-      for (let i = 0; i < 70; i++) {
-        const off = rnd(-30, 30), len = rnd(0.55, 1);
-        c.strokeStyle = `rgba(255,255,255,${rnd(0.25, 1)})`;
-        c.lineWidth = rnd(0.8, 2.6);
-        c.beginPath();
-        const xs = x0 + rnd(0, 20), xe = xs + (x1 - xs) * len;
-        c.moveTo(xs, yc + off);
-        c.bezierCurveTo(xs + (xe - xs) * 0.33, yc + off - 8, xs + (xe - xs) * 0.66, yc + off + 8, xe, yc + off + rnd(-4, 4));
-        c.stroke();
-      }
-    }
+  // 2 · שלוש משיכות, כל אחת עשויה מעשרות סיבים
+  () => { const band = Math.floor(rand() * 3), y = 0.6 - band * 0.6 + rr(-0.12, 0.12), z = rr(-0.2, 0.2), x0 = rr(-1.05, -0.8), x1 = rr(0.55, 1.05), w = rr(0.02, 0.06); return (t) => [x0 + (x1 - x0) * t, y + w * Math.sin(t * 7 + y * 9), z + 0.08 * Math.sin(t * 3)]; },
+  // 3 · כדור עטוף משיכות (כמו הכדור ברפרנס)
+  () => {
+    const ax = new THREE.Vector3(rr(-1, 1), rr(-1, 1), rr(-1, 1)).normalize();
+    const u = new THREE.Vector3(1, 0, 0).cross(ax); if (u.lengthSq() < 1e-3) u.set(0, 1, 0).cross(ax); u.normalize();
+    const v = ax.clone().cross(u), a0 = rr(0, TAU), sw = rr(1, 2.4), r = rr(0.9, 1);
+    return (t) => { const a = a0 + sw * t; return [(u.x * Math.cos(a) + v.x * Math.sin(a)) * r, (u.y * Math.cos(a) + v.y * Math.sin(a)) * r, (u.z * Math.cos(a) + v.z * Math.sin(a)) * r]; };
   },
-  // 3 · התזה עגולה
-  (c) => {
-    c.fillStyle = "#fff";
-    c.beginPath(); c.arc(S / 2, S / 2, 128, 0, Math.PI * 2); c.fill();
-    for (let i = 0; i < 26; i++) {
-      const a = rnd(0, Math.PI * 2), r0 = 120, r1 = rnd(150, 200), w = rnd(0.03, 0.08);
-      c.beginPath();
-      c.moveTo(S / 2 + Math.cos(a - w) * r0, S / 2 + Math.sin(a - w) * r0);
-      c.lineTo(S / 2 + Math.cos(a) * r1, S / 2 + Math.sin(a) * r1);
-      c.lineTo(S / 2 + Math.cos(a + w) * r0, S / 2 + Math.sin(a + w) * r0);
-      c.fill();
-      c.beginPath(); c.arc(S / 2 + Math.cos(a) * (r1 + rnd(6, 16)), S / 2 + Math.sin(a) * (r1 + rnd(6, 16)), rnd(2, 6), 0, Math.PI * 2); c.fill();
-    }
-  },
-  // 4 · משיכה אלכסונית: רחבה בהתחלה ונגמרת בסיבים דקים
-  (c) => {
-    for (let i = 0; i < 160; i++) {
-      const t = rnd(-1, 1);
-      c.strokeStyle = `rgba(255,255,255,${rnd(0.2, 1)})`;
-      c.lineWidth = rnd(0.8, 2.4);
-      c.beginPath();
-      const sx = 40 + t * 18, sy = 330 + t * 55;
-      const len = rnd(0.6, 1);
-      const ex = sx + (360 - sx) * len, ey = sy + (60 + t * 8 - sy) * len;
-      c.moveTo(sx, sy); c.quadraticCurveTo(220 + t * 30, 230 + t * 30, ex, ey); c.stroke();
-    }
-  },
-  // 5 · ריסוס: ענן שצפוף במרכז ונפתח החוצה
-  (c) => {
-    for (let i = 0; i < 2600; i++) {
-      const a = rnd(0, Math.PI * 2), r = Math.pow(Math.random(), 0.7) * 200;
-      c.fillStyle = `rgba(255,255,255,${rnd(0.3, 1)})`;
-      c.fillRect(S / 2 + Math.cos(a) * r * 1.05, S / 2 + Math.sin(a) * r * 0.95, rnd(1, 3), rnd(1, 3));
-    }
+  // 4 · רצועה מתפתלת באלכסון (כמו הרצועה ברפרנס)
+  () => { const vv = rr(-1, 1), z = rr(-0.05, 0.05); return (t) => { const s = -1.15 + 2.3 * t, tw = s * 1.6, w = 0.32 * (1.15 - 0.55 * t); return [s * 0.9, s * 0.45 + Math.cos(tw) * vv * w, Math.sin(tw) * vv * w + z]; }; },
+  // 5 · מערבולת
+  () => { const ph = rr(0, TAU), turns = rr(0.6, 1.3), y0 = rr(-0.8, 0.5), dy = rr(0.2, 0.5); return (t) => { const a = ph + turns * TAU * t, r = 0.95 - 0.55 * t + 0.05 * Math.sin(ph * 3); return [Math.cos(a) * r, y0 + dy * t, Math.sin(a) * r * 0.8]; }; },
+  // 6 · מסגרת סביב יצירת הקשר (היחס לפי המלבן של הטופס)
+  () => {
+    const [hw, hh] = frameAspect, per = 4 * (hw + hh), start = rr(0, per), len = rr(0.15, 0.45) * per * 0.35, off = rr(-0.05, 0.05), z = rr(-0.04, 0.04);
+    const at = (s) => { s = ((s % per) + per) % per; if (s < 2 * hw) return [-hw + s, hh + off]; s -= 2 * hw; if (s < 2 * hh) return [hw + off, hh - s]; s -= 2 * hh; if (s < 2 * hw) return [hw - s, -hh - off]; s -= 2 * hw; return [-hw - off, -hh + s]; };
+    return (t) => { const p = at(start + len * t); return [p[0], p[1], z]; };
   },
 ];
 
-const sample = (draw, n) => {
-  const cv = document.createElement("canvas");
-  cv.width = cv.height = S;
-  const c = cv.getContext("2d", { willReadFrequently: true });
-  draw(c);
-  const data = c.getImageData(0, 0, S, S).data;
-  const cand = [];
-  for (let i = 0; i < S * S; i++) if (data[i * 4 + 3] > 10) cand.push(i);
-  const out = new Float32Array(n * 2);
-  let ex = 0.001, ey = 0.001;
-  if (!cand.length) return { pts: out, ex: 1, ey: 1 };
-  for (let j = 0; j < n; j++) {
-    let idx = 0;
-    for (let tries = 0; tries < 30; tries++) { idx = cand[(Math.random() * cand.length) | 0]; if (Math.random() * 255 < data[idx * 4 + 3]) break; }
-    const x = ((idx % S) + Math.random()) / S * 2 - 1, y = -(((idx / S) | 0) + Math.random()) / S * 2 + 1;
-    out[j * 2] = x; out[j * 2 + 1] = y;
-    ex = Math.max(ex, Math.abs(x)); ey = Math.max(ey, Math.abs(y));
+const buildShape = (id) => {
+  seed = 1000 + id * 977;
+  const out = new Float32Array(S * K * 3);
+  for (let s = 0; s < S; s++) {
+    const f = SHAPES[id]();
+    for (let k = 0; k < K; k++) out.set(f(k / (K - 1)), (s * K + k) * 3);
   }
-  return { pts: out, ex, ey };
+  return out;
 };
-
-const VERT = `
-attribute vec4 aS01, aS23, aS45, aRnd;
-uniform float uA, uB, uMix, uTime, uIntro, uAspect, uDpr, uMotion;
-uniform vec4 uPA, uPB;
-uniform vec3 uMouse;
-uniform vec4 uSplash;
-varying vec4 vCol;
-float h1(float x){ return fract(sin(x * 127.1) * 43758.5453); }
-vec2 shapePt(float id){
-  if (id < 0.5) return aS01.xy; if (id < 1.5) return aS01.zw;
-  if (id < 2.5) return aS23.xy; if (id < 3.5) return aS23.zw;
-  if (id < 4.5) return aS45.xy; return aS45.zw;
-}
-vec2 framePt(vec4 P){ // נקודה על היקף מלבן, ברצועה מוברשת
-  float w = P.z, h = P.w, s = fract(aRnd.z * 7.31 + aRnd.y * 3.17) * 4.0 * (w + h);
-  vec2 p, n;
-  if (s < 2.0 * w){ p = vec2(-w + s, h); n = vec2(0.0, 1.0); }
-  else if (s < 2.0 * w + 2.0 * h){ s -= 2.0 * w; p = vec2(w, h - s); n = vec2(1.0, 0.0); }
-  else if (s < 4.0 * w + 2.0 * h){ s -= 2.0 * w + 2.0 * h; p = vec2(w - s, -h); n = vec2(0.0, -1.0); }
-  else { s -= 4.0 * w + 2.0 * h; p = vec2(-w, -h + s); n = vec2(-1.0, 0.0); }
-  float th = 0.022 * (1.0 + 3.0 * pow(h1(aRnd.y * 17.0), 8.0));
-  return P.xy + p + n * (h1(aRnd.x * 91.3 + aRnd.z) - 0.5) * th * 2.0;
-}
-vec2 place(float id, vec4 P){ return id > 5.5 ? framePt(P) : P.xy + shapePt(id) * P.zw; }
-void main(){
-  float ph = aRnd.z * 6.2831;
-  float dust = step(fract(aRnd.y * 31.7), 0.12);
-  vec2 dustP = vec2((fract(aRnd.z * 91.7) * 2.0 - 1.0) * uAspect, fract(aRnd.x * 53.3 + aRnd.y * 7.0) * 2.0 - 1.0);
-  dustP += 0.03 * vec2(sin(uTime * 0.07 + ph), cos(uTime * 0.05 + ph * 1.3)) * uMotion;
-  float m = clamp((uMix - aRnd.w * 0.4) / 0.6, 0.0, 1.0); m = m * m * (3.0 - 2.0 * m);
-  vec2 pos = mix(place(uA, uPA), place(uB, uPB), m);
-  float trans = sin(m * 3.14159);
-  pos += trans * 0.16 * vec2(sin(ph + uTime * 0.8), cos(ph * 1.7 + uTime * 0.6)) * uMotion; // נוזלי באמצע מעבר
-  pos += 0.004 * vec2(sin(uTime * 0.9 + ph), cos(uTime * 0.7 + ph * 2.0)) * uMotion;       // נשימה
-  float ii = clamp((uIntro - aRnd.w * 0.5) / 0.5, 0.0, 1.0); ii = ii * ii * (3.0 - 2.0 * ii);
-  pos = mix(dustP, pos, ii);
-  pos = mix(pos, dustP, dust);
-  vec2 d = pos - uMouse.xy;
-  pos += normalize(d + 1e-5) * uMouse.z * 0.12 * exp(-dot(d, d) / 0.018);
-  if (uSplash.w > 0.5){
-    vec2 ds = pos - uSplash.xy; float a = uSplash.z;
-    pos += normalize(ds + 1e-5) * 0.3 * exp(-a * 2.2) * (1.0 - exp(-a * 30.0)) * exp(-dot(ds, ds) / 0.05);
-  }
-  gl_Position = vec4(pos.x / uAspect, pos.y, 0.0, 1.0);
-  gl_PointSize = (1.1 + pow(aRnd.x, 4.0) * 3.6) * uDpr * (1.0 + 0.5 * trans);
-  float pink = step(fract(aRnd.y * 13.7), 0.11);
-  vec3 c = mix(vec3(0.953, 0.953, 0.945), vec3(0.925, 0.0, 0.549), pink);
-  vCol = vec4(c, (0.35 + 0.6 * fract(aRnd.y * 7.1 + aRnd.x)) * mix(1.0, 0.45, dust));
-}`;
-const FRAG = `precision mediump float; varying vec4 vCol;
-void main(){ float d = length(gl_PointCoord - 0.5); gl_FragColor = vec4(vCol.rgb, vCol.a * smoothstep(0.5, 0.3, d)); }`;
 
 const start = () => {
   if (!canvas) return;
-  const gl = canvas.getContext("webgl", { antialias: false, alpha: false, premultipliedAlpha: false });
-  if (!gl) { MIRI.status("צבע: אין WebGL · רקע בלי רסיסים"); return; }
-  const compile = (type, src) => {
-    const s = gl.createShader(type);
-    gl.shaderSource(s, src); gl.compileShader(s);
-    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s));
-    return s;
-  };
-  let prog;
-  try {
-    prog = gl.createProgram();
-    gl.attachShader(prog, compile(gl.VERTEX_SHADER, VERT));
-    gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, FRAG));
-    gl.linkProgram(prog);
-    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog));
-  } catch (e) {
-    console.error(e);
-    MIRI.status("צבע: ה-shader לא נבנה · רקע בלי רסיסים");
-    return;
-  }
-  gl.useProgram(prog);
-
-  // הרסיסים: מיקום בכל אחת משש הצורות, ומספרים אקראיים (גודל, צבע, מופע, השהיה)
-  let N = innerWidth < 768 ? 11000 : 22000;
-  const shapes = DRAW.map((d) => sample(d, N));
-  const attr = (name, size, data) => {
-    const loc = gl.getAttribLocation(prog, name), b = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, b); gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
-    gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, size, gl.FLOAT, false, 0, 0);
-  };
-  const pair = (a, b) => { const o = new Float32Array(N * 4); for (let i = 0; i < N; i++) o.set([a[i * 2], a[i * 2 + 1], b[i * 2], b[i * 2 + 1]], i * 4); return o; };
-  attr("aS01", 4, pair(shapes[0].pts, shapes[1].pts));
-  attr("aS23", 4, pair(shapes[2].pts, shapes[3].pts));
-  attr("aS45", 4, pair(shapes[4].pts, shapes[5].pts));
-  const r = new Float32Array(N * 4); for (let i = 0; i < r.length; i++) r[i] = Math.random();
-  attr("aRnd", 4, r);
-  const U = {};
-  ["uA", "uB", "uMix", "uTime", "uIntro", "uAspect", "uDpr", "uMotion", "uPA", "uPB", "uMouse", "uSplash"].forEach((n) => (U[n] = gl.getUniformLocation(prog, n)));
-  gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+  let renderer;
+  try { renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false }); }
+  catch (e) { MIRI.status("צבע: אין WebGL · רקע פחם בלי משיכות"); return; }
   const stage = getComputedStyle(root).getPropertyValue("--stage").trim() || "#19181D";
-  const bg = [1, 3, 5].map((i) => parseInt(stage.slice(i, i + 2), 16) / 255);
-  gl.clearColor(bg[0], bg[1], bg[2], 1);
+  renderer.setClearColor(stage, 1);
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(FOV, 1, 0.1, 50);
 
-  /* ---------- עוגנים: איפה כל צורה יושבת ---------- */
+  /* ---------- הגיאומטריה: כל משיכה היא רצועה של K×2 קודקודים ---------- */
   const anchors = [...document.querySelectorAll("[data-paint-shape]")].map((el) => ({ el, id: +el.dataset.paintShape, sec: el.closest("section, footer") || el }));
-  const placeOf = (a, W, H) => {
-    const b = a.el.getBoundingClientRect(), u = 2 / H; // יחידת מסך: חצי גובה המסך
-    const cx = ((b.left + b.right) / 2 - W / 2) * u, cy = -((b.top + b.bottom) / 2 - H / 2) * u;
-    const hw = (b.width / 2) * u, hh = (b.height / 2) * u;
-    if (a.id === 6) return [cx, cy, hw, hh];
-    const s = Math.min(hw / shapes[a.id].ex, hh / shapes[a.id].ey);
-    return [cx, cy, s, s];
-  };
+  const frameEl = anchors.find((a) => a.id === 6)?.el;
+  const setFrameAspect = () => { if (!frameEl) return; const b = frameEl.getBoundingClientRect(), m = Math.min(b.width, b.height) || 1; frameAspect = [b.width / m, b.height / m]; };
+  setFrameAspect();
+  let shapes = SHAPES.map((_, i) => buildShape(i));
+
+  const V = S * K * 2;
+  const pos = new Float32Array(V * 3), tan = new Float32Array(V * 3), off = new Float32Array(V * 2);
+  const uv = new Float32Array(V * 2), stroke = new Float32Array(V * 4);
+  const idx = [];
+  seed = 42;
+  const strokeInfo = [];
+  for (let s = 0; s < S; s++) {
+    const c = rand(), color = c < 0.66 ? 0 : c < 0.93 ? 1 : 2; // אוף-וויט / פוקסיה / פוקסיה כהה
+    const info = { width: rr(0.025, 0.075) * (rand() < 0.12 ? 1.8 : 1), seed: rand(), color, delay: rand() };
+    strokeInfo.push(info);
+    for (let k = 0; k < K; k++) for (let side = 0; side < 2; side++) {
+      const v = (s * K + k) * 2 + side;
+      uv.set([k / (K - 1), side ? 1 : -1], v * 2);
+      stroke.set([info.width, info.seed, info.color, info.delay], v * 4);
+    }
+    for (let k = 0; k < K - 1; k++) { const a = (s * K + k) * 2; idx.push(a, a + 1, a + 2, a + 1, a + 3, a + 2); }
+  }
+  const geo = new THREE.BufferGeometry();
+  const posAttr = new THREE.BufferAttribute(pos, 3).setUsage(THREE.DynamicDrawUsage);
+  const tanAttr = new THREE.BufferAttribute(tan, 3).setUsage(THREE.DynamicDrawUsage);
+  const offAttr = new THREE.BufferAttribute(off, 2).setUsage(THREE.DynamicDrawUsage);
+  geo.setAttribute("position", posAttr); geo.setAttribute("aTan", tanAttr); geo.setAttribute("aOff", offAttr);
+  geo.setAttribute("aUv", new THREE.BufferAttribute(uv, 2)); geo.setAttribute("aStroke", new THREE.BufferAttribute(stroke, 4));
+  geo.setIndex(idx);
+  geo.boundingSphere = new THREE.Sphere(new THREE.Vector3(), 100);
+
+  const mat = new THREE.ShaderMaterial({
+    transparent: true, depthTest: false, depthWrite: false, side: THREE.DoubleSide,
+    uniforms: { uScale: { value: 1 }, uIntro: { value: 0 }, uDist: { value: DIST },
+      uColors: { value: [new THREE.Color("#F3F3F1"), new THREE.Color("#EC008C"), new THREE.Color("#A8005F")] } },
+    vertexShader: `
+      attribute vec3 aTan; attribute vec2 aOff; attribute vec2 aUv; attribute vec4 aStroke;
+      uniform float uScale, uIntro, uDist;
+      varying vec2 vUv; varying vec4 vS; varying float vFade, vReveal;
+      void main(){
+        vec4 mv = modelViewMatrix * vec4(position, 1.0);
+        vec3 tv = (modelViewMatrix * vec4(aTan, 0.0)).xyz;
+        vec3 side = normalize(cross(normalize(tv + 1e-6), vec3(0.0, 0.0, 1.0)) + 1e-6);
+        float taper = pow(sin(3.14159 * clamp(aUv.x * 0.94 + 0.03, 0.0, 1.0)), 0.45) * (1.0 - 0.45 * aUv.x);
+        mv.xyz += side * aUv.y * aStroke.x * uScale * taper;
+        vec4 cp = projectionMatrix * mv;
+        cp.xy += aOff * cp.w;
+        gl_Position = cp;
+        vUv = aUv; vS = aStroke;
+        vFade = clamp(1.25 - (-mv.z - uDist) * 0.4 / max(uScale, 0.2), 0.62, 1.0);
+        vReveal = clamp((uIntro - aStroke.w * 0.55) / 0.45, 0.0, 1.0);
+      }`,
+    fragmentShader: `
+      uniform vec3 uColors[3];
+      varying vec2 vUv; varying vec4 vS; varying float vFade, vReveal;
+      float hash(vec2 p){ p = fract(p * vec2(123.34, 456.21)); p += dot(p, p + 45.32); return fract(p.x * p.y); }
+      float noise(vec2 p){ vec2 i = floor(p), f = fract(p); vec2 u = f * f * (3.0 - 2.0 * f);
+        return mix(mix(hash(i), hash(i + vec2(1.0, 0.0)), u.x), mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x), u.y); }
+      void main(){
+        float a = vUv.x, c = vUv.y, sd = vS.y * 97.0;
+        if (a > vReveal) discard;                                     // המשיכה נצבעת מההתחלה לסוף
+        float fib = noise(vec2(a * 4.0 + sd, c * 9.0 + sd));          // סיבים לאורך המשיכה
+        float fine = noise(vec2(a * 1.5 + sd * 1.7, c * 34.0));       // סיבים דקים
+        float edge = 1.0 - smoothstep(0.62, 1.0, abs(c) + (fib - 0.5) * 0.5);
+        float dry = smoothstep(0.55, 1.0, a);                          // הצבע נגמר לקראת הסוף
+        float gaps = smoothstep(0.18 + 0.45 * dry, 0.42 + 0.4 * dry, fine);
+        float alpha = edge * mix(1.0, gaps, 0.25 + 0.75 * dry) * smoothstep(0.0, 0.035, a);
+        vec3 col = vS.z < 0.5 ? uColors[0] : vS.z < 1.5 ? uColors[1] : uColors[2];
+        col *= 0.86 + 0.2 * fine + 0.08 * (1.0 - abs(c));             // גוף מעוגל ופסים של מכחול
+        col += pow(fine, 6.0) * 0.18;                                  // ברק רטוב
+        gl_FragColor = vec4(col * vFade, alpha * 0.95);
+      }`,
+  });
+  scene.add(new THREE.Mesh(geo, mat));
 
   /* ---------- קלט ---------- */
   const still = () => MIRI.reduce || root.classList.contains("a11y-motion");
-  const mouse = { x: 0, y: 0, s: 0, target: 0 };
-  let splash = null;
-  const toView = (e) => [(e.clientX - innerWidth / 2) * 2 / innerHeight, -(e.clientY - innerHeight / 2) * 2 / innerHeight];
+  const tilt = { x: 0, y: 0, tx: 0, ty: 0 };
+  let wave = null;
   addEventListener("pointermove", (e) => {
     if (still()) return;
-    [mouse.x, mouse.y] = toView(e);
-    mouse.target = e.pointerType === "mouse" || e.buttons ? 1 : mouse.target;
+    tilt.tx = (e.clientX / innerWidth - 0.5) * 2; tilt.ty = (e.clientY / innerHeight - 0.5) * 2;
     wake();
   }, { passive: true });
   addEventListener("pointerdown", (e) => {
-    if (still()) return;
-    [mouse.x, mouse.y] = toView(e); mouse.target = 1;
-    if (!e.target.closest("a, button, input, textarea, select, label, summary, .a11y")) { const [x, y] = toView(e); splash = { x, y, t: performance.now() }; }
-    wake();
+    if (still() || e.target.closest("a, button, input, textarea, select, label, summary, .a11y")) return;
+    wave = performance.now(); wake();
   }, { passive: true });
-  addEventListener("pointerup", (e) => { if (e.pointerType !== "mouse") mouse.target = 0; }, { passive: true });
-  document.addEventListener("pointerleave", () => { mouse.target = 0; wake(); });
+
+  /* ---------- מיקום: מעוגן במסך לעולם ---------- */
+  const pxPerWorld = () => innerHeight / (2 * DIST * Math.tan(THREE.MathUtils.degToRad(FOV / 2)));
+  const placeOf = (a) => {
+    const b = a.el.getBoundingClientRect();
+    const ndc = [((b.left + b.right) / 2 / innerWidth) * 2 - 1, -(((b.top + b.bottom) / 2 / innerHeight) * 2 - 1)];
+    return { ndc, scale: (Math.min(b.width, b.height) / 2) / pxPerWorld() };
+  };
 
   /* ---------- ציור ---------- */
-  let running = true, raf = 0, frozenT = 0, slow = 0, frames = 0, last = 0;
+  let running = true, raf = 0, frozenT = 0, slow = 0, frames = 0, last = 0, drawn = S;
   const t0 = performance.now();
-  let introAt = still() ? -1e9 : t0;
+  const introFrom = still() ? -1e9 : t0;
   const wake = () => { if (!raf && running) raf = requestAnimationFrame(frame); };
 
   function frame(now) {
     raf = 0;
     if (!running) return;
     const isStill = still();
-    const W = innerWidth, H = innerHeight, dpr = Math.min(devicePixelRatio || 1, 2);
-    const w = Math.round(W * dpr), h = Math.round(H * dpr);
-    if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; gl.viewport(0, 0, w, h); }
-
+    const W = innerWidth, H = innerHeight;
+    const size = renderer.getSize(new THREE.Vector2());
+    if (size.x !== W || size.y !== H) { renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2)); renderer.setSize(W, H, false); camera.aspect = W / H; camera.updateProjectionMatrix(); }
     const t = isStill ? frozenT : (now - t0) / 1000;
     if (!isStill) frozenT = t;
 
-    // הצורה של האזור שבמרכז המסך, ומעבר לבאה ב-30% האחרונים שלו
+    // הצורה של האזור שבמרכז המסך, ומעבר לבאה ב-35% האחרונים שלו
     const mid = H * 0.5;
     let k = 0, f = 0;
     anchors.forEach((a, i) => { const b = a.sec.getBoundingClientRect(); if (b.top <= mid) { k = i; f = (mid - b.top) / Math.max(b.height, 1); } });
     const A = anchors[k], B = anchors[Math.min(k + 1, anchors.length - 1)];
-    const mix = A === B ? 0 : Math.min(Math.max((f - 0.7) / 0.3, 0), 1);
-    gl.uniform1f(U.uA, A.id); gl.uniform1f(U.uB, B.id); gl.uniform1f(U.uMix, mix);
-    gl.uniform4fv(U.uPA, placeOf(A, W, H)); gl.uniform4fv(U.uPB, placeOf(B, W, H));
+    const mix = A === B ? 0 : Math.min(Math.max((f - 0.65) / 0.35, 0), 1);
+    const pa = placeOf(A), pb = placeOf(B);
+    const sA = shapes[A.id], sB = shapes[B.id];
 
-    const intro = isStill ? 1 : Math.min((now - introAt) / 2600, 1);
-    mouse.s += (mouse.target - mouse.s) * 0.08;
-    const splashAge = splash ? (now - splash.t) / 1000 : 9;
-    gl.uniform1f(U.uIntro, intro);
-    gl.uniform3f(U.uMouse, mouse.x, mouse.y, isStill ? 0 : mouse.s);
-    gl.uniform4f(U.uSplash, splash?.x ?? 0, splash?.y ?? 0, splashAge, splash && splashAge < 4 ? 1 : 0);
-    gl.uniform1f(U.uTime, t);
-    gl.uniform1f(U.uMotion, isStill ? 0 : 1);
-    gl.uniform1f(U.uAspect, W / H);
-    gl.uniform1f(U.uDpr, dpr);
-    gl.clear(gl.COLOR_BUFFER_BIT);
-    gl.drawArrays(gl.POINTS, 0, N);
+    // מצלמה אחת שמסתובבת סביב הצורה: עם הגלילה ועם הזמן, ונוטה אחרי העכבר. מול המסגרת היא מתיישרת
+    const frontal = (A.id === 6 ? 1 - mix : 0) + (B.id === 6 ? mix : 0);
+    tilt.x += (tilt.tx - tilt.x) * 0.05; tilt.y += (tilt.ty - tilt.y) * 0.05;
+    const yaw = (Math.sin(scrollY * 0.0016 + t * 0.12) * 0.95 + tilt.x * 0.22) * (1 - frontal);
+    const pitch = (Math.sin(scrollY * 0.0011 + t * 0.09 + 1) * 0.32 - tilt.y * 0.14) * (1 - frontal);
+    camera.position.set(DIST * Math.sin(yaw) * Math.cos(pitch), DIST * Math.sin(pitch), DIST * Math.cos(yaw) * Math.cos(pitch));
+    camera.lookAt(0, 0, 0);
 
-    // מכשיר איטי: חצי מהרסיסים, פעם אחת, ואומרים את זה
+    // המשיכות: כל אחת עוברת לצורה הבאה בזמן קצת אחר, ובאמצע המעבר היא נוזלת
+    const waveAge = wave ? (now - wave) / 1000 : 9;
+    const waveAmp = waveAge < 3 ? 0.12 * Math.exp(-waveAge * 1.6) : 0;
+    let alive = waveAmp > 0;
+    for (let s = 0; s < drawn; s++) {
+      const inf = strokeInfo[s];
+      let m = Math.min(Math.max((mix - inf.delay * 0.4) / 0.6, 0), 1); m = m * m * (3 - 2 * m);
+      const tr = Math.sin(m * Math.PI);
+      const sc = pa.scale + (pb.scale - pa.scale) * m;
+      const ox = pa.ndc[0] + (pb.ndc[0] - pa.ndc[0]) * m, oy = pa.ndc[1] + (pb.ndc[1] - pa.ndc[1]) * m;
+      const ph = inf.seed * TAU;
+      for (let j = 0; j < K; j++) {
+        const i3 = (s * K + j) * 3;
+        const sw = isStill ? 0 : tr * 0.55 * Math.sin(ph + j * 0.18 + t * 1.3);
+        const breathe = isStill ? 0 : 0.012 * Math.sin(t * 1.1 + j * 0.25 + ph);
+        const wv = waveAmp * Math.sin(j * 0.45 - waveAge * 10 + ph);
+        const x = (sA[i3] + (sB[i3] - sA[i3]) * m + sw * Math.cos(ph) + wv) * sc;
+        const y = (sA[i3 + 1] + (sB[i3 + 1] - sA[i3 + 1]) * m + sw * Math.sin(ph * 1.3) + breathe + wv) * sc;
+        const z = (sA[i3 + 2] + (sB[i3 + 2] - sA[i3 + 2]) * m + sw * Math.sin(ph)) * sc;
+        const v = (s * K + j) * 2;
+        pos[v * 3] = pos[v * 3 + 3] = x; pos[v * 3 + 1] = pos[v * 3 + 4] = y; pos[v * 3 + 2] = pos[v * 3 + 5] = z;
+        off[v * 2] = off[v * 2 + 2] = ox; off[v * 2 + 1] = off[v * 2 + 3] = oy;
+      }
+      // כיוון המשיכה בכל נקודה
+      for (let j = 0; j < K; j++) {
+        const a = (s * K + Math.max(j - 1, 0)) * 2, b = (s * K + Math.min(j + 1, K - 1)) * 2, v = (s * K + j) * 2;
+        const dx = pos[b * 3] - pos[a * 3], dy = pos[b * 3 + 1] - pos[a * 3 + 1], dz = pos[b * 3 + 2] - pos[a * 3 + 2];
+        tan[v * 3] = tan[v * 3 + 3] = dx; tan[v * 3 + 1] = tan[v * 3 + 4] = dy; tan[v * 3 + 2] = tan[v * 3 + 5] = dz;
+      }
+    }
+    posAttr.needsUpdate = tanAttr.needsUpdate = offAttr.needsUpdate = true;
+    geo.setDrawRange(0, (drawn * (K - 1)) * 6);
+    mat.uniforms.uScale.value = pa.scale + (pb.scale - pa.scale) * mix;
+    const intro = isStill ? 1 : Math.min((now - introFrom) / 2400, 1);
+    if (intro < 1) alive = true;
+    mat.uniforms.uIntro.value = intro;
+    renderer.render(scene, camera);
+
+    // מכשיר איטי: פחות משיכות, פעם אחת, ואומרים את זה
     if (frames < 120 && !isStill) {
       frames++;
       if (last && now - last > 40) slow++;
-      if (frames === 120 && slow > 50) { N = Math.floor(N / 2); MIRI.status("צבע: מכשיר איטי · חצי מהרסיסים"); }
+      if (frames === 120 && slow > 50) { drawn = Math.floor(S * 0.55); MIRI.status("צבע: מכשיר איטי · פחות משיכות"); }
     }
     last = now;
-
-    if (!isStill || Math.abs(mouse.target - mouse.s) > 0.01) raf = requestAnimationFrame(frame);
+    if (!isStill || alive || Math.abs(tilt.tx - tilt.x) > 0.01) raf = requestAnimationFrame(frame);
   }
 
   addEventListener("scroll", wake, { passive: true });
-  addEventListener("resize", wake);
+  addEventListener("resize", () => { clearTimeout(start.rt); start.rt = setTimeout(() => { setFrameAspect(); shapes[6] = buildShape(6); wake(); }, 150); });
   document.addEventListener("visibilitychange", () => { running = !document.hidden; if (running) wake(); });
   new MutationObserver(wake).observe(root, { attributes: true, attributeFilter: ["class"] }); // תפריט הנגישות
-  canvas.addEventListener("webglcontextlost", (e) => { e.preventDefault(); running = false; root.classList.remove("paint-on"); MIRI.status("צבע: הקשר WebGL אבד · רקע בלי רסיסים"); });
+  canvas.addEventListener("webglcontextlost", (e) => { e.preventDefault(); running = false; root.classList.remove("paint-on"); MIRI.status("צבע: הקשר WebGL אבד · רקע פחם"); });
 
   root.classList.add("paint-on");
   MIRI.paintLoaded = true;

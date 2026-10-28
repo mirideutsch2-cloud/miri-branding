@@ -17,11 +17,11 @@
 <body>
 <a class="skip" href="#main">דילוג לתוכן</a>
 
-<!-- גרסה ג (28.10, בנייה שנייה לפי הסרטון של ingrassiadaniel.it): אלפי רסיסי צבע קטנים על רקע פחם,
-     שמתקבצים לצורת צבע אחרת בכל אזור ועוברים מצורה לצורה בגלילה: ה-M של הלוגו, כתם עם טפטופים,
-     שלוש משיכות מכחול, התזה עגולה, משיכה אלכסונית, ריסוס, ומסגרת סביב יצירת הקשר.
+<!-- גרסה ג (28.10, בנייה שלישית, לפי הסרטון של ingrassiadaniel.it ובקשת מירי): משיכות מכחול בתלת-ממד על רקע פחם.
+     בכל אזור המשיכות יוצרות צורה אחרת וזורמות לבאה בגלילה: ה-M של הלוגו, כתם עם טפטופים, שלוש משיכות,
+     כדור עטוף משיכות, רצועה מתפתלת, מערבולת, ומסגרת סביב יצירת הקשר. מצלמה אחת מסתובבת סביב הצורה.
      כל צורה יושבת במקום של ה"עוגן" שלה בדף (data-paint-shape). הטקסט רגיל ונקי.
-     בלי WebGL: רקע פחם בלי רסיסים. התוכן זהה לגרסה ב. js/paint.js · css/paint.css -->
+     בלי WebGL: רקע פחם בלי משיכות. התוכן זהה לגרסה ב. js/paint.js (Three.js) · css/paint.css -->
 <canvas class="p-canvas" aria-hidden="true"></canvas>
 
 <header class="site-header site-header--b">
@@ -44,7 +44,7 @@
 
 <main class="p-page" id="main">
 
-  <!-- 1 · מסך הפתיחה: הרסיסים מתקבצים ל-M של הלוגו -->
+  <!-- 1 · מסך הפתיחה: המשיכות נצבעות ל-M של הלוגו -->
   <section class="p-hero" id="top" aria-labelledby="hero-title">
     <div class="p-anchor p-anchor--hero" data-paint-shape="0" aria-hidden="true"></div>
     <p class="label p-hero__kicker">מירי דייטש · עיצוב ובניית אתרים</p>
@@ -102,7 +102,7 @@
     </div>
   </section>
 
-  <!-- 4 · מה אני בונה: התזה עגולה, וסביבה טקסט מסתובב -->
+  <!-- 4 · מה אני בונה: כדור עטוף משיכות, וסביבו טקסט מסתובב -->
   <section class="p-sec p-sec--stack" id="services" aria-labelledby="services-title">
     <header class="p-head">
       <p class="label"><bdi dir="ltr">04</bdi></p>
@@ -147,7 +147,7 @@
     <a class="btn btn--cta" href="#contact">לשיחת היכרות על המוצר שלך</a>
   </section>
 
-  <!-- 5 · פרויקטים: משיכת מכחול אלכסונית אחת -->
+  <!-- 5 · פרויקטים: רצועה מתפתלת של משיכות -->
   <section class="p-sec" id="projects" aria-labelledby="projects-title">
     <div class="p-anchor" data-paint-shape="4" aria-hidden="true"></div>
     <div class="p-col">
@@ -186,7 +186,7 @@
     </div>
   </section>
 
-  <!-- 6 · אודות: ריסוס סביב מקום התמונה -->
+  <!-- 6 · אודות: מערבולת סביב מקום התמונה -->
   <section class="p-sec" id="about" aria-labelledby="about-title">
     <figure class="portrait p-anchor p-portrait" data-paint-shape="5">
       <span class="slot">[תמונה אמיתית של מירי · מיום הצילום]</span>
@@ -202,7 +202,7 @@
 
   <!-- המלצות: מוסתר עד שיהיו 3-4 המלצות אמיתיות. לא ממציאים. -->
 
-  <!-- 7 · פוטר: הרסיסים מציירים מסגרת סביב יצירת הקשר -->
+  <!-- 7 · פוטר: המשיכות מציירות מסגרת סביב יצירת הקשר, והמצלמה מתיישרת מולה -->
   <footer class="p-footer" id="contact">
     <div class="p-footer__cta p-anchor--frame" data-paint-shape="6">
       <p class="label"><bdi dir="ltr">07</bdi> · לשיחת היכרות</p>
