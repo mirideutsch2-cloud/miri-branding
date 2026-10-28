@@ -96,18 +96,20 @@
   );
 
   /* ---------- וואטסאפ ---------- */
-  const wa = $("[data-wa]");
-  if (!wa) { /* הכפתור הוסר לבינתיים מהדף */ }
-  else if (CONFIG.whatsappNumber) {
-    wa.href = `https://wa.me/${CONFIG.whatsappNumber}`;
-    wa.target = "_blank";
-    wa.rel = "noopener";
-  } else {
+  // כפתור צף וקישור בפוטר: אותו מספר לכולם
+  const was = $$("[data-wa]");
+  if (was.length && CONFIG.whatsappNumber) {
+    was.forEach((wa) => {
+      wa.href = `https://wa.me/${CONFIG.whatsappNumber}`;
+      wa.target = "_blank";
+      wa.rel = "noopener";
+    });
+  } else if (was.length) {
     status("וואטסאפ: אין מספר [להשלמה]");
-    wa.addEventListener("click", (e) => {
+    was.forEach((wa) => wa.addEventListener("click", (e) => {
       e.preventDefault();
       showToast("מספר הוואטסאפ עוד לא הוגדר [להשלמה].");
-    });
+    }));
   }
 
   // cloth.js הוא מודול שמייבא את Three.js. אם הייבוא נכשל, המודול לא רץ בכלל, אז בודקים מכאן
@@ -128,12 +130,12 @@
     out.textContent = "הטופס עוד לא מחובר לשום מערכת [להשלמה], ולכן הפרטים לא נשלחו.";
   });
 
-  /* ---------- הדר צף בטלפון: אחרי מסך הפתיחה מקבל רקע ---------- */
+  /* ---------- הדר דביק: שקוף מעל מסך הפתיחה, ומקבל רקע אחריו (ובעמודים בלי מסך פתיחה, תמיד) ---------- */
   const headerB = $(".site-header--b");
   const top = $("#top");
   if (headerB && top && "IntersectionObserver" in window) {
-    new IntersectionObserver(([en]) => headerB.classList.toggle("is-past", !en.isIntersecting), { rootMargin: "-64px 0px 0px 0px" }).observe(top);
-  }
+    new IntersectionObserver(([en]) => headerB.classList.toggle("is-past", !en.isIntersecting), { rootMargin: `-${headerB.offsetHeight}px 0px 0px 0px` }).observe(top);
+  } else headerB?.classList.add("is-past");
 
   /* ---------- תפריט נגישות ---------- */
   const motionStops = []; // מה שעוצר את האנימציות של GSAP, כשבוחרים "עצירת אנימציות"

@@ -123,7 +123,7 @@ const start = () => {
     ctx.drawImage(srcImage, dx, dy, dw, dh);
     // הצללה בתחתית, כמו ב-CSS של .hero__scrim
     const g = ctx.createLinearGradient(0, ch, 0, 0);
-    g.addColorStop(0, "rgba(14,13,16,.75)"); g.addColorStop(.4, "rgba(14,13,16,.5)"); g.addColorStop(.68, "rgba(14,13,16,.25)"); g.addColorStop(.88, "rgba(14,13,16,0)");
+    g.addColorStop(0, "rgba(14,13,16,.85)"); g.addColorStop(.35, "rgba(14,13,16,.7)"); g.addColorStop(.6, "rgba(14,13,16,.45)"); g.addColorStop(.8, "rgba(14,13,16,.2)"); g.addColorStop(.95, "rgba(14,13,16,0)");
     ctx.fillStyle = g; ctx.fillRect(0, 0, cw, ch);
     // המשפט, שורה אחרי שורה, בדיוק במקום של הכותרת בדף
     ctx.direction = "rtl"; ctx.textAlign = "right"; ctx.textBaseline = "alphabetic";

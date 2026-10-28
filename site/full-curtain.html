@@ -19,10 +19,11 @@
 <body>
 <a class="skip" href="#main">דילוג לתוכן</a>
 
-<!-- 0 · הדר: שקוף מעל הווילון. לוגו מימין, המבורגר לבן בשני פסים משמאל שפותח תפריט מסך מלא.
-     בטלפון ההדר צף כל הזמן, ואחרי מסך הפתיחה מקבל רקע כהה (סטייליינר, שיעור 14) -->
+<!-- 0 · הדר (סטייליינר 3, 11, 14): דביק בכל המסכים, שקוף מעל הווילון ועם רקע כהה אחריו.
+     תפריט פתוח מימין (בטלפון ובטאבלט: המבורגר צף), הלוגו באנגלית במרכז, וההנעה לפעולה משמאל -->
 <header class="site-header site-header--b">
   <a class="corner-logo" href="#top" aria-label="מירי דייטש, לראש העמוד"><svg aria-hidden="true"><use href="img/logo-miri.svg#logo-mono"/></svg></a>
+  <a class="btn btn--cta header-cta" href="#contact">לשיחת היכרות</a>
   <button class="menu-btn menu-btn--two" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="תפריט">
     <span aria-hidden="true"></span><span aria-hidden="true"></span>
   </button>
@@ -33,7 +34,7 @@
       <li><a href="#services">מה אני בונה</a></li>
       <li><a href="#projects">פרויקטים</a></li>
       <li><a href="#about">אודות</a></li>
-      <li><a class="site-menu__cta" href="#contact">לשיחת היכרות</a></li>
+      <li class="site-menu__cta-item"><a class="site-menu__cta" href="#contact">לשיחת היכרות</a></li>
     </ul>
   </nav>
 </header>
@@ -44,15 +45,20 @@
        המשפט מצויר על הבד (data-cloth-text) וזז ומתקפל איתו כמקשה אחת. הבד זז רק כשנוגעים בו (data-cloth-scroll="off").
        בלי WebGL: המשפט מוצג מעל תמונה סטטית.
        הגרסה הראשית נשארת ב-index.html; שתיהן משתמשות באותם css/js/img -->
-  <section class="hero hero--full" id="top" aria-labelledby="hero-title" data-cloth-text=".hero__title, .hero__lede" data-cloth-scroll="off">
+  <section class="hero hero--full" id="top" aria-labelledby="hero-title" data-cloth-text=".hero__kicker, .hero__title, .hero__lede" data-cloth-scroll="off">
     <figure class="hero__curtain" data-cloth-slot>
       <img class="hero__img" src="img/curtain.webp" alt="" width="1672" height="941">
     </figure>
     <canvas class="hero__canvas" aria-hidden="true"></canvas>
     <div class="hero__scrim" aria-hidden="true"></div>
     <div class="hero__text">
+      <p class="label hero__kicker">מירי דייטש · עיצוב ובניית אתרים</p>
       <h1 class="h-1 hero__title" id="hero-title">מגיעה למוצר שלך במה שנראית בינלאומית ומוכרת</h1>
       <p class="hero__lede">חנויות, אתרי תדמית ודפי נחיתה לבעלות ובעלי מוצר שרוצים לצאת לעולם עכשיו</p>
+      <div class="hero__actions">
+        <a class="btn btn--cta" href="#contact">לשיחת היכרות על המוצר שלך</a>
+        <a class="link-more" href="#projects">לפרויקטים</a>
+      </div>
     </div>
   </section>
 
@@ -79,7 +85,7 @@
         <p class="pain__after">את יוצאת לשוק בזמן, והעונה מוכרת.</p>
       </li>
     </ol>
-    <a class="cta-link" href="#contact">לשיחת היכרות על המוצר שלך</a>
+    <a class="btn btn--cta" href="#contact">לשיחת היכרות על המוצר שלך</a>
   </section>
 
   <!-- 3 · הסט + שלושת השלבים: קלוז-אפ ← התרחקות -->
@@ -101,7 +107,7 @@
           <li><span class="label callsheet__num"><bdi dir="ltr">03</bdi></span><p>השקה, עם מערכת ניהול ודיוור שמפעילים לבד.</p></li>
         </ol>
       </div>
-      <a class="cta-link" href="#contact">לשיחת היכרות על המוצר שלך</a>
+      <a class="btn btn--cta" href="#contact">לשיחת היכרות על המוצר שלך</a>
     </div>
   </section>
 
@@ -143,7 +149,7 @@
       </li>
     </ol>
     <p class="services__more">וגם: מיתוג שנותן למוצר פנים · אפליקציה שעובדת בשבילך <span class="todo">[פירוט מלא של כל חבילה: להשלמה]</span></p>
-    <a class="cta-link" href="#contact">לשיחת היכרות על המוצר שלך</a>
+    <a class="btn btn--cta" href="#contact">לשיחת היכרות על המוצר שלך</a>
   </section>
 
   <!-- 5 · פרויקטים: מסך בהיר של נייר תסריט -->
@@ -164,7 +170,7 @@
         <p>חנות בגדי ילדים · באוויר</p>
         <p>כ-6 הזמנות מאז שעלתה</p>
         <p>מה עשיתי: <span class="todo">[להשלמה]</span></p>
-        <p>עמוד הפרויקט: <span class="todo">[להשלמה]</span></p>
+        <a class="link-more" href="#" data-pending>לפרויקט המלא</a>
       </div>
     </article>
 
@@ -178,7 +184,7 @@
         <h3 class="h-2">עוגן</h3>
         <p>אתר תדמית <bdi dir="ltr">One Page</bdi> · יוצג כשיעלה</p>
         <p>מה עשיתי: <span class="todo">[להשלמה]</span></p>
-        <p>עמוד הפרויקט: <span class="todo">[להשלמה]</span></p>
+        <a class="link-more" href="#" data-pending>לפרויקט המלא</a>
       </div>
     </article>
 
@@ -192,7 +198,7 @@
         <h3 class="h-2">הבית של שרי</h3>
         <p><span class="todo">[להשלמה]</span> · יוצג כשיעלה</p>
         <p>מה עשיתי: <span class="todo">[להשלמה]</span></p>
-        <p>עמוד הפרויקט: <span class="todo">[להשלמה]</span></p>
+        <a class="link-more" href="#" data-pending>לפרויקט המלא</a>
       </div>
     </article>
 
@@ -246,15 +252,17 @@
     <div class="about__copy">
       <p class="label"><bdi dir="ltr">SCENE 06 · TAKE 1</bdi></p>
       <h2 class="h-2" id="about-title">המוצר שלך שווה שכל העולם יראה אותו, ואסור לך לתת לו להישאר <span class="accent">שקוף</span>.</h2>
-      <div class="story" data-lines>
+      <!-- הסיפור המלא (שלוש פסקאות) עובר לעמוד האודות, כשייבנה. בדף הבית נשארת פסקה אחת:
         <p>הרבה בעלות מותג עובדות שנה על המוצר, ומגיעות להשקה בלי חנות. אז הן מוכרות בוואטסאפ, או בונות לבד אתר בפלטפורמה מוכנה. אבל הבעיה האמיתית היא שהלקוחה נכנסת ולא מבינה בשנייה למה לקנות. היא יוצאת, וההשקה עוברת בשקט.</p>
-        <p>אני מכירה את הרגע הזה, כי שנים אני מעצבת מותגים. אז בניתי מסלול השקה: שיחה אחת כדי להבין את המוצר ואת מי שקונה אותו, ואז חנות בעיצוב של מותג בינלאומי, עם מערכת פשוטה לניהול ולדיוור. ומה שגורם לזה לעבוד: כל מילה בחנות כתובה כדי להוביל לקנייה.</p>
         <p>בעלות המותג שבונות אצלי משיקות לחנות שמוכרת מהיום הראשון. הלקוחה נכנסת, מבינה וקונה, בלי לשלוח אף הודעה. כל שקל בפרסום חוזר כמכירות, והן מנהלות הכול לבד. שנה של עבודה על המוצר מקבלת סוף סוף במה. ומי שמשיקה בשקט עכשיו, אלה המתחרות.</p>
+      -->
+      <div class="story" data-lines>
+        <p>אני מכירה את הרגע הזה, כי שנים אני מעצבת מותגים. אז בניתי מסלול השקה: שיחה אחת כדי להבין את המוצר ואת מי שקונה אותו, ואז חנות בעיצוב של מותג בינלאומי, עם מערכת פשוטה לניהול ולדיוור. ומה שגורם לזה לעבוד: כל מילה בחנות כתובה כדי להוביל לקנייה.</p>
       </div>
       <blockquote class="message" data-lines>
         <p>אני עוזרת לבעלות ובעלי מוצר שרוצים לצאת לעולם לפני שמישהו יקדים אותם, להיראות מהשנייה הראשונה בטופ ולמכור, באמצעות במה שלמה: סיפור, מיתוג ואתר עם חנות שהם מנהלים לבד. כי אסור לתת למוצר טוב להישאר שקוף.</p>
       </blockquote>
-      <a class="cta-link" href="#contact">לשיחת היכרות על המוצר שלך</a>
+      <a class="btn btn--cta" href="#contact">לשיחת היכרות על המוצר שלך</a>
     </div>
   </section>
 
@@ -313,10 +321,13 @@
   <svg class="footer__logo" aria-hidden="true"><use href="img/logo-miri.svg#logo-mono"/></svg>
 </footer>
 
-<!-- וואטסאפ צף הוסר לבינתיים, לבקשת מירי (27.10). הקישור לוואטסאפ נמצא בפוטר -->
+<!-- וואטסאפ צף בפינה הימנית התחתונה (סטייליינר 14, 35). כל עוד אין מספר, לחיצה מציגה הודעה -->
+<a class="wa" href="#" data-wa aria-label="וואטסאפ" title="וואטסאפ">
+  <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7a2.8 2.8 0 0 0 1.8-1.3 2.3 2.3 0 0 0 .2-1.3c-.1-.1-.2-.2-.4-.3z"/></svg>
+</a>
 <!-- רכיב נגישות: צף בפינה השמאלית התחתונה. הבחירות נשמרות בדפדפן -->
 <div class="a11y">
-  <button class="a11y__btn" type="button" aria-expanded="false" aria-controls="a11y-panel" aria-label="תפריט נגישות">
+  <button class="a11y__btn" type="button" aria-expanded="false" aria-controls="a11y-panel" aria-label="תפריט נגישות" title="נגישות">
     <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="4" r="2"/><path d="M4 7.5 12 9l8-1.5.5 2-6 1.4V14l2.2 7-2 .7L12 15.6l-2.7 6.1-2-.7 2.2-7v-3.1l-6-1.4z"/></svg>
   </button>
   <div class="a11y__panel" id="a11y-panel" role="group" aria-label="נגישות" hidden>
