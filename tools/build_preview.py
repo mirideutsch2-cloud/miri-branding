@@ -2,9 +2,10 @@
 
 The artifact viewer allows scripts only from a few CDNs and fonts only as data URIs,
 so this inlines the CSS, JS, images and fonts, and loads GSAP/Three.js from jsDelivr
-(same versions as site/vendor/). Output: build/preview/index.html (gitignored).
+(same versions as site/vendor/). Output: build/preview/<page>.html (gitignored).
 
-    python3 tools/build_preview.py
+    python3 tools/build_preview.py                    # site/index.html → build/preview/index.html
+    python3 tools/build_preview.py full-curtain.html  # site/full-curtain.html → build/preview/full-curtain.html
 """
 import base64
 import re
@@ -13,7 +14,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 SITE = ROOT / "site"
-OUT = ROOT / "build" / "preview" / "index.html"
+OUT_DIR = ROOT / "build" / "preview"
 
 CDN = {
     "vendor/gsap.min.js": "https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js",
@@ -46,7 +47,8 @@ def build_css() -> str:
 
 
 def main():
-    html = (SITE / "index.html").read_text(encoding="utf-8")
+    page = sys.argv[1] if len(sys.argv) > 1 else "index.html"
+    html = (SITE / page).read_text(encoding="utf-8")
     title = re.search(r"<title>.*?</title>", html, re.S).group(0)
     body = re.search(r"<body>(.*)</body>", html, re.S).group(1)
     html_attrs = dict(re.findall(r'(\w[\w-]*)="([^"]*)"', re.search(r"<html([^>]*)>", html).group(1)))
@@ -83,9 +85,10 @@ def main():
         f'<script type="module">\n{cloth_js}\n</script>',
         "",
     ])
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(out, encoding="utf-8")
-    print(f"{OUT.relative_to(ROOT)} · {len(out.encode()) // 1024} KB")
+    out_path = OUT_DIR / page
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(out, encoding="utf-8")
+    print(f"{out_path.relative_to(ROOT)} · {len(out.encode()) // 1024} KB")
 
 
 if __name__ == "__main__":
