@@ -17,10 +17,11 @@
 <body>
 <a class="skip" href="#main">דילוג לתוכן</a>
 
-<!-- גרסה ג (28.10): "במה מצוירת". שכבת צבע אחת (WebGL) מאחורי כל הדף: כתמים ומשיכות מכחול
-     שהופכים לכתם אחר בכל אזור, צובעים אחרי העכבר, ומתיזים כתם בלחיצה. הכיתובים הגדולים מצוירים
-     על אותה שכבה, ומתהפכים לכהה איפה שהצבע עובר מתחתם. בלי WebGL: רקע סטטי והטקסט רגיל.
-     התוכן והטקסטים זהים לגרסה ב (full-curtain.html). js/paint.js · css/paint.css -->
+<!-- גרסה ג (28.10, בנייה שנייה לפי הסרטון של ingrassiadaniel.it): אלפי רסיסי צבע קטנים על רקע פחם,
+     שמתקבצים לצורת צבע אחרת בכל אזור ועוברים מצורה לצורה בגלילה: ה-M של הלוגו, כתם עם טפטופים,
+     שלוש משיכות מכחול, התזה עגולה, משיכה אלכסונית, ריסוס, ומסגרת סביב יצירת הקשר.
+     כל צורה יושבת במקום של ה"עוגן" שלה בדף (data-paint-shape). הטקסט רגיל ונקי.
+     בלי WebGL: רקע פחם בלי רסיסים. התוכן זהה לגרסה ב. js/paint.js · css/paint.css -->
 <canvas class="p-canvas" aria-hidden="true"></canvas>
 
 <header class="site-header site-header--b">
@@ -43,23 +44,24 @@
 
 <main class="p-page" id="main">
 
-  <!-- 1 · מסך הפתיחה: כתם גדול. המשפט, הקדם-כותרת והשורה מצוירים על שכבת הצבע (data-paint-word) -->
-  <section class="p-hero" id="top" data-paint-shape="0" aria-labelledby="hero-title">
-    <div class="p-hero__inner">
-      <p class="label p-hero__kicker" data-paint-word="fill">מירי דייטש · עיצוב ובניית אתרים</p>
-      <h1 class="p-hero__title" id="hero-title" data-paint-word="fill">מגיעה למוצר שלך במה שנראית בינלאומית ומוכרת</h1>
-      <p class="p-hero__lede" data-paint-word="fill">חנויות, אתרי תדמית ודפי נחיתה לבעלות ובעלי מוצר שרוצים לצאת לעולם עכשיו</p>
-      <div class="p-actions" data-paint-shield>
+  <!-- 1 · מסך הפתיחה: הרסיסים מתקבצים ל-M של הלוגו -->
+  <section class="p-hero" id="top" aria-labelledby="hero-title">
+    <div class="p-anchor p-anchor--hero" data-paint-shape="0" aria-hidden="true"></div>
+    <p class="label p-hero__kicker">מירי דייטש · עיצוב ובניית אתרים</p>
+    <div class="p-hero__text">
+      <h1 class="p-hero__title" id="hero-title">מגיעה למוצר שלך במה שנראית בינלאומית ומוכרת</h1>
+      <p class="p-hero__lede">חנויות, אתרי תדמית ודפי נחיתה לבעלות ובעלי מוצר שרוצים לצאת לעולם עכשיו</p>
+      <div class="p-actions">
         <a class="btn btn--cta" href="#contact">לשיחת היכרות על המוצר שלך</a>
         <a class="link-more" href="#projects">לפרויקטים</a>
       </div>
     </div>
-    <p class="label p-hint" data-paint-shield aria-hidden="true"><span class="p-hint--mouse">הזיזי את העכבר כדי לצייר · לחיצה מתיזה כתם</span><span class="p-hint--touch">גררי כדי לצייר · נגיעה מתיזה כתם</span></p>
   </section>
 
-  <!-- 2 · הכאבים של הפרסונה: הכתם נוזל לטפטופים -->
-  <section class="p-sec p-split" id="pain" data-paint-shape="1" aria-labelledby="pain-title">
-    <div class="p-col" data-paint-shield>
+  <!-- 2 · הכאבים: כתם עם טפטופים -->
+  <section class="p-sec" id="pain" aria-labelledby="pain-title">
+    <div class="p-anchor" data-paint-shape="1" aria-hidden="true"></div>
+    <div class="p-col">
       <p class="label"><bdi dir="ltr">02</bdi> · זה מוכר לך?</p>
       <h2 class="h-2" id="pain-title">"המוצר שלי מדהים, אבל מחוץ למעגל הקרוב אף אחד לא יודע שהוא קיים."</h2>
       <ol class="p-pains">
@@ -83,14 +85,10 @@
     </div>
   </section>
 
-  <!-- 3 · איך זה עובד: שלוש משיכות מכחול מאחורי שלוש המילים הגדולות (מתוך "במה שלמה: סיפור, מיתוג ואתר") -->
-  <section class="p-sec p-split p-how" id="how" data-paint-shape="2" aria-labelledby="how-title">
-    <div class="p-words" aria-hidden="true">
-      <span class="p-word" data-paint-word="fill" data-paint-bar>סיפור</span>
-      <span class="p-word" data-paint-word="fill" data-paint-bar>מיתוג</span>
-      <span class="p-word" data-paint-word="fill" data-paint-bar>אתר</span>
-    </div>
-    <div class="p-col" data-paint-shield>
+  <!-- 3 · איך זה עובד: שלוש משיכות מכחול, כמו "סיפור, מיתוג ואתר" -->
+  <section class="p-sec" id="how" aria-labelledby="how-title">
+    <div class="p-anchor" data-paint-shape="2" aria-hidden="true"></div>
+    <div class="p-col">
       <p class="label"><bdi dir="ltr">03</bdi> · איך זה עובד</p>
       <h2 class="h-2" id="how-title">אני בונה למוצר שלך במה שנראית בינלאומית ומוכרת <span class="accent">מהיום הראשון</span>.</h2>
       <p class="p-dim">אני בונה לכל מוצר במה שלמה: סיפור, מיתוג ואתר שמובילים את הלקוח צעד אחרי צעד עד הקנייה, עם מערכת פשוטה שהיא מנהלת לבד.</p>
@@ -99,26 +97,23 @@
         <li><span class="label"><bdi dir="ltr">02</bdi></span><p>עיצוב ובנייה, עם טקסטים שמובילים לקנייה</p></li>
         <li><span class="label"><bdi dir="ltr">03</bdi></span><p>השקה, עם מערכת ניהול ודיוור שמפעילים לבד.</p></li>
       </ol>
-      <p class="label p-steps__note"><span class="draft">טיוטה</span> השלבים</p>
+      <p class="label p-dim"><span class="draft">טיוטה</span> השלבים</p>
       <a class="btn btn--cta" href="#contact">לשיחת היכרות על המוצר שלך</a>
     </div>
   </section>
 
-  <!-- תכשיט: פס מילים רץ, בקו מתאר -->
-  <div class="p-marquee" aria-hidden="true">
-    <div class="p-marquee__track">
-      <span>סיפור · מיתוג · אתר · במה · </span><span>סיפור · מיתוג · אתר · במה · </span><span>סיפור · מיתוג · אתר · במה · </span><span>סיפור · מיתוג · אתר · במה · </span>
-    </div>
-  </div>
-
-  <!-- 4 · מה אני בונה: הכתם מתיז לכל הכיוונים מאחורי שלושה כרטיסי זכוכית כהה -->
-  <section class="p-sec" id="services" data-paint-shape="3" aria-labelledby="services-title">
+  <!-- 4 · מה אני בונה: התזה עגולה, וסביבה טקסט מסתובב -->
+  <section class="p-sec p-sec--stack" id="services" aria-labelledby="services-title">
     <header class="p-head">
       <p class="label"><bdi dir="ltr">04</bdi></p>
       <h2 class="h-1" id="services-title">מה אני בונה</h2>
     </header>
+    <div class="p-orbit" aria-hidden="true">
+      <div class="p-anchor p-anchor--orbit" data-paint-shape="3"></div>
+      <svg class="p-orbit__ring" viewBox="0 0 200 200"><defs><path id="p-ring" d="M100,100 m-88,0 a88,88 0 1,1 176,0 a88,88 0 1,1 -176,0"/></defs><text><textPath href="#p-ring">סיפור · מיתוג · אתר · במה · סיפור · מיתוג · אתר · במה · </textPath></text></svg>
+    </div>
     <ol class="p-cards">
-      <li class="p-card p-card--lead" data-paint-attract>
+      <li class="p-card p-card--lead">
         <p class="label"><bdi dir="ltr">01</bdi> · חנות</p>
         <h3 class="h-2">חנות שמוכרת מהיום הראשון</h3>
         <ul class="p-card__items">
@@ -127,7 +122,7 @@
           <li>עיצוב ברמה של מותג</li>
         </ul>
       </li>
-      <li class="p-card" data-paint-attract>
+      <li class="p-card">
         <p class="label"><bdi dir="ltr">02</bdi> · אתר תדמית</p>
         <h3 class="h-2">אתר תדמית שבונה אמון</h3>
         <ul class="p-card__items">
@@ -137,7 +132,7 @@
           <li>טופס יצירת קשר</li>
         </ul>
       </li>
-      <li class="p-card" data-paint-attract>
+      <li class="p-card">
         <p class="label"><bdi dir="ltr">03</bdi> · דף נחיתה</p>
         <h3 class="h-2">דף נחיתה שמביא פניות</h3>
         <ul class="p-card__items">
@@ -148,77 +143,68 @@
         </ul>
       </li>
     </ol>
-    <div class="p-col" data-paint-shield>
-      <p class="p-dim">וגם: מיתוג שנותן למוצר פנים · אפליקציה שעובדת בשבילך <span class="todo">[פירוט מלא של כל חבילה: להשלמה]</span></p>
-      <a class="btn btn--cta" href="#contact">לשיחת היכרות על המוצר שלך</a>
-    </div>
+    <p class="p-dim">וגם: מיתוג שנותן למוצר פנים · אפליקציה שעובדת בשבילך <span class="todo">[פירוט מלא של כל חבילה: להשלמה]</span></p>
+    <a class="btn btn--cta" href="#contact">לשיחת היכרות על המוצר שלך</a>
   </section>
 
-  <!-- 5 · פרויקטים: הצבע נאסף לטבעת. שורות ענק, וריחוף מושך אליו את הצבע ומציג תצוגה מקדימה -->
-  <section class="p-sec p-split" id="projects" data-paint-shape="4" aria-labelledby="projects-title">
-    <div class="p-col p-col--wide">
-      <header class="p-head" data-paint-shield>
-        <p class="label"><bdi dir="ltr">05</bdi></p>
-        <h2 class="h-2" id="projects-title">פרויקטים</h2>
-      </header>
+  <!-- 5 · פרויקטים: משיכת מכחול אלכסונית אחת -->
+  <section class="p-sec" id="projects" aria-labelledby="projects-title">
+    <div class="p-anchor" data-paint-shape="4" aria-hidden="true"></div>
+    <div class="p-col">
+      <p class="label"><bdi dir="ltr">05</bdi></p>
+      <h2 class="h-1" id="projects-title">פרויקטים</h2>
       <ol class="p-rows">
-        <li class="p-row" data-paint-attract data-preview="[צילום מסך במוקאפ · לבהבר]">
+        <li class="p-row">
           <p class="label"><bdi dir="ltr">01</bdi></p>
-          <h3 class="h-1 p-row__name">לבהבר</h3>
-          <div class="p-row__meta" data-paint-shield>
-            <p>חנות בגדי ילדים · באוויר · כ-6 הזמנות מאז שעלתה</p>
-            <p>מה עשיתי: <span class="todo">[להשלמה]</span></p>
+          <div>
+            <h3 class="h-2">לבהבר</h3>
+            <p class="p-dim">חנות בגדי ילדים · באוויר · כ-6 הזמנות מאז שעלתה</p>
+            <p class="p-dim">מה עשיתי: <span class="todo">[להשלמה]</span></p>
             <a class="link-more" href="#" data-pending>לפרויקט המלא</a>
           </div>
-          <div class="mock p-row__mock" aria-hidden="true"><div class="mock__bar"><i></i><i></i><i></i></div><div class="mock__screen"><span class="slot">[צילום מסך במוקאפ · לבהבר]</span></div></div>
         </li>
-        <li class="p-row" data-paint-attract data-preview="[צילום מסך במוקאפ · עוגן]">
+        <li class="p-row">
           <p class="label"><bdi dir="ltr">02</bdi></p>
-          <h3 class="h-1 p-row__name">עוגן</h3>
-          <div class="p-row__meta" data-paint-shield>
-            <p>אתר תדמית <bdi dir="ltr">One Page</bdi> · יוצג כשיעלה</p>
-            <p>מה עשיתי: <span class="todo">[להשלמה]</span></p>
+          <div>
+            <h3 class="h-2">עוגן</h3>
+            <p class="p-dim">אתר תדמית <bdi dir="ltr">One Page</bdi> · יוצג כשיעלה</p>
+            <p class="p-dim">מה עשיתי: <span class="todo">[להשלמה]</span></p>
             <a class="link-more" href="#" data-pending>לפרויקט המלא</a>
           </div>
-          <div class="mock p-row__mock" aria-hidden="true"><div class="mock__bar"><i></i><i></i><i></i></div><div class="mock__screen"><span class="slot">[צילום מסך במוקאפ · עוגן]</span></div></div>
         </li>
-        <li class="p-row" data-paint-attract data-preview="[צילום מסך במוקאפ · הבית של שרי]">
+        <li class="p-row">
           <p class="label"><bdi dir="ltr">03</bdi></p>
-          <h3 class="h-1 p-row__name">הבית של שרי</h3>
-          <div class="p-row__meta" data-paint-shield>
-            <p><span class="todo">[להשלמה]</span> · יוצג כשיעלה</p>
-            <p>מה עשיתי: <span class="todo">[להשלמה]</span></p>
+          <div>
+            <h3 class="h-2">הבית של שרי</h3>
+            <p class="p-dim"><span class="todo">[להשלמה]</span> · יוצג כשיעלה</p>
+            <p class="p-dim">מה עשיתי: <span class="todo">[להשלמה]</span></p>
             <a class="link-more" href="#" data-pending>לפרויקט המלא</a>
           </div>
-          <div class="mock p-row__mock" aria-hidden="true"><div class="mock__bar"><i></i><i></i><i></i></div><div class="mock__screen"><span class="slot">[צילום מסך במוקאפ · הבית של שרי]</span></div></div>
         </li>
       </ol>
-      <a class="link-more" href="#" data-pending data-paint-shield>לכל הפרויקטים</a>
+      <a class="link-more" href="#" data-pending>לכל הפרויקטים</a>
     </div>
   </section>
 
-  <!-- 6 · אודות: "שקוף" בקו מתאר בלבד, ומשיכת מכחול שעוברת עליו בגלילה וממלאת אותו -->
-  <section class="p-sec p-about" id="about" data-paint-shape="5" aria-labelledby="about-title">
-    <p class="p-ghost" data-paint-word="outline" aria-hidden="true">שקוף</p>
-    <div class="p-split">
-      <div class="p-col" data-paint-shield>
-        <p class="label"><bdi dir="ltr">06</bdi> · אודות</p>
-        <h2 class="h-2" id="about-title">המוצר שלך שווה שכל העולם יראה אותו, ואסור לך לתת לו להישאר <span class="accent">שקוף</span>.</h2>
-        <p class="p-dim">אני מכירה את הרגע הזה, כי שנים אני מעצבת מותגים. אז בניתי מסלול השקה: שיחה אחת כדי להבין את המוצר ואת מי שקונה אותו, ואז חנות בעיצוב של מותג בינלאומי, עם מערכת פשוטה לניהול ולדיוור. ומה שגורם לזה לעבוד: כל מילה בחנות כתובה כדי להוביל לקנייה.</p>
-        <blockquote class="message"><p>אני עוזרת לבעלות ובעלי מוצר שרוצים לצאת לעולם לפני שמישהו יקדים אותם, להיראות מהשנייה הראשונה בטופ ולמכור, באמצעות במה שלמה: סיפור, מיתוג ואתר עם חנות שהם מנהלים לבד. כי אסור לתת למוצר טוב להישאר שקוף.</p></blockquote>
-        <a class="btn btn--cta" href="#contact">לשיחת היכרות על המוצר שלך</a>
-      </div>
-      <figure class="portrait p-portrait" data-paint-shield>
-        <span class="slot">[תמונה אמיתית של מירי · מיום הצילום]</span>
-      </figure>
+  <!-- 6 · אודות: ריסוס סביב מקום התמונה -->
+  <section class="p-sec" id="about" aria-labelledby="about-title">
+    <figure class="portrait p-anchor p-portrait" data-paint-shape="5">
+      <span class="slot">[תמונה אמיתית של מירי · מיום הצילום]</span>
+    </figure>
+    <div class="p-col">
+      <p class="label"><bdi dir="ltr">06</bdi> · אודות</p>
+      <h2 class="h-2" id="about-title">המוצר שלך שווה שכל העולם יראה אותו, ואסור לך לתת לו להישאר <span class="accent">שקוף</span>.</h2>
+      <p class="p-dim">אני מכירה את הרגע הזה, כי שנים אני מעצבת מותגים. אז בניתי מסלול השקה: שיחה אחת כדי להבין את המוצר ואת מי שקונה אותו, ואז חנות בעיצוב של מותג בינלאומי, עם מערכת פשוטה לניהול ולדיוור. ומה שגורם לזה לעבוד: כל מילה בחנות כתובה כדי להוביל לקנייה.</p>
+      <blockquote class="message"><p>אני עוזרת לבעלות ובעלי מוצר שרוצים לצאת לעולם לפני שמישהו יקדים אותם, להיראות מהשנייה הראשונה בטופ ולמכור, באמצעות במה שלמה: סיפור, מיתוג ואתר עם חנות שהם מנהלים לבד. כי אסור לתת למוצר טוב להישאר שקוף.</p></blockquote>
+      <a class="btn btn--cta" href="#contact">לשיחת היכרות על המוצר שלך</a>
     </div>
   </section>
 
   <!-- המלצות: מוסתר עד שיהיו 3-4 המלצות אמיתיות. לא ממציאים. -->
 
-  <!-- 7 · פוטר: הצבע מציף את כל המסך, והבמה כולה פוקסיה -->
+  <!-- 7 · פוטר: הרסיסים מציירים מסגרת סביב יצירת הקשר -->
   <footer class="p-footer" id="contact">
-    <div class="p-footer__cta">
+    <div class="p-footer__cta p-anchor--frame" data-paint-shape="6">
       <p class="label"><bdi dir="ltr">07</bdi> · לשיחת היכרות</p>
       <h2 class="h-2" id="contact-title">השאירי פרטים, ותוך 24 שעות אחזור אלייך לשיחה קצרה על המוצר שלך. <span class="draft">טיוטה</span></h2>
       <form class="form" aria-labelledby="contact-title" novalidate>
@@ -263,9 +249,6 @@
   </footer>
 
 </main>
-
-<!-- תצוגה מקדימה שעוקבת אחרי העכבר בריחוף על פרויקט (דסקטופ) -->
-<div class="p-preview mock" aria-hidden="true"><div class="mock__bar"><i></i><i></i><i></i></div><div class="mock__screen"><span class="slot"></span></div></div>
 
 <a class="wa" href="#" data-wa aria-label="וואטסאפ" title="וואטסאפ">
   <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7a2.8 2.8 0 0 0 1.8-1.3 2.3 2.3 0 0 0 .2-1.3c-.1-.1-.2-.2-.4-.3z"/></svg>

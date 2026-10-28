@@ -1,33 +1,29 @@
-/* גרסה ג (paint.html): "במה מצוירת". נטען אחרי site.css, וכל המחלקות כאן קיימות רק בגרסה ג (קידומת p-).
-   שכבת הצבע (js/paint.js) היא canvas קבוע מאחורי הדף. בלעדיה (.paint-on חסר) הדף עובד עם רקע סטטי וטקסט רגיל. */
+/* גרסה ג (paint.html): רסיסי צבע. נטען אחרי site.css, וכל המחלקות כאן קיימות רק בגרסה ג (קידומת p-).
+   בנייה שנייה (28.10), לפי הסרטון של ingrassiadaniel.it: רקע פחם, אלפי רסיסים קטנים שמתקבצים לצורות,
+   וטקסט נקי מעליהם. כל צורה יושבת במקום של ה"עוגן" שלה (.p-anchor / data-paint-shape). */
 
+:root:has(.p-page){--stage:#19181D} /* פחם, קצת בהיר מהכהה של המותג, כמו ברפרנס */
+html:has(.p-page),body:has(.p-page){background:var(--stage)}
 .p-canvas{position:fixed;inset:0;z-index:0;display:block;width:100%;height:100%;pointer-events:none}
-.p-page{position:relative;z-index:1;overflow-x:clip}
-/* מילים שמצוירות על שכבת הצבע: נשארות בדף לנגישות ולפריסה, שקופות כשהשכבה פעילה */
-.paint-on [data-paint-word]{color:transparent!important;-webkit-text-stroke:0 transparent!important}
-/* בלי WebGL: כתמים סטטיים ורכים ברקע */
 html:not(.paint-on) .p-canvas{display:none}
-html:not(.paint-on) body:has(.p-page){background:radial-gradient(38% 32% at 24% 28%, rgba(236,0,140,.28), transparent 70%) fixed, radial-gradient(30% 26% at 78% 74%, rgba(236,0,140,.18), transparent 70%) fixed, var(--dark)}
+.p-page{position:relative;z-index:1;overflow-x:clip}
+.p-anchor{pointer-events:none}
 
-/* ---------- 1 · מסך הפתיחה ---------- */
-.p-hero{position:relative;display:grid;align-items:end;min-height:max(100svh, 34rem);padding:calc(var(--header-h) + var(--gap-l)) var(--margin) calc(var(--frame) + 4.5rem)}
-.p-hero__inner{display:flex;flex-direction:column;gap:var(--gap-s);max-width:100%}
-.p-hero__kicker{color:var(--on-dark)}
-.p-hero__title{font-family:var(--font-display);font-weight:800;font-size:min(calc((100vw - 2 * var(--margin)) / 8.4), 12svh, 8rem);line-height:.95;color:var(--on-dark);text-wrap:balance}
+/* ---------- 1 · מסך הפתיחה: הטקסט מימין, ה-M משמאל (בטלפון: ה-M בין הכותרת המקדימה לטקסט), בלי חפיפה ---------- */
+.p-hero{position:relative;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));grid-template-rows:auto minmax(0,1fr);gap:var(--gap-m);min-height:max(100svh, 36rem);padding:calc(var(--header-h) + var(--gap-m)) var(--margin) calc(var(--frame) + 4.5rem)}
+.p-hero__kicker{grid-column:1 / -1;color:var(--on-dark-dim)}
+.p-anchor--hero{grid-column:8 / span 5;grid-row:2;min-height:12rem}
+.p-hero__text{grid-column:1 / span 7;grid-row:2;align-self:end;display:flex;flex-direction:column;gap:var(--gap-s)}
+.p-hero__title{font-family:var(--font-display);font-weight:800;font-size:min(calc((100vw - 2 * var(--margin)) * .07), 11svh, 7rem);line-height:.95;color:var(--on-dark);text-wrap:balance}
 .p-hero__lede{max-width:34rem;color:var(--on-dark);text-wrap:balance}
 .p-actions{display:flex;flex-wrap:wrap;align-items:center;gap:var(--gap-m) var(--gap-l);margin-block-start:var(--gap-s)}
 .p-actions .link-more{color:var(--on-dark)}
-.p-hint{position:absolute;inset-inline:0;bottom:calc(var(--frame) + 1.1rem);width:max-content;max-width:calc(100% - 9rem);margin-inline:auto;text-align:center;color:var(--on-dark-dim)}
-.p-hint--touch{display:none}
-@media (hover:none){ .p-hint--mouse{display:none} .p-hint--touch{display:inline} }
-html:not(.paint-on) .p-hint,.a11y-motion .p-hint{display:none}
 
-/* ---------- אזורים: גריד של 12 עמודות. התוכן מימין (7), הצבע משמאל ---------- */
-.p-sec{position:relative;padding:var(--section) var(--margin)}
-.p-split{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--gap-l) var(--gap-m);align-items:start}
-.p-col{grid-column:1 / span 6;display:flex;flex-direction:column;gap:var(--gap-m);max-width:40rem}
-.p-col--wide{grid-column:1 / span 8;max-width:none}
-.p-head{display:flex;flex-direction:column;gap:var(--gap-s);margin-block-end:var(--gap-l)}
+/* ---------- אזורים: התוכן מימין, והצורה משמאל ונשארת במקום בזמן הקריאה ---------- */
+.p-sec{position:relative;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--gap-l) var(--gap-m);align-items:start;padding:var(--section) var(--margin)}
+.p-sec > .p-anchor{grid-column:7 / span 6;grid-row:1;position:sticky;top:calc(var(--header-h) + 6svh);width:100%;max-width:34rem;aspect-ratio:1;max-height:calc(100svh - var(--header-h) - 12svh);justify-self:center}
+.p-col{grid-column:1 / span 6;grid-row:1;display:flex;flex-direction:column;gap:var(--gap-m);max-width:40rem}
+.p-head{display:flex;flex-direction:column;gap:var(--gap-s)}
 .p-dim{color:var(--on-dark-dim)}
 
 /* 2 · כאבים */
@@ -38,79 +34,56 @@ html:not(.paint-on) .p-hint,.a11y-motion .p-hint{display:none}
 .p-pains li > .p-pains__after{color:var(--on-dark);font-weight:700}
 .p-pains__after::before{content:"← ";color:var(--fuchsia)}
 
-/* 3 · איך זה עובד: שלוש מילים ענקיות משמאל */
-.p-words{grid-column:7 / span 6;grid-row:1;display:flex;flex-direction:column;align-items:flex-end;gap:.15em;padding-block-start:var(--gap-m);font-family:var(--font-display);font-weight:800;font-size:clamp(3.5rem, 1rem + 8.5vw, 10rem);line-height:.9;color:var(--on-dark)}
-.p-word{display:block;width:max-content}
-.p-how .p-col{grid-row:1}
+/* 3 · שלבים */
 .p-steps{display:grid}
 .p-steps li{display:grid;grid-template-columns:3rem minmax(0,1fr);gap:var(--gap-s);align-items:baseline;padding-block:var(--gap-s);border-top:1px solid var(--line-dark)}
 .p-steps .label{color:var(--on-dark-dim)}
-.p-steps__note{color:var(--on-dark-dim)}
 
-/* תכשיט: פס מילים רץ בקו מתאר */
-.p-marquee{position:relative;overflow:hidden;padding-block:var(--gap-m);border-block:1px solid var(--line-dark)}
-.p-marquee__track{display:flex;width:max-content;direction:ltr;animation:p-marquee 48s linear infinite}
-.p-marquee span{direction:rtl;padding-inline-end:.4em;white-space:nowrap;font-family:var(--font-display);font-weight:800;font-size:var(--fs-1);line-height:1;color:transparent;-webkit-text-stroke:1.5px var(--on-dark-dim)}
-@keyframes p-marquee{to{transform:translateX(-50%)}}
-@media (prefers-reduced-motion:reduce){ .p-marquee__track{animation:none} }
-
-/* 4 · מה אני בונה: כרטיסי זכוכית כהה מעל הכתם */
-.p-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap-m);margin-block-end:var(--gap-l)}
-.p-card{display:flex;flex-direction:column;gap:var(--gap-m);padding:var(--gap-m);background:rgba(14,13,16,.62);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:1px solid var(--line-dark);border-radius:var(--r-m);box-shadow:0 15px 30px rgba(0,0,0,.1);transition:border-color .4s var(--ease),scale .4s var(--ease)}
-.p-card:hover{scale:1.02;border-color:rgba(243,243,241,.4)}
-.p-card--lead{border-color:var(--fuchsia)}
-.p-card--lead:hover{border-color:var(--fuchsia)}
+/* 4 · מה אני בונה: עיגול באמצע, טקסט מסתובב סביבו, וכרטיסים מתחת */
+.p-sec--stack{display:flex;flex-direction:column;gap:var(--gap-l)}
+.p-orbit{position:relative;width:min(30rem, 84vw);aspect-ratio:1;align-self:center}
+.p-anchor--orbit{position:absolute;inset:14%}
+.p-orbit__ring{position:absolute;inset:0;width:100%;height:100%;overflow:visible;animation:p-spin 40s linear infinite}
+.p-orbit__ring text{font-family:var(--font-body);font-size:var(--fs-label);font-weight:700;letter-spacing:.12em;fill:var(--on-dark-dim)}
+@keyframes p-spin{to{transform:rotate(-360deg)}}
+@media (prefers-reduced-motion:reduce){ .p-orbit__ring{animation:none} }
+.p-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap-m)}
+.p-card{display:flex;flex-direction:column;gap:var(--gap-m);padding:var(--gap-m);background:rgba(25,24,29,.72);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid var(--line-dark);border-radius:var(--r-m);transition:border-color .4s var(--ease)}
+.p-card:hover{border-color:rgba(243,243,241,.45)}
+.p-card--lead{border-color:rgba(236,0,140,.7)}
 .p-card > .label{color:var(--on-dark-dim)}
 .p-card__items{display:grid}
 .p-card__items li{padding-block:.5rem;border-top:1px solid var(--line-dark);color:var(--on-dark-dim)}
 
-/* 5 · פרויקטים: שורות ענק */
-.p-rows{display:grid;margin-block-end:var(--gap-l)}
-.p-row{display:grid;grid-template-columns:3rem minmax(0,1fr);gap:var(--gap-s) var(--gap-m);align-items:baseline;padding-block:var(--gap-m);border-top:1px solid var(--line-dark)}
+/* 5 · פרויקטים */
+.p-rows{display:grid}
+.p-row{display:grid;grid-template-columns:3rem minmax(0,1fr);gap:var(--gap-m);align-items:baseline;padding-block:var(--gap-m);border-top:1px solid var(--line-dark)}
+.p-row > div{display:flex;flex-direction:column;align-items:flex-start;gap:.35rem}
 .p-row > .label{color:var(--on-dark-dim)}
-.p-row__name{grid-column:2;transition:color .4s var(--ease)}
-.p-row:hover .p-row__name,.p-row:focus-within .p-row__name{color:var(--fuchsia)}
-.p-row__meta{grid-column:2;display:flex;flex-direction:column;align-items:flex-start;gap:.25rem;color:var(--on-dark-dim)}
-.p-row__mock{display:none;grid-column:1 / -1}
-.p-preview{position:fixed;z-index:40;left:0;top:0;width:clamp(15rem, 10rem + 12vw, 24rem);pointer-events:none;opacity:0;scale:.92;transition:opacity .35s var(--ease),scale .35s var(--ease)}
-.p-preview.is-on{opacity:1;scale:1}
-@media (hover:none),(max-width:860px){
-  .p-preview{display:none}
-  .p-row__mock{display:block}
-}
+.p-row h3{transition:color .4s var(--ease)}
+.p-row:hover h3,.p-row:focus-within h3{color:var(--fuchsia)}
 
-/* 6 · אודות */
-.p-ghost{font-family:var(--font-display);font-weight:800;font-size:clamp(5rem, 1rem + 19vw, 20rem);line-height:.9;color:transparent;-webkit-text-stroke:1.5px var(--on-dark);margin-block-end:var(--gap-l);width:max-content;max-width:100%}
-.p-about .p-split{align-items:center}
-.p-portrait{grid-column:8 / span 5;width:100%;max-width:26rem;justify-self:end}
+/* 6 · אודות: מקום התמונה הוא העוגן של הריסוס */
+.p-portrait{background:rgba(25,24,29,.35)}
 
-/* 7 · פוטר: הבמה פוקסיה. בלי WebGL הרקע פוקסיה ב-CSS, ועם WebGL הצבע מציף אותו מלמטה */
-.p-footer{position:relative;display:grid;grid-template-columns:minmax(0,1fr);gap:var(--gap-l);padding:var(--section) var(--margin) 0;background:var(--fuchsia);color:var(--on-light);overflow:clip}
-.paint-on .p-footer{background:transparent}
-.p-footer__cta{display:flex;flex-direction:column;gap:var(--gap-m);max-width:44rem}
-.p-footer .label,.p-footer .footer__col > .label,.p-footer .footer__credit{color:var(--on-light)}
-.p-footer .field input{border-bottom-color:rgba(14,13,16,.55)}
-.p-footer .field input:focus-visible{border-bottom-color:var(--dark)}
-.p-footer :focus-visible{outline-color:var(--dark)}
-.p-footer .btn--cta{background:var(--dark);color:var(--on-dark);box-shadow:0 10px 20px rgba(14,13,16,.25)}
-.p-footer .btn--cta:hover{background:#000000}
-.p-footer .footer__cols{border-top-color:rgba(14,13,16,.3)}
-.p-footer .footer__col a:hover{color:var(--on-dark)}
-.p-footer .todo{background:rgba(14,13,16,.12);border-bottom-color:var(--dark)}
-.p-footer .draft{border-color:var(--dark)}
-.p-footer .footer__logo{--logo-mono:var(--dark)}
-.p-page ~ .wa{border:2px solid var(--dark)} /* כדי שיראו אותו גם מעל הפוטר הפוקסיה */
+/* 7 · פוטר: הרסיסים מציירים מסגרת סביב יצירת הקשר */
+.p-footer{position:relative;display:grid;grid-template-columns:minmax(0,1fr);gap:var(--gap-l);padding:var(--section) var(--margin) 0;overflow:clip}
+.p-footer__cta{display:flex;flex-direction:column;gap:var(--gap-m);width:100%;max-width:46rem;justify-self:center;padding:clamp(1.5rem, 1rem + 3vw, 3.5rem)}
 
 /* ---------- טאבלט וטלפון ---------- */
 @media (max-width:1023px){
-  .p-col,.p-col--wide{grid-column:1 / -1}
-  .p-words{grid-column:1 / -1;grid-row:auto;align-items:flex-start;padding-block:0 var(--gap-m)}
-  .p-how .p-col{grid-row:auto}
-  .p-portrait{grid-column:1 / -1;justify-self:start}
+  .p-hero{grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(9rem,1fr) auto}
+  .p-anchor--hero,.p-hero__text{grid-column:1}
+  .p-hero__text{grid-row:3}
+  .p-hero__title{font-size:min(calc((100vw - 2 * var(--margin)) / 8.4), 9svh, 6rem)}
+  .p-sec{grid-template-columns:minmax(0,1fr)}
+  .p-sec > .p-anchor{grid-column:1;grid-row:auto;position:relative;top:auto;max-width:24rem}
+  .p-col{grid-column:1;grid-row:auto}
+  .p-portrait{max-width:20rem}
 }
 @media (max-width:860px){
   .p-cards{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:var(--gap-s);margin-inline:calc(-1 * var(--margin));padding-inline:var(--margin);scroll-padding-inline:var(--margin);scrollbar-width:none}
   .p-cards::-webkit-scrollbar{display:none}
   .p-card{flex:0 0 82%;scroll-snap-align:start}
-  .p-row{grid-template-columns:2.25rem minmax(0,1fr)}
 }
+.p-sec > .p-portrait{aspect-ratio:4/5}
