@@ -18,7 +18,7 @@
 | גרסה | קובץ | בנייה | לינק |
 |---|---|---|---|
 | ראשית: לוגו למעלה, וילון מתחת | `site/index.html` | `python3 tools/build_preview.py` | https://claude.ai/artifact/JutQj2DWXcEV9226Y5ceb4 |
-| ג: במה מצוירת, כתמי צבע ב-WebGL (28.10) | `site/paint.html` | `python3 tools/build_preview.py paint.html` | [ייווצר בפרסום הראשון] |
+| ג: במה מצוירת, כתמי צבע ב-WebGL (28.10) | `site/paint.html` | `python3 tools/build_preview.py paint.html` ואז אותם עמודי מידע עם `--doc` | https://claude.ai/artifact/ADWLUosTKqW1YxUZrjH9tG |
 | ב: וילון על כל המסך ועליו המשפט (28.10) | `site/full-curtain.html` | `python3 tools/build_preview.py full-curtain.html` ואז `python3 tools/build_preview.py --doc accessibility.html privacy.html terms.html 404.html` | https://claude.ai/artifact/LrB7h5tWJgd6WaNfNRVzUT |
 
 לגרסה ב יש ארבעה עמודי מידע (נגישות, פרטיות, תנאים, 404). מפרסמים אותם באותו artifact כקבצים נוספים (`files`), בשמות `accessibility.html`, `privacy.html`, `terms.html`, `404.html`. הסקריפט בונה את `build/preview/<קובץ>` כקובץ אחד, ו-`build/` לא נכנס לגיט. שתי הגרסאות משתמשות באותם `css`, `js` ו-`img`, אז שינוי משותף מחייב לפרסם את שתיהן. מסיימים את הסיכום בלינקים.
