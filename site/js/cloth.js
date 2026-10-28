@@ -9,8 +9,10 @@ const canvas = hero?.querySelector(".hero__canvas");
 const slot = hero?.querySelector("[data-cloth-slot]");
 const img = slot?.querySelector("img");
 const hint = hero?.querySelector("[data-cloth-hint]");
+const scrollOff = hero?.dataset.clothScroll === "off";
 
 const fallbackSlide = (why) => {
+  if (scrollOff) { MIRI.status(`וילון: ${why} · תמונה סטטית`); return; }
   MIRI.status(`וילון: ${why} · תמונה סטטית שנפתחת הצידה`);
   if (!window.gsap || !window.ScrollTrigger) return;
   gsap.to(img, {
@@ -82,7 +84,7 @@ const start = () => {
   });
 
   let NX = 1, NY = 1;
-  let pos, prev, pinned, constraints;
+  let pos, prev, rest, pinned, constraints;
   let geometry, mesh;
   let W = 1, H = 1;
 
@@ -154,6 +156,7 @@ const start = () => {
     const count = (NX + 1) * (NY + 1);
     pos = new Float32Array(count * 3);
     prev = new Float32Array(count * 3);
+    rest = new Float32Array(count * 3);
     pinned = new Uint8Array(count);
 
     if (clothText) {
@@ -175,9 +178,9 @@ const start = () => {
     for (let j = 0; j <= NY; j++) {
       for (let i = 0; i <= NX; i++) {
         const k = idx(i, j) * 3;
-        pos[k] = prev[k] = x0 + (i / NX) * cw;
-        pos[k + 1] = prev[k + 1] = y0 - (j / NY) * ch;
-        pos[k + 2] = prev[k + 2] = 0;
+        pos[k] = prev[k] = rest[k] = x0 + (i / NX) * cw;
+        pos[k + 1] = prev[k + 1] = rest[k + 1] = y0 - (j / NY) * ch;
+        pos[k + 2] = prev[k + 2] = rest[k + 2] = 0;
         pinned[idx(i, j)] = j === 0 ? 1 : 0; // הווילון תלוי לאורך הקו העליון
       }
     }
@@ -204,7 +207,7 @@ const start = () => {
     scene.add(mesh);
     grabbed = -1;
     renderer.render(scene, camera);
-    wake();
+    if (!scrollOff) wake(); // עם data-cloth-scroll="off" הבד נשאר שטוח ודומם עד שנוגעים בו
   };
 
   // ---------- סימולציה ----------
@@ -212,6 +215,7 @@ const start = () => {
   const DAMP = 0.985;
   const ITER = 14;
   const STEP = 1 / 60;
+  const RETURN = 0.08;
   let impulse = 0;
   let grabbed = -1;
   const grabTarget = new THREE.Vector3();
@@ -221,18 +225,27 @@ const start = () => {
     time += STEP;
     const imp = impulse;
     impulse *= 0.5;
+    // עם data-cloth-scroll="off": כשמשחררים, הבד חוזר לשטוח ונעצר (בלי כוח משיכה ועם ריסון חזק יותר)
+    const settle = scrollOff && grabbed < 0;
+    const damp = settle ? 0.9 : DAMP;
+    const gravity = settle ? 0 : GRAVITY;
     for (let j = 1; j <= NY; j++) {
       const fall = j / NY;
       for (let i = 0; i <= NX; i++) {
         const k = idx(i, j) * 3;
-        const vx = (pos[k] - prev[k]) * DAMP;
-        const vy = (pos[k + 1] - prev[k + 1]) * DAMP;
-        const vz = (pos[k + 2] - prev[k + 2]) * DAMP;
+        const vx = (pos[k] - prev[k]) * damp;
+        const vy = (pos[k + 1] - prev[k + 1]) * damp;
+        const vz = (pos[k + 2] - prev[k + 2]) * damp;
         prev[k] = pos[k]; prev[k + 1] = pos[k + 1]; prev[k + 2] = pos[k + 2];
         // רוח מהגלילה: חזקה יותר למטה, עם גל לרוחב, כמו וילון
         const wave = 0.55 + 0.45 * Math.sin(i * 0.6 + time * 3);
         pos[k] += vx + imp * 0.04 * fall * wave;
-        pos[k + 1] += vy + GRAVITY * STEP * STEP;
+        pos[k + 1] += vy + gravity * STEP * STEP;
+        if (settle) { // חוזר בעדינות למצב השטוח
+          pos[k] += (rest[k] - pos[k]) * RETURN;
+          pos[k + 1] += (rest[k + 1] - pos[k + 1]) * RETURN;
+          pos[k + 2] += (rest[k + 2] - pos[k + 2]) * RETURN;
+        }
         pos[k + 2] += vz + imp * 0.6 * fall * wave;
       }
     }
@@ -267,14 +280,25 @@ const start = () => {
     acc += dt;
     let n = 0;
     while (acc >= STEP && n < 3) { step(); acc -= STEP; n++; }
+    // התזוזה הגדולה ביותר של נקודה אחת (סכום של כל הנקודות ברשת צפופה אף פעם לא מגיע לאפס)
     let motion = 0;
-    for (let k = 0; k < pos.length; k++) motion += Math.abs(pos[k] - prev[k]);
+    for (let k = 0; k < pos.length; k++) { const d = Math.abs(pos[k] - prev[k]); if (d > motion) motion = d; }
     geometry.attributes.position.array.set(pos);
     geometry.attributes.position.needsUpdate = true;
     geometry.computeVertexNormals();
     renderer.render(scene, camera);
-    quiet = motion < 0.5 && grabbed < 0 && Math.abs(impulse) < 0.1 ? quiet + 1 : 0;
-    if (quiet > 30) { running = false; return; }
+    quiet = motion < 0.03 && grabbed < 0 && Math.abs(impulse) < 0.1 ? quiet + 1 : 0;
+    if (quiet > 30) {
+      running = false;
+      if (scrollOff && grabbed < 0) { // נעצר בדיוק על המצב השטוח
+        pos.set(rest); prev.set(rest);
+        geometry.attributes.position.array.set(pos);
+        geometry.attributes.position.needsUpdate = true;
+        geometry.computeVertexNormals();
+        renderer.render(scene, camera);
+      }
+      return;
+    }
     requestAnimationFrame(frame);
   };
   function wake() {
@@ -320,14 +344,16 @@ const start = () => {
   canvas.addEventListener("pointercancel", release);
   canvas.addEventListener("lostpointercapture", release);
 
-  // ---------- גלילה = רוח ----------
-  let lastY = scrollY;
-  addEventListener("scroll", () => {
-    const dy = scrollY - lastY;
-    lastY = scrollY;
-    impulse = Math.max(-60, Math.min(60, impulse + dy));
-    wake();
-  }, { passive: true });
+  // ---------- גלילה = רוח (כבוי עם data-cloth-scroll="off": הבד זז רק כשנוגעים בו) ----------
+  if (!scrollOff) {
+    let lastY = scrollY;
+    addEventListener("scroll", () => {
+      const dy = scrollY - lastY;
+      lastY = scrollY;
+      impulse = Math.max(-60, Math.min(60, impulse + dy));
+      wake();
+    }, { passive: true });
+  }
 
   // ---------- נראות, שינוי גודל, אובדן הקשר ----------
   new IntersectionObserver((en) => { visible = en[0].isIntersecting; if (visible) wake(); }).observe(hero);
