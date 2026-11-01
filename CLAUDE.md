@@ -21,7 +21,7 @@
 | גרסה | קובץ | בנייה | לינק |
 |---|---|---|---|
 | ראשית: לוגו למעלה, וילון מתחת | `site/index.html` | `python3 tools/build_preview.py` | https://claude.ai/artifact/JutQj2DWXcEV9226Y5ceb4 |
-| ו: כיסא הבמאי, וילון סאטן וסט בתלת-ממד (1.11) | `site/director.html` | `python3 tools/build_preview.py director.html` ואז אותם עמודי מידע עם `--doc` | [נוצר בסשן 1.11, הלינק מתעדכן כאן] |
+| ו: כיסא הבמאי, וילון סאטן וסט בתלת-ממד (1.11) | `site/director.html` | `python3 tools/build_preview.py director.html` ואז אותם עמודי מידע עם `--doc` | https://claude.ai/artifact/Qh8PaqWwGZ9fXJeyACUwwM |
 | ה: אור על המוצר, אלומה שחושפת את המשפט (28.10) | `site/spotlight.html` | `python3 tools/build_preview.py spotlight.html` ואז אותם עמודי מידע עם `--doc` | https://claude.ai/artifact/2fFMYBdtQ8sV1gidkFRWxn |
 | ד: לוח יציאות, אותיות מתהפכות (28.10) | `site/portfolio.html` | `python3 tools/build_preview.py portfolio.html` ואז אותם עמודי מידע עם `--doc` | https://claude.ai/artifact/XRHktho7fWBsJwzSrhXyAi |
 | ג: משיכות מכחול בתלת-ממד (28.10) | `site/paint.html` | `python3 tools/build_preview.py paint.html` ואז אותם עמודי מידע עם `--doc` | https://claude.ai/artifact/ADWLUosTKqW1YxUZrjH9tG |
