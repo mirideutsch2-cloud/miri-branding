@@ -116,7 +116,6 @@
   addEventListener("load", () => setTimeout(() => {
     if ($(".hero__canvas") && !window.MIRI.clothLoaded) status("וילון: Three.js לא נטען · מוצגת תמונה סטטית");
     if ($(".p-canvas") && !window.MIRI.paintLoaded) status("צבע: Three.js לא נטען · רקע פחם בלי משיכות");
-    if ($(".dr-gl") && !window.MIRI.directorLoaded && !reduce) status("כיסא הבמאי: Three.js לא נטען · הפתיחה והסט מוצגים כתמונה");
   }, 4000));
 
   /* ---------- טופס ---------- */

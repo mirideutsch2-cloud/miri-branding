@@ -12,16 +12,16 @@
 <link rel="stylesheet" href="css/director.css">
 <script>document.documentElement.classList.add("js")</script>
 <script src="js/main.js" defer></script>
-<script src="js/director-ui.js" defer></script>
-<script src="js/director.js" type="module"></script>
+<script src="js/director.js" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">דילוג לתוכן</a>
 
-<!-- גרסה ו (1.11): "כיסא הבמאי". רעיון של מירי: חצי מסך לוגו וחצי ויז'ואל, המסך נפתח, ויוצא וילון מבריק.
-     מאחורי הווילון: כיסא במאי בתלת-ממד, עם קלאפר ודפי תסריט, בזווית שעוברת מלמעלה-למטה ללמטה-למעלה.
-     כל דבר שנפתח מזיז משהו: הדפים עפים ונפתחים לגלריה בעיגול, הקלאפר נסגר ופותח את "עליי", הכיסא שומר מקום למוצר שלך.
-     צבעים: אפור, לבן ופוקסיה, ונגיעות זעירות של כחול קובלט לקונטרסט. הטקסטים מגרסה ב. -->
+<!-- גרסה ו (1.11): "כיסא הבמאי", אתר כמו משחק. ויז'ואלים אמיתיים מהיגספילד (img/set/).
+     הגלילה היא סרט: חצי לוגו וחצי וילון סאטן ← המסך נפתח ← הווילון נפתח ← כיסא במאי גבוה מלמעלה, על בטון באור קשה.
+     החפצים אמיתיים ואפשר לתפוס אותם: הקלאפר עף מהידית, מסתובב אל המסך, נסגר (טייק 1) ונפתח לאודות; בסגירה הוא חוזר לידית.
+     דפי התסריט עפים מהמושב ונפתחים לגלריה בעיגול; בסגירה הם חוזרים למושב. הכיסא שומר מקום למוצר שלך.
+     לחיצה אף פעם לא גוללת. בלי JavaScript או עם reduced-motion: אזורים רגילים, אחד אחרי השני. -->
 
 <header class="site-header site-header--b dr-header">
   <a class="corner-logo" href="#top" aria-label="מירי דייטש, לראש העמוד"><svg aria-hidden="true"><use href="img/logo-miri.svg#logo"/></svg></a>
@@ -42,15 +42,23 @@
 </header>
 
 <main class="dr-page" id="main">
-
-  <!-- האתר כולו: מסך אחד נעוץ. סרט אחד בגלילה. חצי לוגו וחצי סאטן ← המסך נפתח ← הווילון המבריק נפתח ← הסט, והמצלמה יורדת מלמעלה עד הרצפה.
-       בלי WebGL או עם reduced-motion: שני בלוקים רגילים, הפתיחה והסט, בלי גלילה נעוצה -->
   <section class="dr-film" id="top" aria-labelledby="hero-title">
     <div class="dr-film__sticky">
-      <canvas class="dr-gl" aria-hidden="true"></canvas>
+
+      <!-- העולם: התמונה של הסט והחפצים עליה, באותן קואורדינטות. המצלמה (זום ותזוזה) זזה עליו -->
+      <div class="dr-world">
+        <div class="dr-frame">
+          <img class="dr-bg" src="img/set/chair-empty.webp" alt="" width="1024" height="573">
+          <button class="dr-obj dr-obj--pages" type="button" data-obj="projects" aria-label="דפי התסריט: פתיחת הפרויקטים"><img src="img/set/pages-top.webp" alt="" width="166" height="161"><span class="dr-tag"><b>דפי התסריט</b> פרויקטים</span></button>
+          <button class="dr-obj dr-obj--clap" type="button" data-obj="about" aria-label="הקלאפר: פתיחת האודות"><img src="img/set/clapper-top.webp" alt="" width="112" height="96"><span class="dr-tag"><b>הקלאפר</b> עליי</span></button>
+          <button class="dr-obj dr-obj--chair" type="button" data-obj="contact" aria-label="הכיסא: שמור למוצר שלך, לשיחת היכרות"><span class="dr-tag"><b>הכיסא</b> שמור למוצר שלך</span></button>
+          <span class="dr-seat-tag" aria-hidden="true">המוצר שלך</span>
+        </div>
+      </div>
+
+      <div class="dr-curtain" aria-hidden="true"><i></i><i></i><b class="dr-curtain__sheen"></b></div>
 
       <div class="dr-hero">
-        <div class="dr-satin" aria-hidden="true"><i></i><i></i></div>
         <div class="dr-panel">
           <svg class="dr-panel__logo" role="img" aria-label="MIRI"><use href="img/logo-miri.svg#logo"/></svg>
           <div class="dr-panel__copy">
@@ -63,7 +71,6 @@
             </div>
           </div>
         </div>
-        <!-- עינית של מצלמה מעל הוויז'ואל: פינות, REC ומונה זמן (הנגיעה הכחולה) -->
         <div class="dr-viewfinder" aria-hidden="true">
           <i class="dr-vf__c dr-vf__c--1"></i><i class="dr-vf__c dr-vf__c--2"></i><i class="dr-vf__c dr-vf__c--3"></i><i class="dr-vf__c dr-vf__c--4"></i>
           <span class="dr-vf__rec"><b></b><bdi dir="ltr">REC</bdi></span>
@@ -72,26 +79,17 @@
         </div>
       </div>
 
-      <div class="dr-set dr-scene" data-scene="set" id="set" aria-labelledby="set-title">
-        <figure class="dr-set__still"><img src="img/chair-top-placeholder.svg" alt="" width="1200" height="1200" loading="lazy"></figure>
+      <div class="dr-set" id="set" aria-labelledby="set-title">
+        <figure class="dr-set__still"><img src="img/set/chair.webp" alt="כיסא במאי גבוה בפוקסיה מלמעלה, קלאפר על הידית ודפי תסריט על המושב" width="1024" height="573" loading="lazy"></figure>
         <div class="dr-set__copy">
           <p class="label"><bdi dir="ltr">SCENE <b class="dr-num">02</b></bdi> · הסט</p>
           <h2 class="dr-h2" id="set-title">אני בונה למוצר שלך במה שנראית בינלאומית ומוכרת <span class="dr-accent">מהיום הראשון</span>.</h2>
-          <p class="dr-set__hint">על הכיסא מחכים דפי התסריט והקלאפר. לחיצה על כל אחד פותחת אותו. <span class="draft">טיוטה</span></p>
+          <p class="dr-set__hint">געי בקלאפר או בדפי התסריט. <span class="draft">טיוטה</span></p>
         </div>
-        <ul class="dr-hotspots" aria-label="על הסט">
-          <li><button class="dr-spot" type="button" data-spot="pages" data-go="#projects"><i aria-hidden="true"></i><span><b>דפי התסריט</b> <small>לפרויקטים</small></span></button></li>
-          <li><button class="dr-spot dr-spot--flip" type="button" data-spot="clapper" data-go="#about"><i aria-hidden="true"></i><span><b>הקלאפר</b> <small>עליי</small></span></button></li>
-          <li><button class="dr-spot" type="button" data-spot="chair" data-go="#contact"><i aria-hidden="true"></i><span><b>הכיסא</b> <small>שמור למוצר שלך</small></span></button></li>
-        </ul>
       </div>
-      <div class="dr-flash" aria-hidden="true"></div>
-      <button class="dr-close" type="button" hidden><span>חזרה לסט</span><i aria-hidden="true">✕</i></button>
 
-      <!-- מכאן כל האזורים הם סצנות על אותו מסך: הסט נשאר מאחור, והגלילה מחליפה את הסצנה ואת זווית המצלמה.
-           בלי WebGL או עם reduced-motion הם אזורים רגילים, אחד אחרי השני -->
-  <!-- 3 · הכאבים של הפרסונה (מטבלת הכאבים בדרימי). כשכל כאב נכנס למסך, ה"לפני" נמחק וה"אחרי" נכנס -->
-  <section class="dr-sec dr-sec--white dr-scene" data-scene="pain" id="pain" aria-labelledby="pain-title">
+      <!-- הסצנות: דפים שעולים מעל הסט, בגלילה או בלחיצה (מהתפריט או מהחפצים) -->
+      <section class="dr-sec dr-sec--white dr-scene" data-scene="pain" id="pain" aria-labelledby="pain-title">
     <div class="dr-wrap">
       <header class="dr-head">
         <p class="label"><bdi dir="ltr">SCENE <b class="dr-num">03</b></bdi> · זה מוכר לך?</p>
@@ -121,8 +119,7 @@
     </div>
   </section>
 
-  <!-- 4 · איך זה עובד: דף צילומים (call sheet). קו פוקסיה עובר על השלבים כשהדף נכנס למסך -->
-  <section class="dr-sec dr-sec--grey dr-scene" data-scene="how" id="how" aria-labelledby="how-title">
+      <section class="dr-sec dr-sec--grey dr-scene" data-scene="how" id="how" aria-labelledby="how-title">
     <div class="dr-wrap dr-how">
       <header class="dr-head">
         <p class="label"><bdi dir="ltr">SCENE <b class="dr-num">04</b></bdi> · איך זה עובד</p>
@@ -142,8 +139,7 @@
     </div>
   </section>
 
-  <!-- 5 · מה אני בונה: שלוש החבילות, בלי מחירים -->
-  <section class="dr-sec dr-sec--white dr-scene" data-scene="services" id="services" aria-labelledby="services-title">
+      <section class="dr-sec dr-sec--white dr-scene" data-scene="services" id="services" aria-labelledby="services-title">
     <div class="dr-wrap">
       <header class="dr-head">
         <p class="label"><bdi dir="ltr">SCENE <b class="dr-num">05</b></bdi></p>
@@ -185,16 +181,15 @@
     </div>
   </section>
 
-  <!-- 6 · פרויקטים: דפי התסריט. הם מגיעים כערימה, ובגלילה נפתחים לגלריה בעיגול שמסתובבת.
-       בלי JavaScript או עם reduced-motion: שורה רגילה של כרטיסים. צילומי מסך במוקאפ, לא קישור לאתר החי -->
-  <section class="dr-ring dr-scene" data-scene="projects" id="projects" aria-labelledby="projects-title">
-    <div class="dr-ring__sticky">
-      <header class="dr-wrap dr-head dr-ring__head">
-        <p class="label"><bdi dir="ltr">SCENE <b class="dr-num">06</b></bdi> · דפי התסריט</p>
-        <h2 class="dr-h1" id="projects-title">פרויקטים</h2>
-      </header>
-      <div class="dr-ring__stage">
-        <ol class="dr-ring__list">
+      <!-- פרויקטים: דפי התסריט עפים מהמושב ונפתחים לגלריה בעיגול -->
+      <section class="dr-ring dr-scene" data-scene="projects" id="projects" aria-labelledby="projects-title">
+        <div class="dr-ring__sticky">
+          <header class="dr-wrap dr-head dr-ring__head">
+            <p class="label"><bdi dir="ltr">SCENE <b class="dr-num">06</b></bdi> · דפי התסריט</p>
+            <h2 class="dr-h1" id="projects-title">פרויקטים</h2>
+          </header>
+          <div class="dr-ring__stage">
+            <ol class="dr-ring__list">
           <li class="dr-card">
             <article class="dr-card__face">
               <p class="label dr-card__top"><span><bdi dir="ltr">01</bdi> · חנות בגדי ילדים</span> <span class="dr-onair">באוויר</span></p>
@@ -244,78 +239,28 @@
             <div class="dr-card__back" aria-hidden="true"></div>
           </li>
         </ol>
-      </div>
-      <p class="dr-ring__foot label" aria-hidden="true"><span data-ring-count><bdi dir="ltr">01 / 05</bdi></span> · גללי כדי לסובב</p>
-    </div>
-  </section>
+          </div>
+          <p class="dr-ring__foot label" aria-hidden="true"><span data-ring-count><bdi dir="ltr">01 / 05</bdi></span> · גללי כדי לסובב</p>
+        </div>
+      </section>
 
-  <!-- 7 · אודות: הקלאפר נסגר פעם אחת (טייק 1), הבזק, והטקסט נחשף -->
-  <section class="dr-sec dr-sec--ink dr-scene" data-scene="about" id="about" aria-labelledby="about-title">
-    <div class="dr-wrap dr-about" data-in>
-      <div class="dr-about__media">
-        <svg class="dr-clap" viewBox="0 0 400 300" aria-hidden="true">
-          <g class="dr-clap__stick">
-            <rect x="20" y="40" width="360" height="52" rx="6" fill="#F4F4F2"/>
-            <g fill="#161618">
-              <polygon points="60,40 100,40 76,92 36,92"/>
-              <polygon points="140,40 180,40 156,92 116,92"/>
-              <polygon points="300,40 340,40 316,92 276,92"/>
-            </g>
-            <polygon points="220,40 260,40 236,92 196,92" fill="#EC008C"/>
-          </g>
-          <g>
-            <rect x="20" y="96" width="360" height="22" rx="4" fill="#F4F4F2"/>
-            <g fill="#161618">
-              <polygon points="60,96 100,96 90,118 50,118"/>
-              <polygon points="140,96 180,96 170,118 130,118"/>
-              <polygon points="300,96 340,96 330,118 290,118"/>
-            </g>
-            <polygon points="220,96 260,96 250,118 210,118" fill="#2B3BFF"/>
-            <rect x="20" y="122" width="360" height="168" rx="6" fill="#161618" stroke="#F4F4F2" stroke-width="3"/>
-            <g stroke="#F4F4F2" stroke-width="2">
-              <line x1="20" y1="180" x2="380" y2="180"/>
-              <line x1="20" y1="236" x2="380" y2="236"/>
-              <line x1="200" y1="122" x2="200" y2="236"/>
-            </g>
-            <g font-family="Sprinter, Arial, sans-serif" font-size="20" font-weight="700" fill="#F4F4F2" direction="ltr">
-              <text x="36" y="164">SCENE 07</text>
-              <text x="216" y="164">TAKE 1</text>
-              <text x="36" y="220">MIRI DEUTSCH</text>
-              <text x="216" y="220" fill="#EC008C">ROLL A</text>
-              <text x="36" y="272" fill="#9A9AA0">DIRECTOR · DESIGN · BUILD</text>
-            </g>
-          </g>
-        </svg>
-        <figure class="dr-portrait"><span class="slot">[תמונה אמיתית של מירי · מיום הצילום]</span></figure>
-      </div>
-      <div class="dr-about__copy">
+      <!-- אודות: נפתח מתוך הקלאפר. הקלאפר עף אל המסך, נסגר, ונפתח ללוח שחור -->
+      <section class="dr-sec dr-sec--ink dr-scene dr-slate" data-scene="about" id="about" aria-labelledby="about-title">
+        <div class="dr-wrap dr-about" data-in>
+          <figure class="dr-portrait"><span class="slot">[תמונה אמיתית של מירי · מיום הצילום]</span></figure>
+          <div class="dr-about__copy">
         <p class="label"><bdi dir="ltr">SCENE <b class="dr-num">07</b> · TAKE 1</bdi> · אודות</p>
         <h2 class="dr-h1 dr-about__title" id="about-title"><span class="dr-thin">המוצר שלך שווה שכל העולם יראה אותו,</span> ואסור לך לתת לו להישאר <span class="dr-accent">שקוף</span>.</h2>
         <p class="dr-about__story">אני מכירה את הרגע הזה, כי שנים אני מעצבת מותגים. אז בניתי מסלול השקה: שיחה אחת כדי להבין את המוצר ואת מי שקונה אותו, ואז חנות בעיצוב של מותג בינלאומי, עם מערכת פשוטה לניהול ולדיוור. ומה שגורם לזה לעבוד: כל מילה בחנות כתובה כדי להוביל לקנייה.</p>
         <blockquote class="dr-message"><p>אני עוזרת לבעלות ובעלי מוצר שרוצים לצאת לעולם לפני שמישהו יקדים אותם, להיראות מהשנייה הראשונה בטופ ולמכור, באמצעות במה שלמה: סיפור, מיתוג ואתר עם חנות שהם מנהלים לבד. כי אסור לתת למוצר טוב להישאר שקוף.</p></blockquote>
         <a class="dr-btn" href="#contact"><span>לשיחת היכרות על המוצר שלך</span><i aria-hidden="true">←</i></a>
       </div>
-    </div>
-  </section>
+        </div>
+      </section>
 
-
-<!-- 8 · פוטר: הכסא הריק מלמעלה, מצויר בקו, ושמור למוצר שלך. טופס, דרכי קשר, והלוגו ענק וחתוך -->
-<footer class="dr-footer dr-scene" data-scene="contact" id="contact">
+      <footer class="dr-footer dr-scene" data-scene="contact" id="contact">
   <div class="dr-footer__in">
   <div class="dr-wrap dr-footer__top">
-    <figure class="dr-empty" data-in aria-hidden="true">
-      <svg viewBox="0 0 300 300">
-        <g class="dr-empty__shadow"><path d="M78 78 L252 132 L252 268 L78 214 Z"/></g>
-        <g class="dr-empty__lines">
-          <rect pathLength="1" x="58" y="58" width="184" height="26" rx="5"/>
-          <rect pathLength="1" x="44" y="84" width="22" height="160" rx="5"/>
-          <rect pathLength="1" x="234" y="84" width="22" height="160" rx="5"/>
-          <path pathLength="1" d="M70 96 Q150 112 230 96 L230 226 Q150 240 70 226 Z"/>
-          <line pathLength="1" x1="70" y1="244" x2="230" y2="244"/>
-        </g>
-      </svg>
-      <figcaption class="dr-empty__label">המוצר שלך</figcaption>
-    </figure>
     <div class="dr-footer__cta">
       <p class="label"><bdi dir="ltr">SCENE <b class="dr-num">08</b></bdi> · לשיחת היכרות</p>
       <h2 class="dr-h2" id="contact-title">השאירי פרטים, ותוך 24 שעות אחזור אלייך לשיחה קצרה על המוצר שלך. <span class="draft">טיוטה</span></h2>
@@ -363,14 +308,21 @@
   <svg class="dr-footer__logo" aria-hidden="true"><use href="img/logo-miri.svg#logo"/></svg>
   </div>
 </footer>
-      <p class="dr-seat-tag" aria-hidden="true">המוצר שלך</p>
+
+      <!-- שכבת המעוף: החפצים שעפים אל המסך -->
+      <div class="dr-fly" aria-hidden="true">
+        <img class="dr-fly__pages" src="img/set/pages-top.webp" alt="">
+        <div class="dr-fly__clap">
+          <img class="dr-fly__top" src="img/set/clapper-top.webp" alt="">
+          <div class="dr-fly__front"><img class="dr-fly__board" src="img/set/clapper-board.webp" alt=""><img class="dr-fly__stick" src="img/set/clapper-stick.webp" alt=""></div>
+        </div>
+      </div>
+      <div class="dr-flash" aria-hidden="true"></div>
+      <button class="dr-close" type="button" hidden><span>חזרה לסט</span><i aria-hidden="true">✕</i></button>
     </div>
   </section>
-
   <!-- המלצות: מוסתר עד שיהיו 3-4 המלצות אמיתיות. לא ממציאים. -->
 </main>
-
-
 
 <div class="dr-grain" aria-hidden="true"></div>
 
