@@ -43,7 +43,7 @@
 
 <main class="dr-page" id="main">
 
-  <!-- 1 · הפתיחה: סרט אחד בגלילה. חצי לוגו וחצי סאטן ← המסך נפתח ← הווילון המבריק נפתח ← הסט, והמצלמה יורדת מלמעלה עד הרצפה.
+  <!-- האתר כולו: מסך אחד נעוץ. סרט אחד בגלילה. חצי לוגו וחצי סאטן ← המסך נפתח ← הווילון המבריק נפתח ← הסט, והמצלמה יורדת מלמעלה עד הרצפה.
        בלי WebGL או עם reduced-motion: שני בלוקים רגילים, הפתיחה והסט, בלי גלילה נעוצה -->
   <section class="dr-film" id="top" aria-labelledby="hero-title">
     <div class="dr-film__sticky">
@@ -72,7 +72,7 @@
         </div>
       </div>
 
-      <div class="dr-set" id="set" aria-labelledby="set-title">
+      <div class="dr-set dr-scene" data-scene="set" id="set" aria-labelledby="set-title">
         <figure class="dr-set__still"><img src="img/chair-top-placeholder.svg" alt="" width="1200" height="1200" loading="lazy"></figure>
         <div class="dr-set__copy">
           <p class="label"><bdi dir="ltr">SCENE <b class="dr-num">02</b></bdi> · הסט</p>
@@ -86,11 +86,11 @@
         </ul>
       </div>
       <div class="dr-flash" aria-hidden="true"></div>
-    </div>
-  </section>
 
+      <!-- מכאן כל האזורים הם סצנות על אותו מסך: הסט נשאר מאחור, והגלילה מחליפה את הסצנה ואת זווית המצלמה.
+           בלי WebGL או עם reduced-motion הם אזורים רגילים, אחד אחרי השני -->
   <!-- 3 · הכאבים של הפרסונה (מטבלת הכאבים בדרימי). כשכל כאב נכנס למסך, ה"לפני" נמחק וה"אחרי" נכנס -->
-  <section class="dr-sec dr-sec--white" id="pain" aria-labelledby="pain-title">
+  <section class="dr-sec dr-sec--white dr-scene" data-scene="pain" id="pain" aria-labelledby="pain-title">
     <div class="dr-wrap">
       <header class="dr-head">
         <p class="label"><bdi dir="ltr">SCENE <b class="dr-num">03</b></bdi> · זה מוכר לך?</p>
@@ -121,7 +121,7 @@
   </section>
 
   <!-- 4 · איך זה עובד: דף צילומים (call sheet). קו פוקסיה עובר על השלבים כשהדף נכנס למסך -->
-  <section class="dr-sec dr-sec--grey" id="how" aria-labelledby="how-title">
+  <section class="dr-sec dr-sec--grey dr-scene" data-scene="how" id="how" aria-labelledby="how-title">
     <div class="dr-wrap dr-how">
       <header class="dr-head">
         <p class="label"><bdi dir="ltr">SCENE <b class="dr-num">04</b></bdi> · איך זה עובד</p>
@@ -142,7 +142,7 @@
   </section>
 
   <!-- 5 · מה אני בונה: שלוש החבילות, בלי מחירים -->
-  <section class="dr-sec dr-sec--white" id="services" aria-labelledby="services-title">
+  <section class="dr-sec dr-sec--white dr-scene" data-scene="services" id="services" aria-labelledby="services-title">
     <div class="dr-wrap">
       <header class="dr-head">
         <p class="label"><bdi dir="ltr">SCENE <b class="dr-num">05</b></bdi></p>
@@ -186,7 +186,7 @@
 
   <!-- 6 · פרויקטים: דפי התסריט. הם מגיעים כערימה, ובגלילה נפתחים לגלריה בעיגול שמסתובבת.
        בלי JavaScript או עם reduced-motion: שורה רגילה של כרטיסים. צילומי מסך במוקאפ, לא קישור לאתר החי -->
-  <section class="dr-ring" id="projects" aria-labelledby="projects-title">
+  <section class="dr-ring dr-scene" data-scene="projects" id="projects" aria-labelledby="projects-title">
     <div class="dr-ring__sticky">
       <header class="dr-wrap dr-head dr-ring__head">
         <p class="label"><bdi dir="ltr">SCENE <b class="dr-num">06</b></bdi> · דפי התסריט</p>
@@ -249,7 +249,7 @@
   </section>
 
   <!-- 7 · אודות: הקלאפר נסגר פעם אחת (טייק 1), הבזק, והטקסט נחשף -->
-  <section class="dr-sec dr-sec--ink" id="about" aria-labelledby="about-title">
+  <section class="dr-sec dr-sec--ink dr-scene" data-scene="about" id="about" aria-labelledby="about-title">
     <div class="dr-wrap dr-about" data-in>
       <div class="dr-about__media">
         <svg class="dr-clap" viewBox="0 0 400 300" aria-hidden="true">
@@ -297,11 +297,10 @@
     </div>
   </section>
 
-  <!-- המלצות: מוסתר עד שיהיו 3-4 המלצות אמיתיות. לא ממציאים. -->
-</main>
 
 <!-- 8 · פוטר: הכסא הריק מלמעלה, מצויר בקו, ושמור למוצר שלך. טופס, דרכי קשר, והלוגו ענק וחתוך -->
-<footer class="dr-footer" id="contact">
+<footer class="dr-footer dr-scene" data-scene="contact" id="contact">
+  <div class="dr-footer__in">
   <div class="dr-wrap dr-footer__top">
     <figure class="dr-empty" data-in aria-hidden="true">
       <svg viewBox="0 0 300 300">
@@ -361,7 +360,16 @@
     <p class="footer__credit">© 2026 מירי דייטש · כל הזכויות שמורות · עיצוב ובנייה: מירי דייטש</p>
   </div>
   <svg class="dr-footer__logo" aria-hidden="true"><use href="img/logo-miri.svg#logo"/></svg>
+  </div>
 </footer>
+      <p class="dr-seat-tag" aria-hidden="true">המוצר שלך</p>
+    </div>
+  </section>
+
+  <!-- המלצות: מוסתר עד שיהיו 3-4 המלצות אמיתיות. לא ממציאים. -->
+</main>
+
+
 
 <div class="dr-grain" aria-hidden="true"></div>
 

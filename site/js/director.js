@@ -54,7 +54,7 @@ function start() {
   /* ---------------- הסט ---------------- */
   const scene = new THREE.Scene();
   scene.background = BG;
-  scene.fog = new THREE.Fog(BG, 3.5, 9);
+  scene.fog = new THREE.Fog(BG, 4.5, 11);
   const camera = new THREE.PerspectiveCamera(50, 1, 0.02, 40);
 
   const maxAniso = renderer.capabilities.getMaxAnisotropy();
@@ -134,28 +134,30 @@ function start() {
   };
   const V = (x, y, z) => new THREE.Vector3(x, y, z);
 
-  /* כיסא הבמאי */
+  /* כיסא במאי גבוה (כמו בסט): מושב בגובה 77 ס"מ, משענת רגליים, X מתחת למושב */
   const chair = new THREE.Group();
-  const FX = 0.27, ZF = 0.2, ZB = -0.2;
+  const FX = 0.27, ZF = 0.21, ZB = -0.21, ARM_Y = 1.01;
   for (const s of [-1, 1]) {
-    chair.add(bar(V(s * FX, 0, ZF), V(s * FX, 0.68, ZF), 0.036, frameMat));      // רגל קדמית
-    chair.add(bar(V(s * FX, 0, ZB), V(s * FX, 0.99, ZB), 0.036, frameMat));      // רגל אחורית, עד המשענת
-    chair.add(bar(V(s * FX, 0.445, ZB), V(s * FX, 0.445, ZF), 0.034, frameMat)); // מסילת המושב
-    chair.add(bar(V(s * FX, 0.075, ZB), V(s * FX, 0.075, ZF), 0.028, frameMat)); // מסילה תחתונה
-    const arm = shadowy(new THREE.Mesh(new THREE.BoxGeometry(0.072, 0.026, 0.52), frameMat));
-    arm.position.set(s * FX, 0.695, -0.005);
+    chair.add(bar(V(s * FX, 0, ZF), V(s * FX, ARM_Y - 0.012, ZF), 0.038, frameMat)); // רגל קדמית, עד הידית
+    chair.add(bar(V(s * FX, 0, ZB), V(s * FX, 1.33, ZB), 0.038, frameMat));          // רגל אחורית, עד המשענת
+    chair.add(bar(V(s * FX, 0.755, ZB), V(s * FX, 0.755, ZF), 0.036, frameMat));     // מסילת המושב
+    chair.add(bar(V(s * FX, 0.2, ZB), V(s * FX, 0.2, ZF), 0.03, frameMat));          // מסילה תחתונה
+    const arm = shadowy(new THREE.Mesh(new THREE.BoxGeometry(0.074, 0.028, 0.54), frameMat));
+    arm.position.set(s * FX, ARM_Y, -0.005);
     chair.add(arm);
   }
-  for (const z of [ZF, ZB]) { // ה-X מלפנים ומאחור
-    chair.add(bar(V(-FX, 0.035, z + 0.012), V(FX, 0.43, z + 0.012), 0.028, frameMat));
-    chair.add(bar(V(FX, 0.035, z - 0.006), V(-FX, 0.43, z - 0.006), 0.028, frameMat));
+  chair.add(bar(V(-FX, 0.36, ZF + 0.02), V(FX, 0.36, ZF + 0.02), 0.036, frameMat)); // משענת רגליים
+  chair.add(bar(V(-FX, 0.36, ZB), V(FX, 0.36, ZB), 0.03, frameMat));
+  for (const z of [ZF, ZB]) { // ה-X מתחת למושב, מלפנים ומאחור
+    chair.add(bar(V(-FX, 0.4, z + 0.012), V(FX, 0.74, z + 0.012), 0.028, frameMat));
+    chair.add(bar(V(FX, 0.4, z - 0.006), V(-FX, 0.74, z - 0.006), 0.028, frameMat));
     const bolt = shadowy(new THREE.Mesh(new THREE.CylinderGeometry(0.011, 0.011, 0.05, 12).rotateX(Math.PI / 2), metal));
-    bolt.position.set(0, 0.233, z + 0.003);
+    bolt.position.set(0, 0.57, z + 0.003);
     chair.add(bolt);
   }
-  const SEAT_Y = 0.462, SAG = 0.028;
+  const SEAT_Y = 0.772, SAG = 0.028;
   const seatY = (x) => SEAT_Y - SAG * (1 - clamp((x / 0.26) ** 2));
-  const seatGeo = new THREE.PlaneGeometry(0.52, 0.4, 26, 12).rotateX(-Math.PI / 2);
+  const seatGeo = new THREE.PlaneGeometry(0.52, 0.42, 26, 12).rotateX(-Math.PI / 2);
   { const p = seatGeo.attributes.position; for (let i = 0; i < p.count; i++) p.setY(i, seatY(p.getX(i)) - SEAT_Y); seatGeo.computeVertexNormals(); }
   const seat = shadowy(new THREE.Mesh(seatGeo, fabric));
   seat.position.y = SEAT_Y;
@@ -179,7 +181,7 @@ function start() {
     map: backTex, roughness: 0.66, sheen: 1, sheenColor: new THREE.Color("#ff9fd6"), sheenRoughness: 0.42,
     bumpMap: weave, bumpScale: 0.5, side: THREE.DoubleSide,
   })));
-  back.position.set(0, 0.875, ZB - 0.004);
+  back.position.set(0, 1.205, ZB - 0.004);
   chair.add(back);
   scene.add(chair);
 
@@ -294,23 +296,25 @@ function start() {
   clapper.add(hinge);
   const OPEN = 0.42;
   hinge.rotation.y = OPEN;
-  clapper.position.set(0.105, SEAT_Y + 0.004, -0.015);
-  clapper.rotation.y = 0.62;
+  // על הידית הימנית, לאורכה, והמקלות פונים החוצה
+  const CLAP_BASE = { p: V(FX + 0.012, ARM_Y + 0.02, 0.0), r: -Math.PI / 2 + 0.1 };
+  clapper.position.copy(CLAP_BASE.p);
+  clapper.rotation.y = CLAP_BASE.r;
   scene.add(clapper);
 
   /* אור: אלומת שמש קשה ונמוכה (צללים ארוכים באלכסון), מילוי רך, והחזר פוקסיה מתחת למושב */
   scene.add(new THREE.HemisphereLight("#ffffff", "#b9b9b4", 1.15));
   const sun = new THREE.DirectionalLight("#fff6ee", 3.4);
-  sun.position.set(-3.5, 3.1, 2.3);
-  sun.target.position.set(0.15, 0.2, -0.1);
+  sun.position.set(-4.3, 3.9, 2.8);
+  sun.target.position.set(0.2, 0.3, -0.15);
   sun.castShadow = true;
   sun.shadow.mapSize.set(2048, 2048);
   sun.shadow.bias = -0.0004;
   sun.shadow.normalBias = 0.02;
-  Object.assign(sun.shadow.camera, { left: -2.2, right: 2.2, top: 2.2, bottom: -2.2, near: 1, far: 10 });
+  Object.assign(sun.shadow.camera, { left: -2.6, right: 2.6, top: 2.6, bottom: -2.6, near: 1, far: 12 });
   scene.add(sun, sun.target);
-  const bounce = new THREE.PointLight("#ff2fa0", 1.6, 1.1, 2);
-  bounce.position.set(0.05, 0.22, 0.02);
+  const bounce = new THREE.PointLight("#ff2fa0", 2.2, 1.4, 2);
+  bounce.position.set(0.05, 0.5, 0.02);
   scene.add(bounce);
 
   // הטקסטורות עם טקסט מצוירות שוב כשהפונטים מוכנים
@@ -319,12 +323,18 @@ function start() {
     titleTex.needsUpdate = true; pageTex.needsUpdate = true;
   });
 
-  /* ---------------- המצלמה: מלמעלה-למטה ← למטה-למעלה ---------------- */
-  const KP = new THREE.CatmullRomCurve3([V(0.2, 2.2, 0.34), V(1.35, 1.5, 1.05), V(1.2, 0.66, 1.5), V(1.12, 0.16, 1.42)], false, "centripetal");
-  const KT = new THREE.CatmullRomCurve3([V(0, 0.42, 0), V(0, 0.45, 0), V(0, 0.5, 0), V(0, 0.62, -0.06)], false, "centripetal");
-  const KR = [0.55, 0.14, 0.02, -0.07];
-  const rollAt = (t) => { const f = t * (KR.length - 1), i = Math.min(KR.length - 2, Math.floor(f)); return lerp(KR[i], KR[i + 1], inOut(f - i)); };
-
+  /* ---------------- המצלמה: זווית לכל סצנה (מיקום, נקודת מבט, הטיה) ---------------- */
+  const K = (p, t, r) => ({ p, t, r });
+  const KEYS = {
+    top: K(V(0.25, 3.0, 0.42), V(0, 0.75, 0), 0.55),          // מבט-על, מעט עקום
+    set: K(V(1.75, 2.0, 1.45), V(0, 0.82, 0), 0.14),
+    pain: K(V(-1.95, 0.42, 1.15), V(0, 0.95, 0), -0.12),       // מלמטה, מהצד
+    how: K(V(-0.3, 2.7, -0.6), V(0, 0.75, 0), -0.9),           // מלמעלה, מאחור
+    services: K(V(2.3, 1.7, -1.05), V(0, 0.75, 0), 0.08),
+    projects: K(V(-0.35, 3.6, 0.7), V(0, 0.7, 0), 0.35),    // גבוה מעל הכיסא, כשהדפים עפים
+    about: K(V(0.95, 1.5, 0.62), V(0.27, 1.02, 0), 0.22),       // קרוב על הקלאפר
+    contact: K(V(1.4, 0.18, 1.8), V(0, 1.02, -0.06), -0.07),    // מהרצפה כלפי מעלה
+  };
   /* ---------------- הווילון: שיידר על כל המסך ---------------- */
   const satin = new THREE.ShaderMaterial({
     transparent: true, depthTest: false, depthWrite: false,
@@ -412,37 +422,81 @@ function start() {
   satinScene.add(quad);
   const flat = new THREE.Camera();
 
+
+  const frozen = () => root.classList.contains("a11y-motion");
+
+  /* ---------------- הסצנות: אורך כל אחת ביחידות של גובה מסך ---------------- */
+  const SC = [
+    { id: "hero", len: 0.6 }, { id: "curtain", len: 0.9 },
+    { id: "set", len: 1.2 }, { id: "pain", len: 1.4 }, { id: "how", len: 1.2 }, { id: "services", len: 1.3 },
+    { id: "projects", len: 2.8 }, { id: "about", len: 1.5 }, { id: "contact", len: 1.8 },
+  ];
+  let acc = 0;
+  SC.forEach((c, i) => {
+    c.i = i; c.start = acc; acc += c.len;
+    c.el = $(`[data-scene="${c.id}"]`);
+    c.inner = c.el?.querySelector(":scope > .dr-wrap, :scope > .dr-footer__in");
+    c.ins = c.el ? [...c.el.querySelectorAll("[data-in]"), ...(c.el.matches("[data-in]") ? [c.el] : [])] : [];
+    c.on = false;
+  });
+  const TOTAL = acc;
+  const byId = Object.fromEntries(SC.map((c) => [c.id, c]));
+  const panels = SC.filter((c) => c.el && c.id !== "set");
+  const seatTag = $(".dr-seat-tag");
+
   /* ---------------- מידות ---------------- */
   let W = 1, H = 1, aspect = 1, distK = 1;
   const size = () => {
     W = sticky.clientWidth; H = sticky.clientHeight;
     aspect = W / H;
+    film.style.height = `${Math.round((TOTAL + 1) * innerHeight)}px`;
     renderer.setPixelRatio(Math.min(devicePixelRatio, aspect < 1 ? 1.5 : 1.75));
     renderer.setSize(W, H, false);
     camera.aspect = aspect;
     camera.fov = aspect < 1 ? 58 : 50;
     distK = aspect < 1 ? clamp(1.05 / aspect, 1, 2.05) : 1;
-    // מזיזים את הכיסא הצידה (בדסקטופ) או למעלה (בטלפון), כדי לפנות מקום לטקסט
+    // מזיזים את הכיסא הצידה (בדסקטופ) או למעלה (בטלפון), כדי לפנות מקום לדף
     if (aspect >= 1) camera.setViewOffset(W, H, W * 0.19, 0, W, H);
-    else camera.setViewOffset(W, H, 0, H * 0.13, W, H);
+    else camera.setViewOffset(W, H, 0, H * 0.24, W, H);
     camera.updateProjectionMatrix();
     renderer.getDrawingBufferSize(satin.uniforms.uRes.value);
   };
   size();
   addEventListener("resize", size);
 
-  /* ---------------- גלילה ---------------- */
-  let pT = 0, pS = 0;
+  /* ---------------- גלילה: איפה אנחנו בסרט (ביחידות מסך) ---------------- */
+  let sT = 0, sS = 0;
   const readScroll = () => {
     const r = film.getBoundingClientRect();
-    pT = clamp(-r.top / Math.max(1, film.offsetHeight - innerHeight));
+    sT = clamp(-r.top / innerHeight, 0, TOTAL);
   };
   readScroll();
-  pS = pT;
+  sS = sT;
   addEventListener("scroll", readScroll, { passive: true });
 
+  // מעבר לסצנה (תפריט, כפתורים, קישורים פנימיים): גוללים לנקודה שבה הדף שלה כבר פתוח
+  const sceneTop = (c, at) => film.getBoundingClientRect().top + scrollY + (c.start + at * c.len) * innerHeight;
+  const goScene = (c, at = c.id === "projects" ? 0.32 : c.id === "hero" ? 0 : 0.45, smoothly = true) => {
+    scrollTo({ top: sceneTop(c, at), behavior: smoothly && !frozen() ? "smooth" : "auto" });
+  };
+  M.goScene = (sel) => {
+    const c = SC.find((x) => x.el && `#${x.el.id}` === sel);
+    if (c) goScene(c);
+  };
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+    const id = a.getAttribute("href");
+    const c = id === "#top" ? SC[0] : SC.find((x) => x.el && `#${x.el.id}` === id);
+    if (!c) return;
+    e.preventDefault();
+    goScene(c);
+  }, true);
+  // הגלריה: לחיצה על כרטיס מסובבת אותו קדימה
+  M.director = { ringGo: (rp) => scrollTo({ top: sceneTop(byId.projects, 0.2 + rp * 0.74), behavior: frozen() ? "auto" : "smooth" }) };
+
   /* ---------------- עכבר: אדווה על הסאטן, ריחוף ובחירה על הסט ---------------- */
-  const mouse = new THREE.Vector2(), ndc = new THREE.Vector2(-9, -9);
+  const mouse = new THREE.Vector2(0.25, 0.5), ndc = new THREE.Vector2(-9, -9);
   let mouseK = 0, hovered = null;
   const ray = new THREE.Raycaster();
   const pickables = [["pages", pages], ["clapper", clapper], ["chair", chair]];
@@ -455,50 +509,83 @@ function start() {
   canvas.addEventListener("pointerleave", () => { ndc.set(-9, -9); });
   canvas.addEventListener("click", () => { if (hovered) spots[hovered]?.click(); });
 
-  /* ---------------- פעולות: כל פתיחה מזיזה משהו ---------------- */
-  let flyAt = -1, clapAt = -1, pulseAt = -1;
-  const act = (kind) => {
+  /* ---------------- פעולות מהכפתורים על הסט ---------------- */
+  let clapAt = -1, pulseAt = -1;
+  M.director.act = (kind) => {
     const now = performance.now();
-    if (kind === "pages") { flyAt = now; return 700; }
     if (kind === "clapper") { clapAt = now; return 650; }
     if (kind === "chair") { pulseAt = now; return 520; }
-    return 0;
+    return 120; // הדפים עפים בעצמם כשהגלילה מגיעה לפרויקטים
   };
-  M.director = { act };
 
   /* ---------------- הלולאה ---------------- */
   const tmpP = new THREE.Vector3(), tmpT = new THREE.Vector3(), anchor = new THREE.Vector3();
-  const anchors = { pages: V(-0.15, 0.47, 0.1), clapper: V(0, 0, 0), chair: V(0, 0.93, -0.22) };
-  let running = false, last = performance.now(), solid = false, lastTc = "", hoverLift = { pages: 0, clapper: 0, chair: 0 };
+  const anchors = { pages: V(-0.15, SEAT_Y + 0.012, 0.1), clapper: V(0, 0, 0), chair: V(0, 1.27, -0.23) };
+  const seatPoint = V(0, SEAT_Y - 0.01, 0.03);
+  let running = false, last = performance.now(), solid = false, lastTc = "";
+  const hoverLift = { pages: 0, clapper: 0, chair: 0 };
   const t0 = performance.now();
-  const frozen = () => root.classList.contains("a11y-motion");
-  let tFrozen = 0;
+  let time = 0, clapLocal = 0, flashed = false;
+  const fire = () => { flash.classList.remove("is-on"); void flash.offsetWidth; flash.classList.add("is-on"); };
+
+  const blendKey = (a, b, f, lift) => {
+    tmpP.lerpVectors(a.p, b.p, f); tmpT.lerpVectors(a.t, b.t, f);
+    tmpP.y += Math.sin(Math.PI * f) * lift;
+    return lerp(a.r, b.r, f);
+  };
 
   const frame = (now) => {
     if (!running) return;
     requestAnimationFrame(frame);
     const dt = Math.min(0.05, (now - last) / 1000);
     last = now;
-    if (!frozen()) tFrozen += dt;
-    const time = tFrozen;
+    if (!frozen()) time += dt;
 
-    pS += (pT - pS) * Math.min(1, dt * 7);
-    if (Math.abs(pT - pS) < 1e-4) pS = pT;
-    const A = smooth(0.0, 0.14, pS);                 // המסך נפתח: חצי הלוגו יוצא
-    const O = inOut(clamp((pS - 0.12) / 0.32));       // הווילון נאסף
-    const C = inOut(clamp((pS - 0.42) / 0.55));       // המצלמה יורדת
+    sS += (sT - sS) * Math.min(1, dt * 7);
+    if (Math.abs(sT - sS) < 1e-4) sS = sT;
+    const s = sS;
+    let cur = SC[SC.length - 1];
+    for (const c of SC) if (s >= c.start) cur = c;
+    const lt = clamp((s - cur.start) / cur.len);
+
+    const A = smooth(0, byId.hero.len, s);                                  // המסך נפתח: חצי הלוגו יוצא
+    const O = inOut(clamp((s - 0.5) / 1.0));                               // הווילון נאסף
     hero.style.setProperty("--a", A.toFixed(4));
     hero.style.setProperty("--o", O.toFixed(4));
-    setEl.style.setProperty("--c-in", smooth(0.46, 0.56, pS).toFixed(3));
-    const sIn = smooth(0.48, 0.58, pS);
-    setEl.style.setProperty("--s-in", sIn.toFixed(3));
-    spotList.classList.toggle("is-off", sIn < 0.5);
     if ((A > 0.97) !== solid) { solid = A > 0.97; header?.classList.toggle("dr-solid", solid); }
+
+    // הסט: הטקסט והכפתורים רק בסצנה שלו
+    const setT = clamp((s - byId.set.start) / byId.set.len);
+    const setV = s < byId.set.start - 0.4 ? 0 : smooth(-0.05, 0.12, (s - byId.set.start) / byId.set.len) * (1 - smooth(0.82, 1, setT));
+    setEl.style.setProperty("--c-in", setV.toFixed(3));
+    setEl.style.setProperty("--s-in", setV.toFixed(3));
+    spotList.classList.toggle("is-off", setV < 0.5);
+
+    // הדפים של הסצנות: נכנסים אחרי שהמצלמה הגיעה, ותוכן ארוך זז בתוך הדף
+    for (const c of panels) {
+      const t = (s - c.start) / c.len;
+      const isLast = c === SC[SC.length - 1];
+      const v = t < 0 || t > 1.02 ? 0 : smooth(0.18, 0.36, t) * (isLast ? 1 : 1 - smooth(0.9, 1, t));
+      if ((v > 0.01) !== c.on) {
+        c.on = v > 0.01;
+        c.el.classList.toggle("is-on", c.on);
+        if (c.on) c.ins.forEach((el) => el.classList.add("is-in"));
+        else c.ins.forEach((el) => el.classList.remove("is-in"));
+      }
+      if (!c.on) continue;
+      c.el.style.setProperty("--v", v.toFixed(3));
+      if (c.inner) {
+        const over = Math.max(0, c.inner.scrollHeight - c.el.clientHeight);
+        c.el.style.setProperty("--scrub", `${(-over * smooth(0.38, 0.9, t)).toFixed(1)}px`);
+      }
+    }
+    // הגלריה בעיגול מסתובבת עם הגלילה
+    if (byId.projects.on) M.ring?.set(clamp(((s - byId.projects.start) / byId.projects.len - 0.2) / 0.74));
 
     // מונה זמן של מצלמה
     if (tc) {
-      const s = (now - t0) / 1000, f = Math.floor((s % 1) * 25);
-      const txt = `00:${String(Math.floor(s / 60) % 60).padStart(2, "0")}:${String(Math.floor(s) % 60).padStart(2, "0")}:${String(f).padStart(2, "0")}`;
+      const sec = (now - t0) / 1000, f = Math.floor((sec % 1) * 25);
+      const txt = `00:${String(Math.floor(sec / 60) % 60).padStart(2, "0")}:${String(Math.floor(sec) % 60).padStart(2, "0")}:${String(f).padStart(2, "0")}`;
       if (txt !== lastTc) { tc.textContent = txt; lastTc = txt; }
     }
 
@@ -506,20 +593,34 @@ function start() {
 
     /* הסט */
     if (O > 0.001) {
-      KP.getPoint(C, tmpP); KT.getPoint(C, tmpT);
-      tmpP.y += (1 - O) * 0.55; // בזמן שהווילון נפתח, המצלמה עוד יורדת מעט
+      // המצלמה: מבט-על עד הסט, ומשם זווית לכל סצנה, במעבר רך בתחילת הסצנה
+      let roll;
+      if (s < byId.set.start) {
+        tmpP.copy(KEYS.top.p); tmpT.copy(KEYS.top.t); roll = KEYS.top.r;
+        tmpP.y += (1 - O) * 0.8;
+      } else if (cur === byId.set) {
+        roll = blendKey(KEYS.top, KEYS.set, inOut(lt), 0);
+      } else {
+        const prev = SC[cur.i - 1];
+        roll = blendKey(KEYS[prev.id] || KEYS.set, KEYS[cur.id], inOut(clamp(lt / 0.4)), 0.4);
+        // סחרור איטי בזמן שהדף פתוח
+        const ang = (lt - 0.5) * 0.18;
+        const dx = tmpP.x - tmpT.x, dz = tmpP.z - tmpT.z;
+        tmpP.x = tmpT.x + dx * Math.cos(ang) - dz * Math.sin(ang);
+        tmpP.z = tmpT.z + dx * Math.sin(ang) + dz * Math.cos(ang);
+      }
       tmpP.sub(tmpT).multiplyScalar(distK).add(tmpT);
       const mx = ndc.x > -2 ? ndc.x : 0, my = ndc.y > -2 ? ndc.y : 0;
-      tmpP.x += mx * 0.05 + Math.sin(time * 0.3) * 0.012;
-      tmpP.z += -my * 0.04;
+      tmpP.x += mx * 0.06 + Math.sin(time * 0.3) * 0.015;
+      tmpP.z += -my * 0.05;
       camera.position.copy(tmpP);
       camera.up.set(0, 1, 0);
       camera.lookAt(tmpT);
-      camera.rotateZ(rollAt(C));
+      camera.rotateZ(roll);
 
-      // ריחוף מעל חפץ (רק כשהסט פעיל)
+      // ריחוף מעל חפץ (רק בסצנת הסט)
       let hit = null;
-      if (sIn > 0.5 && ndc.x > -2) {
+      if (setV > 0.5 && ndc.x > -2) {
         ray.setFromCamera(ndc, camera);
         let best = Infinity;
         for (const [k, obj] of pickables) {
@@ -535,51 +636,64 @@ function start() {
       }
       for (const k in hoverLift) hoverLift[k] += ((hovered === k ? 1 : 0) - hoverLift[k]) * Math.min(1, dt * 10);
 
-      // הדפים: מתרוממים בריחוף, ועפים כשפותחים אותם
-      const fly = flyAt < 0 ? 0 : (now - flyAt) / 1000;
-      if (fly > 2.8) flyAt = -1;
+      // הדפים: מתרוממים בריחוף, ועפים מהכיסא כשמגיעים לפרויקטים (והולכים לגלריה)
+      const fly = clamp((s - byId.projects.start) / (byId.projects.len * 0.24));
       pages.children.forEach((m, i) => {
         const b = m.userData.base;
-        const ft = clamp((fly - i * 0.05) / 1.2);
-        const up = ft * ft * (1.6 + i * 0.25);
-        m.position.set(b.p.x + ft * (i - 3) * 0.12, b.p.y + hoverLift.pages * (0.012 + i * 0.004) + up, b.p.z - ft * 0.3);
+        const ft = clamp((fly * 1.25 - i * 0.05));
+        const up = ft * ft * (2.2 + i * 0.3);
+        m.position.set(b.p.x + ft * (i - 3) * 0.14, b.p.y + hoverLift.pages * (0.012 + i * 0.004) + up, b.p.z - ft * 0.25);
         m.rotation.set(b.r.x - ft * (1.2 + i * 0.3), b.r.y + ft * (i % 2 ? 1.4 : -1.1), b.r.z + ft * 0.6);
+        m.visible = ft < 0.999;
       });
 
-      // הקלאפר: נפתח עוד בריחוף, ונסגר בלחיצה (עם הבזק)
-      const cl = clapAt < 0 ? -1 : (now - clapAt) / 1000;
+      // הקלאפר: נפתח עוד בריחוף. נסגר בלחיצה, וגם כשהגלילה נכנסת לאודות (עם הבזק)
       let ang = OPEN + hoverLift.clapper * 0.2;
+      const aboutT = (s - byId.about.start) / byId.about.len;
+      const sc = smooth(0.12, 0.2, aboutT) * (1 - smooth(0.92, 1.0, aboutT));
+      if (sc > 0) ang = lerp(ang, 0, sc);
+      if (aboutT > 0.2 && aboutT < 0.5 && !flashed) { flashed = true; fire(); }
+      if (aboutT < 0.1 || aboutT > 1) flashed = false;
+      const cl = clapAt < 0 ? -1 : (now - clapAt) / 1000;
       if (cl >= 0) {
         if (cl < 0.14) ang = lerp(OPEN + 0.2, 0, (cl / 0.14) ** 2);
         else if (cl < 1.0) ang = 0;
         else if (cl < 1.6) ang = lerp(0, OPEN, inOut((cl - 1.0) / 0.6));
         else clapAt = -1;
-        if (cl >= 0.14 && !flash.classList.contains("is-on")) { flash.classList.add("is-on"); setTimeout(() => flash.classList.remove("is-on"), 600); }
+        if (cl >= 0.14 && clapLocal !== clapAt) { clapLocal = clapAt; fire(); }
       }
       hinge.rotation.y = ang;
-      clapper.position.y = SEAT_Y + 0.004 + (cl >= 0.14 && cl < 0.3 ? Math.sin((cl - 0.14) / 0.16 * Math.PI) * 0.01 : 0);
 
-      // הכיסא: האור מהבהב ונדלק חזק יותר
+      // הכיסא: האור מהבהב בלחיצה, ונדלק חזק יותר על הכיסא הריק בסצנה האחרונה
       const pu = pulseAt < 0 ? -1 : (now - pulseAt) / 1000;
       if (pu > 1.4) pulseAt = -1;
       const flick = pu >= 0 && pu < 0.5 ? (Math.sin(pu * 70) > 0 ? 0.55 : 1) : 1;
-      sun.intensity = 3.4 * flick * (1 + hoverLift.chair * 0.18 + (pu >= 0.5 ? 0.35 * Math.sin(((pu - 0.5) / 0.9) * Math.PI) : 0));
+      const lastV = byId.contact.on ? +byId.contact.el.style.getPropertyValue("--v") || 0 : 0;
+      sun.intensity = 3.4 * flick * (1 + hoverLift.chair * 0.18 + lastV * 0.22 + (pu >= 0.5 ? 0.35 * Math.sin(((pu - 0.5) / 0.9) * Math.PI) : 0));
 
       renderer.render(scene, camera);
 
-      // הכפתורים על הסט: יושבים על החפצים
-      anchors.clapper.set(0.07, 0.03, -0.03).applyEuler(clapper.rotation).add(clapper.position);
-      for (const [k, b] of Object.entries(spots)) {
-        anchor.copy(anchors[k]).project(camera);
-        const vis = anchor.z < 1 && Math.abs(anchor.x) < 1.05 && Math.abs(anchor.y) < 1.05;
-        let x = (anchor.x * 0.5 + 0.5) * W;
-        const y = (1 - (anchor.y * 0.5 + 0.5)) * H;
-        // התווית לא יוצאת מהמסך: בצד שלה יש לפחות רוחב הכפתור
-        const bw = b.offsetWidth, pad = 8;
-        x = b.classList.contains("dr-spot--flip") ? Math.min(x, W - bw + 19.5 - pad) : Math.max(x, bw - 19.5 + pad);
-        const li = b.parentElement;
-        li.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)`;
-        li.style.visibility = vis ? "" : "hidden";
+      // הכפתורים על הסט יושבים על החפצים
+      const project = (v) => {
+        anchor.copy(v).project(camera);
+        return [(anchor.x * 0.5 + 0.5) * W, (1 - (anchor.y * 0.5 + 0.5)) * H, anchor.z < 1 && Math.abs(anchor.x) < 1.05 && Math.abs(anchor.y) < 1.05];
+      };
+      if (setV > 0.001) {
+        anchors.clapper.set(0.05, 0.03, -0.02).applyEuler(clapper.rotation).add(clapper.position);
+        for (const [k, b] of Object.entries(spots)) {
+          let [x, y, vis] = project(anchors[k]);
+          const bw = b.offsetWidth, pad = 8; // התווית לא יוצאת מהמסך
+          x = b.classList.contains("dr-spot--flip") ? Math.min(x, W - bw + 19.5 - pad) : Math.max(x, bw - 19.5 + pad);
+          const li = b.parentElement;
+          li.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)`;
+          li.style.visibility = vis ? "" : "hidden";
+        }
+      }
+      // "המוצר שלך" על המושב הריק
+      if (seatTag) {
+        const [x, y] = project(seatPoint);
+        seatTag.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)`;
+        seatTag.style.setProperty("--tag", lastV.toFixed(3));
       }
     }
 
@@ -610,4 +724,8 @@ function start() {
     e.preventDefault();
     M.status("WebGL נעצר (context lost) · רענון הדף מחזיר את הסט");
   });
+
+  // כתובת עם עוגן (למשל #about): מגיעים ישר לסצנה
+  const start = SC.find((c) => c.el && location.hash === `#${c.el.id}`);
+  if (start) requestAnimationFrame(() => goScene(start, undefined, false));
 }

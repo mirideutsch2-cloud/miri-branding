@@ -131,7 +131,6 @@
 }
 
 /* ---------- 1 · הפתיחה (מצב חי: WebGL). סרט אחד נעוץ: המסך נפתח ← הווילון נפתח ← המצלמה יורדת ---------- */
-.dr-live .dr-film{height:440svh}
 .dr-live .dr-film__sticky{position:sticky;top:0;height:100svh;overflow:hidden}
 .dr-live .dr-gl{display:block;position:absolute;inset:0;width:100%;height:100%}
 .dr-live .dr-hero{position:absolute;inset:0;height:auto;pointer-events:none}
@@ -149,13 +148,52 @@
 .dr-live .dr-hotspots.is-off .dr-spot{pointer-events:none}
 .dr-live .dr-gl.is-hover{cursor:pointer}
 @media (max-width:760px){
-  .dr-live .dr-film{height:400svh}
   .dr-live .dr-panel{clip-path:inset(0 0 calc(var(--a) * 100%) 0)}
   .dr-live .dr-panel > *{translate:0 calc(var(--a) * -14%)}
   .dr-live .dr-set__copy{inset-inline:var(--margin);max-width:none;bottom:5.5rem}
   .dr-live .dr-set__copy .dr-h2{font-size:calc(1.6rem * var(--display-scale) * 1.05)}
   .dr-live .dr-spot small{display:none}
   .dr-live .dr-set__hint{display:none}
+}
+
+
+/* ==================== מסך אחד (מצב חי, 1.11 לבקשת מירי) ====================
+   כל האזורים הם סצנות באותו מסך נעוץ. הסט נשאר מאחור, והגלילה מחליפה סצנה וזווית מצלמה.
+   גובה הסרט נקבע ב-JS לפי אורך הסצנות. כל סצנה היא דף לבן שעולה מעל הסט; תוכן ארוך זז בתוך הדף עם הגלילה */
+.dr-seat-tag{display:none}
+.dr-live .dr-scene:not(.dr-set){position:absolute;z-index:6;visibility:hidden;pointer-events:none;opacity:var(--v, 0)}
+.dr-live .dr-scene.is-on{visibility:visible;pointer-events:auto}
+.dr-live :is(.dr-sec,.dr-footer).dr-scene{top:calc(var(--header-h) + .75rem);bottom:1rem;inset-inline-start:var(--frame);width:min(41rem, 46vw);padding:0;border-radius:var(--r-m);overflow:hidden;box-shadow:0 30px 80px rgba(22,22,24,.2);translate:0 calc((1 - var(--v, 0)) * 3rem);
+  --fs-1:calc(clamp(2.2rem, 1.3rem + 2.6vw, 4.6rem) * var(--display-scale));
+  --fs-2:calc(clamp(1.5rem, 1rem + 1.4vw, 2.6rem) * var(--display-scale));
+  --section:0px;--gap-l:clamp(1.75rem, 1rem + 2vw, 3rem)}
+.dr-live .dr-sec--white.dr-scene{background:rgba(255,255,255,.95)}
+.dr-live .dr-sec--grey.dr-scene{background:rgba(231,231,228,.96)}
+.dr-live .dr-footer.dr-scene{background:rgba(244,244,242,.97)}
+.dr-live .dr-scene > .dr-wrap,.dr-live .dr-footer__in{max-width:none;margin:0;padding:clamp(1.5rem, 1rem + 2vw, 2.75rem);translate:0 var(--scrub, 0px);will-change:translate}
+.dr-live .dr-sec > .dr-wrap{gap:var(--gap-l)}
+.dr-live .dr-scene :is(.dr-pains,.dr-services){grid-template-columns:minmax(0,1fr)}
+.dr-live .dr-scene :is(.dr-how,.dr-about,.dr-footer__top){grid-template-columns:minmax(0,1fr)!important}
+.dr-live .dr-scene .dr-sheet{grid-column:1;grid-row:auto}
+.dr-live .dr-scene .dr-how > .link-more{grid-column:1}
+.dr-live .dr-scene .dr-services{display:grid;overflow:visible;margin:0;padding:0}
+.dr-live .dr-scene .dr-service{flex:none}
+.dr-live .dr-scene .dr-clap,.dr-live .dr-scene .dr-empty{display:none}
+.dr-live .dr-scene .dr-about__media{padding:0;max-width:15rem;margin:0}
+.dr-live .dr-scene .dr-about__media .dr-portrait::after{inset:0}
+.dr-live .dr-footer__top{padding-block-end:var(--gap-m)}
+.dr-live .dr-footer__cta,.dr-live .dr-footer__top > *{grid-column:1!important;grid-row:auto!important}
+.dr-live .dr-footer .footer__cols{grid-template-columns:repeat(2,minmax(0,1fr))}
+.dr-live .dr-footer .footer__cols > :last-child{grid-column:1/-1}
+.dr-live .dr-footer__logo{width:100%;margin:0}
+/* פרויקטים: הגלריה בעיגול על כל המסך, מעל הסט */
+.dr-live .dr-ring.dr-scene{inset:0;height:auto!important;overflow:hidden;background:radial-gradient(ellipse 62% 58% at 50% 58%, rgba(244,244,242,.93), rgba(244,244,242,.6) 80%)}
+.dr-live .dr-ring.is-3d .dr-ring__sticky{position:absolute;inset:0;height:auto}
+/* "המוצר שלך" על המושב הריק */
+.dr-live .dr-seat-tag{display:block;position:absolute;left:0;top:0;z-index:5;translate:-50% -50%;padding:.45rem 1rem;border-radius:var(--r-s);background:var(--white);color:var(--ink);font-family:var(--font-display);font-size:var(--fs-label);font-weight:800;white-space:nowrap;box-shadow:0 10px 24px rgba(22,22,24,.18);opacity:var(--tag, 0);pointer-events:none}
+@media (max-width:760px){
+  .dr-live :is(.dr-sec,.dr-footer).dr-scene{top:auto;bottom:0;inset-inline:0;width:auto;height:min(64svh, calc(100svh - var(--header-h) - 6rem));border-radius:var(--r-m) var(--r-m) 0 0}
+  .dr-live .dr-scene > .dr-wrap,.dr-live .dr-footer__in{padding-block-end:6rem}
 }
 
 /* ---------- אזורים ---------- */

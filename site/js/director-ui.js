@@ -19,6 +19,7 @@
     const watch = new Map(ins.map((el) => [el.classList.contains("dr-in") ? el.parentElement : el, el]));
     const io = new IntersectionObserver((entries) => entries.forEach((en) => {
       if (!en.isIntersecting) return;
+      if (root.classList.contains("dr-live") && en.target.closest(".dr-film")) return; // במסך האחד הסצנות מנוהלות ב-director.js
       watch.get(en.target)?.classList.add("is-in");
       io.unobserve(en.target);
     }), { threshold: 0.2, rootMargin: "0px 0px -6% 0px" });
@@ -35,7 +36,7 @@
   // הכפתורים על הסט: קודם התנועה בתלת-ממד (אם יש), ואז הגלילה
   $$(".dr-spot").forEach((b) => b.addEventListener("click", () => {
     const wait = M.director?.act?.(b.dataset.spot) || 0;
-    setTimeout(() => goTo(b.dataset.go), wait);
+    setTimeout(() => (M.goScene || goTo)(b.dataset.go), wait);
   }));
   M.goTo = goTo;
 
@@ -91,6 +92,8 @@
 
   // לחיצה על כרטיס שלא מקדימה, או מעבר אליו במקלדת: מסובבים אותו קדימה
   const scrollToCard = (i) => {
+    const rp = SPREAD + (i / (n - 1)) * (1 - SPREAD - 0.06);
+    if (M.director?.ringGo) { M.director.ringGo(rp); return; } // במסך האחד
     const total = ring.offsetHeight - innerHeight;
     const t = SPREAD + (i / (n - 1)) * (1 - SPREAD - 0.06);
     scrollTo({ top: ring.getBoundingClientRect().top + scrollY + t * total + 2, behavior: "smooth" });
@@ -113,12 +116,14 @@
     draw();
     if (p !== target) raf = requestAnimationFrame(tick);
   };
-  const kick = () => { if (!raf) raf = requestAnimationFrame(tick); };
+  const kick = () => { if (!raf && !root.classList.contains("dr-live")) raf = requestAnimationFrame(tick); };
+  // במסך האחד director.js מזיז את הגלריה לפי הסצנה
+  M.ring = { set(v) { p = v; draw(); } };
   measure();
   p = progress();
   draw();
   addEventListener("scroll", kick, { passive: true });
-  addEventListener("resize", () => { measure(); kick(); });
+  addEventListener("resize", () => { measure(); kick(); if (root.classList.contains("dr-live")) draw(); });
 
   // "עצירת אנימציות" באמצע הביקור: הגלריה חוזרת לשורה רגילה
   new MutationObserver(() => {
