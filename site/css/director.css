@@ -161,6 +161,13 @@
    כל האזורים הם סצנות באותו מסך נעוץ. הסט נשאר מאחור, והגלילה מחליפה סצנה וזווית מצלמה.
    גובה הסרט נקבע ב-JS לפי אורך הסצנות. כל סצנה היא דף לבן שעולה מעל הסט; תוכן ארוך זז בתוך הדף עם הגלילה */
 .dr-seat-tag{display:none}
+html.dr-locked{overflow:hidden;overscroll-behavior:none}
+.dr-scene:focus{outline:none}
+.dr-close{position:absolute;z-index:30;top:calc(var(--header-h) + .75rem);inset-inline-end:var(--frame);display:inline-flex;align-items:center;gap:.6rem;min-height:44px;padding-block:.35rem;padding-inline:1.1rem .4rem;border:0;border-radius:999px;background:var(--ink);color:var(--white);font:inherit;font-size:var(--fs-label);font-weight:700;cursor:pointer;box-shadow:0 10px 24px rgba(22,22,24,.25);transition:scale .4s var(--ease-out)}
+.dr-close i{display:grid;place-items:center;width:2rem;height:2rem;border-radius:50%;background:var(--fuchsia);color:var(--ink);font-style:normal}
+.dr-close:hover{scale:1.05}
+.dr-close[hidden]{display:none}
+@media (max-width:760px){.dr-live .dr-close{top:auto;bottom:calc(min(64svh, calc(100svh - var(--header-h) - 6rem)) + .75rem);inset-inline-end:50%;translate:50% 0}}
 .dr-live .dr-scene:not(.dr-set){position:absolute;z-index:6;visibility:hidden;pointer-events:none;opacity:var(--v, 0)}
 .dr-live .dr-scene.is-on{visibility:visible;pointer-events:auto}
 .dr-live :is(.dr-sec,.dr-footer).dr-scene{top:calc(var(--header-h) + .75rem);bottom:1rem;inset-inline-start:var(--frame);width:min(41rem, 46vw);padding:0;border-radius:var(--r-m);overflow:hidden;box-shadow:0 30px 80px rgba(22,22,24,.2);translate:0 calc((1 - var(--v, 0)) * 3rem);

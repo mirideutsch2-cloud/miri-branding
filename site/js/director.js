@@ -474,26 +474,69 @@ function start() {
   sS = sT;
   addEventListener("scroll", readScroll, { passive: true });
 
-  // מעבר לסצנה (תפריט, כפתורים, קישורים פנימיים): גוללים לנקודה שבה הדף שלה כבר פתוח
-  const sceneTop = (c, at) => film.getBoundingClientRect().top + scrollY + (c.start + at * c.len) * innerHeight;
-  const goScene = (c, at = c.id === "projects" ? 0.32 : c.id === "hero" ? 0 : 0.45, smoothly = true) => {
-    scrollTo({ top: sceneTop(c, at), behavior: smoothly && !frozen() ? "smooth" : "auto" });
+  /* ---------------- פתיחה במקום, כמו במשחק ----------------
+     לחיצה (על חפץ בסט, בתפריט או בקישור) לא גוללת: הסצנה עולה מעל הסט, המצלמה עוברת לזווית שלה,
+     והגלגלת או האצבע פועלות בתוכה (מסובבות את הגלריה או מזיזות את הדף). סגירה מחזירה בדיוק לאותה נקודה בסרט */
+  const closeBtn = $(".dr-close");
+  let opened = null, shownOpen = null, openK = 0, openScrub = 0, ringP = 0, ringPT = 0, returnFocus = null;
+  let clapAt = -1, pulseAt = -1;
+  const SCENE_FX = { about: () => { clapAt = performance.now(); }, contact: () => { pulseAt = performance.now(); } };
+  SC.forEach((c) => { if (c.el && c.id !== "set") c.el.tabIndex = -1; });
+  const close = () => {
+    if (!opened) return;
+    opened = null;
+    root.classList.remove("dr-locked");
+    if (closeBtn) closeBtn.hidden = true;
+    returnFocus?.focus?.({ preventScroll: true });
   };
-  M.goScene = (sel) => {
-    const c = SC.find((x) => x.el && `#${x.el.id}` === sel);
-    if (c) goScene(c);
+  const open = (c, rp) => {
+    if (!c?.el || c.id === "set") return;
+    if (opened === c.id) { if (rp != null) ringPT = rp; return; }
+    if (!opened) returnFocus = document.activeElement;
+    opened = shownOpen = c.id;
+    openScrub = 0;
+    if (c.id === "projects") { ringP = 0; ringPT = rp ?? 0.2; }
+    SCENE_FX[c.id]?.();
+    root.classList.add("dr-locked");
+    if (closeBtn) closeBtn.hidden = false;
+    setTimeout(() => c.el.focus({ preventScroll: true }), 350);
   };
+  M.goScene = (sel) => open(SC.find((x) => x.el && `#${x.el.id}` === sel));
   document.addEventListener("click", (e) => {
     const a = e.target.closest('a[href^="#"]');
     if (!a) return;
     const id = a.getAttribute("href");
-    const c = id === "#top" ? SC[0] : SC.find((x) => x.el && `#${x.el.id}` === id);
+    if (id === "#top") { e.preventDefault(); close(); scrollTo({ top: 0, behavior: frozen() ? "auto" : "smooth" }); return; }
+    const c = SC.find((x) => x.el && x.id !== "set" && `#${x.el.id}` === id);
     if (!c) return;
     e.preventDefault();
-    goScene(c);
+    open(c);
   }, true);
+  closeBtn?.addEventListener("click", close);
   // הגלריה: לחיצה על כרטיס מסובבת אותו קדימה
-  M.director = { ringGo: (rp) => scrollTo({ top: sceneTop(byId.projects, 0.2 + rp * 0.74), behavior: frozen() ? "auto" : "smooth" }) };
+  M.director = { ringGo: (rp) => open(byId.projects, rp) };
+  // בתוך סצנה פתוחה הגלילה לא מזיזה את הדף: היא מסובבת את הגלריה, או מזיזה את הטקסט בתוך הדף
+  const nudge = (d) => {
+    if (opened === "projects") ringPT = clamp(ringPT + d * 0.0007, 0.2, 0.94);
+    else openScrub = Math.max(0, openScrub + d);
+  };
+  addEventListener("wheel", (e) => { if (!opened) return; e.preventDefault(); nudge(e.deltaY * (e.deltaMode ? 40 : 1)); }, { passive: false });
+  let touchY = null;
+  addEventListener("touchstart", (e) => { touchY = e.touches[0]?.clientY ?? null; }, { passive: true });
+  addEventListener("touchmove", (e) => {
+    if (!opened || touchY == null) return;
+    e.preventDefault();
+    const y = e.touches[0].clientY;
+    nudge((touchY - y) * 1.6);
+    touchY = y;
+  }, { passive: false });
+  addEventListener("keydown", (e) => {
+    if (!opened) return;
+    if (e.key === "Escape") { close(); return; }
+    if (e.target.closest?.("input, textarea, select")) return;
+    const k = { ArrowDown: 90, PageDown: 300, " ": 300, ArrowUp: -90, PageUp: -300 }[e.key];
+    if (k) { e.preventDefault(); nudge(k); }
+  });
 
   /* ---------------- עכבר: אדווה על הסאטן, ריחוף ובחירה על הסט ---------------- */
   const mouse = new THREE.Vector2(0.25, 0.5), ndc = new THREE.Vector2(-9, -9);
@@ -510,13 +553,7 @@ function start() {
   canvas.addEventListener("click", () => { if (hovered) spots[hovered]?.click(); });
 
   /* ---------------- פעולות מהכפתורים על הסט ---------------- */
-  let clapAt = -1, pulseAt = -1;
-  M.director.act = (kind) => {
-    const now = performance.now();
-    if (kind === "clapper") { clapAt = now; return 650; }
-    if (kind === "chair") { pulseAt = now; return 520; }
-    return 120; // הדפים עפים בעצמם כשהגלילה מגיעה לפרויקטים
-  };
+  M.director.act = () => 0; // התנועה (הדפים, הקלאפר, האור) מתחילה כשהסצנה נפתחת
 
   /* ---------------- הלולאה ---------------- */
   const tmpP = new THREE.Vector3(), tmpT = new THREE.Vector3(), anchor = new THREE.Vector3();
@@ -548,15 +585,19 @@ function start() {
     for (const c of SC) if (s >= c.start) cur = c;
     const lt = clamp((s - cur.start) / cur.len);
 
-    const A = smooth(0, byId.hero.len, s);                                  // המסך נפתח: חצי הלוגו יוצא
-    const O = inOut(clamp((s - 0.5) / 1.0));                               // הווילון נאסף
+    // סצנה שנפתחה בלחיצה
+    openK += ((opened ? 1 : 0) - openK) * Math.min(1, dt * 3.2);
+    if (!opened && openK < 0.003) { openK = 0; shownOpen = null; }
+    const ok = inOut(openK);
+    const A = Math.max(ok, smooth(0, byId.hero.len, s));                   // המסך נפתח: חצי הלוגו יוצא
+    const O = Math.max(ok, inOut(clamp((s - 0.5) / 1.0)));                // הווילון נאסף
     hero.style.setProperty("--a", A.toFixed(4));
     hero.style.setProperty("--o", O.toFixed(4));
     if ((A > 0.97) !== solid) { solid = A > 0.97; header?.classList.toggle("dr-solid", solid); }
 
     // הסט: הטקסט והכפתורים רק בסצנה שלו
     const setT = clamp((s - byId.set.start) / byId.set.len);
-    const setV = s < byId.set.start - 0.4 ? 0 : smooth(-0.05, 0.12, (s - byId.set.start) / byId.set.len) * (1 - smooth(0.82, 1, setT));
+    const setV = (s < byId.set.start - 0.4 ? 0 : smooth(-0.05, 0.12, (s - byId.set.start) / byId.set.len) * (1 - smooth(0.82, 1, setT))) * (1 - ok);
     setEl.style.setProperty("--c-in", setV.toFixed(3));
     setEl.style.setProperty("--s-in", setV.toFixed(3));
     spotList.classList.toggle("is-off", setV < 0.5);
@@ -565,7 +606,8 @@ function start() {
     for (const c of panels) {
       const t = (s - c.start) / c.len;
       const isLast = c === SC[SC.length - 1];
-      const v = t < 0 || t > 1.02 ? 0 : smooth(0.18, 0.36, t) * (isLast ? 1 : 1 - smooth(0.9, 1, t));
+      let v = t < 0 || t > 1.02 ? 0 : smooth(0.18, 0.36, t) * (isLast ? 1 : 1 - smooth(0.9, 1, t));
+      if (shownOpen) v = c.id === shownOpen ? ok : v * (1 - ok);
       if ((v > 0.01) !== c.on) {
         c.on = v > 0.01;
         c.el.classList.toggle("is-on", c.on);
@@ -576,11 +618,15 @@ function start() {
       c.el.style.setProperty("--v", v.toFixed(3));
       if (c.inner) {
         const over = Math.max(0, c.inner.scrollHeight - c.el.clientHeight);
-        c.el.style.setProperty("--scrub", `${(-over * smooth(0.38, 0.9, t)).toFixed(1)}px`);
+        let target = over * smooth(0.38, 0.9, t);
+        if (c.id === shownOpen) { openScrub = Math.min(openScrub, over); target = openScrub; }
+        c.sc = lerp(c.sc ?? target, target, Math.min(1, dt * 9));
+        c.el.style.setProperty("--scrub", `${(-c.sc).toFixed(1)}px`);
       }
     }
     // הגלריה בעיגול מסתובבת עם הגלילה
-    if (byId.projects.on) M.ring?.set(clamp(((s - byId.projects.start) / byId.projects.len - 0.2) / 0.74));
+    if (shownOpen === "projects") { ringP += (ringPT - ringP) * Math.min(1, dt * 5); M.ring?.set(ringP); }
+    else if (byId.projects.on) M.ring?.set(clamp(((s - byId.projects.start) / byId.projects.len - 0.2) / 0.74));
 
     // מונה זמן של מצלמה
     if (tc) {
@@ -608,6 +654,12 @@ function start() {
         const dx = tmpP.x - tmpT.x, dz = tmpP.z - tmpT.z;
         tmpP.x = tmpT.x + dx * Math.cos(ang) - dz * Math.sin(ang);
         tmpP.z = tmpT.z + dx * Math.sin(ang) + dz * Math.cos(ang);
+      }
+      if (shownOpen && KEYS[shownOpen]) { // מהזווית של הסרט לזווית של הסצנה שנפתחה
+        const k = KEYS[shownOpen];
+        tmpP.lerp(k.p, ok); tmpT.lerp(k.t, ok);
+        tmpP.y += Math.sin(Math.PI * ok) * 0.3;
+        roll = lerp(roll, k.r, ok);
       }
       tmpP.sub(tmpT).multiplyScalar(distK).add(tmpT);
       const mx = ndc.x > -2 ? ndc.x : 0, my = ndc.y > -2 ? ndc.y : 0;
@@ -637,7 +689,7 @@ function start() {
       for (const k in hoverLift) hoverLift[k] += ((hovered === k ? 1 : 0) - hoverLift[k]) * Math.min(1, dt * 10);
 
       // הדפים: מתרוממים בריחוף, ועפים מהכיסא כשמגיעים לפרויקטים (והולכים לגלריה)
-      const fly = clamp((s - byId.projects.start) / (byId.projects.len * 0.24));
+      const fly = Math.max(shownOpen === "projects" ? ok : 0, clamp((s - byId.projects.start) / (byId.projects.len * 0.24)));
       pages.children.forEach((m, i) => {
         const b = m.userData.base;
         const ft = clamp((fly * 1.25 - i * 0.05));
@@ -727,5 +779,5 @@ function start() {
 
   // כתובת עם עוגן (למשל #about): מגיעים ישר לסצנה
   const start = SC.find((c) => c.el && location.hash === `#${c.el.id}`);
-  if (start) requestAnimationFrame(() => goScene(start, undefined, false));
+  if (start) requestAnimationFrame(() => open(start));
 }
