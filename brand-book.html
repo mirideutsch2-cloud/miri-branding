@@ -1,583 +1,526 @@
-<title>Miri Deutsch Brand Book</title>
-<script>document.documentElement.lang = "he"; document.documentElement.dir = "rtl";</script>
+<title>MIRI Brand Book</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="stylesheet" href="fonts/fonts.css">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700&family=Rubik:wght@400;500;700;900&display=swap">
+<script>document.documentElement.lang = "he"; document.documentElement.dir = "rtl";</script>
 <style>
-/* Layout: a theatre program. Black stage opener with a fuchsia curtain, then white "program pages" with numbered acts. Single light look by choice: brand colors must read exactly as printed. */
+/* Layout: her site's studio — a grey floor, ink bands for statements, one touch of fuchsia per frame. Sections are labelled "NN · name" like the site. Single light look by choice. */
+@font-face { font-family: "Nostela"; src: url("brand/fonts/Nostela-VF.woff2") format("woff2"); font-weight: 100 800; font-display: swap; }
+@font-face { font-family: "Sprinter"; src: url("brand/fonts/Sprinter-VF.woff2") format("woff2"); font-weight: 100 800; font-display: swap; }
+@font-face { font-family: "Pompei Narrow"; src: url("brand/fonts/PompeiNarrow-VF.woff2") format("woff2"); font-weight: 100 800; font-display: swap; }
 :root {
-  --fuchsia: #FF1F8E;   /* פוקסיה במה */
-  --velvet:  #A3005A;   /* וילון עמוק */
-  --blush:   #FFE3F0;   /* ורוד אבקה */
-  --spot:    #FFE45C;   /* זרקור */
-  --ink:     #111111;   /* דיו */
-  --paper:   #FFFFFF;   /* נייר */
-  --muted:   #6B5A63;   /* אפור עם נגיעה ורודה */
-  --line:    #F2D3E3;
-  --display-en: "Miri Block", "Rubik", system-ui, sans-serif;
-  --script-en:  "Miri Script", "Rubik", cursive;
-  --display-he: "Rubik", "Heebo", system-ui, sans-serif;
-  --body-he:    "Heebo", "Rubik", system-ui, sans-serif;
+  --floor: #EAEAEA;   /* studio */
+  --ivory: #F4F4F4;
+  --white: #FFFFFF;
+  --ink: #242A30;     /* her black: never pure black */
+  --ink-2: #2D343B;
+  --fuchsia: #EC0B8C;
+  --muted: #66626A;
+  --muted-d: #A9A4AD;
+  --cream: #F6F0EA;   /* sticker paper */
+  --line: rgba(36,42,48,.14);
+  --line-d: rgba(246,241,243,.16);
+  --f-display: "Nostela", "Arial Black", Arial, sans-serif;
+  --f-body: "Sprinter", Arial, "Noto Sans Hebrew", system-ui, sans-serif;
+  --f-label: "Pompei Narrow", Arial, system-ui, sans-serif;
+  --r-card: 20px;
+  --shadow: 0 12px 24px rgba(36,42,48,.12);
   color-scheme: light;
   direction: rtl;
 }
-svg { fill: currentColor; }
 * { box-sizing: border-box; }
-body { margin: 0; background: var(--paper); color: var(--ink); font: 400 17px/1.7 var(--body-he); }
-.wrap { max-width: 1120px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
-.en { direction: ltr; unicode-bidi: isolate; }
-h1, h2, h3 { font-family: var(--display-he); text-wrap: balance; margin: 0; }
-p { margin: 0; max-width: 65ch; }
+body { margin: 0; background: var(--floor); color: var(--ink); font: 400 18px/1.65 var(--f-body); }
+img { display: block; max-width: 100%; height: auto; }
+.wrap { max-width: 1180px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.ltr { direction: ltr; unicode-bidi: isolate; }
+h1, h2, h3 { font-family: var(--f-display); font-weight: 800; margin: 0; text-wrap: balance; line-height: 1.02; }
+p { margin: 0; max-width: 62ch; }
+.pink { color: var(--fuchsia); }
+.label { font: 500 14px/1.2 var(--f-label); color: var(--muted); letter-spacing: .02em; }
+.logo { display: block; }
+.logo use { --lm: var(--fuchsia); --li: var(--ink); }
 
-/* ---------- Hero: the stage ---------- */
-.stage { position: relative; background: var(--ink); color: var(--paper); overflow: hidden; isolation: isolate; }
-.stage::before { /* spotlight */
-  content: ""; position: absolute; inset: 0; z-index: -1;
-  background: radial-gradient(ellipse 46% 70% at 50% 0%, rgba(255,228,92,.18), transparent 70%),
-              radial-gradient(ellipse 40% 14% at 50% 100%, rgba(255,31,142,.45), transparent 75%);
-}
-.valance { position: absolute; top: 0; inset-inline: 0; height: 56px; z-index: 3;
-  background: radial-gradient(circle at 50% 0, var(--velvet) 0 30px, transparent 31px) 0 26px / 60px 60px repeat-x,
-              linear-gradient(var(--velvet), var(--velvet)) 0 0 / 100% 30px no-repeat; }
-.drape { position: absolute; top: 0; bottom: 0; width: 26%; z-index: 2;
-  background: linear-gradient(90deg, rgba(0,0,0,.28), transparent 30%, rgba(0,0,0,.18) 60%, transparent),
-              repeating-linear-gradient(90deg, var(--velvet) 0 6px, var(--fuchsia) 18px 26px, var(--velvet) 40px);
-  animation: open 1.6s cubic-bezier(.6,.05,.2,1) both; }
-.drape.l { left: 0; transform-origin: left; border-bottom-right-radius: 60% 18%; }
-.drape.r { right: 0; transform-origin: right; border-bottom-left-radius: 60% 18%; }
-@keyframes open { from { transform: scaleX(1.7); } to { transform: scaleX(1); } }
-@media (prefers-reduced-motion: reduce) { .drape { animation: none; } }
-.stage-inner { position: relative; z-index: 1; text-align: center; padding-block: 120px 96px; display: grid; gap: 22px; justify-items: center; }
-.eyebrow { font: 700 12px/1 var(--display-en); letter-spacing: .32em; color: var(--spot); }
-.stage .tagline { font: 700 clamp(20px, 3.2vw, 30px)/1.35 var(--display-he); max-width: 22ch; }
-.stage .tagline em { font-style: normal; color: var(--fuchsia); }
-.toc { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 18px; max-width: 640px; }
-.toc a { color: var(--paper); text-decoration: none; border: 1px solid rgba(255,255,255,.28); border-radius: 999px; padding: 6px 14px; font-size: 14px; }
-.toc a:hover, .toc a:focus-visible { background: var(--fuchsia); border-color: var(--fuchsia); outline: none; }
-@media (max-width: 640px) { .drape { width: 14%; } .stage-inner { padding-block: 96px 72px; } }
+/* ---------- hero ---------- */
+.hero { padding-block: 22px 0; overflow: hidden; }
+.bar { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.bar .logo { width: 120px; height: 30px; }
+.bar .pill { background: var(--white); border-radius: 999px; padding: 8px 18px; box-shadow: var(--shadow); font: 500 14px var(--f-label); }
+.hero-grid { display: grid; grid-template-columns: 1.25fr 1fr; gap: 24px; align-items: end; margin-top: 40px; }
+.hero h1 { font-size: clamp(54px, 9.4vw, 136px); line-height: .95; }
+.hero .sub { margin-top: 26px; font-size: 19px; color: var(--muted); max-width: 46ch; }
+.hero .src { margin-top: 18px; display: inline-flex; gap: 10px; align-items: center; background: var(--white); border-radius: 999px; padding: 6px 8px 6px 18px; box-shadow: var(--shadow); font-size: 15px; }
+.hero .src b { background: var(--fuchsia); color: var(--white); border-radius: 999px; padding: 3px 12px; font: 500 13px var(--f-label); }
+.hero .photo { position: relative; justify-self: center; width: min(100%, 460px); }
+.hero .photo .st { position: absolute; width: 34%; top: 22%; right: -4%; transform: rotate(-8deg); filter: drop-shadow(0 8px 14px rgba(36,42,48,.25)); }
+.toc { display: flex; flex-wrap: wrap; gap: 8px; padding-block: 28px; border-top: 1px solid var(--line); }
+.toc a { text-decoration: none; color: var(--ink); background: var(--white); border-radius: 999px; padding: 6px 14px; font: 500 14px var(--f-label); }
+.toc a:hover, .toc a:focus-visible { background: var(--fuchsia); color: var(--white); outline: none; }
+@media (max-width: 760px) { .hero-grid { grid-template-columns: 1fr; } .hero .photo { width: 78%; } }
 
-/* ---------- Logo lockup ---------- */
-.lockup { display: inline-flex; flex-direction: column; align-items: center; line-height: .8; direction: ltr; position: relative; }
-.lockup .m { font: 800 1em/1 var(--script-en); color: var(--fuchsia); transform: rotate(-6deg); }
-.lockup .d { font: 800 .36em/1 var(--display-en); letter-spacing: .14em; margin-top: -.08em; }
-.lockup .bf { position: absolute; width: .3em; height: .3em; top: -.12em; right: -.22em; color: var(--fuchsia); transform: rotate(14deg); }
-.stage .lockup { font-size: clamp(84px, 16vw, 168px); }
-.stage .lockup .d { color: var(--paper); }
-
-/* ---------- Acts ---------- */
-.act { padding-block: 88px; border-top: 1px solid var(--line); }
-.act-head { display: grid; grid-template-columns: auto 1fr; gap: 6px 20px; align-items: end; margin-bottom: 40px; }
-.act-no { grid-row: span 2; font: 800 clamp(56px, 9vw, 104px)/.8 var(--display-en); color: var(--fuchsia); direction: ltr; }
-.act-kicker { font: 700 12px/1 var(--display-en); letter-spacing: .3em; color: var(--muted); direction: ltr; text-align: right; }
-.act h2 { font-size: clamp(30px, 4.6vw, 48px); font-weight: 900; line-height: 1.1; }
-.lead { font-size: 19px; color: var(--muted); margin-bottom: 32px; }
-h3 { font-size: 20px; font-weight: 700; margin-bottom: 10px; }
-.note { background: var(--blush); border-radius: 14px; padding: 16px 20px; font-size: 15px; display: flex; gap: 12px; align-items: flex-start; margin-top: 28px; }
-.note b { color: var(--velvet); white-space: nowrap; }
-.grid { display: grid; gap: 20px; }
-.g2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-@media (max-width: 720px) { .g2 { grid-template-columns: 1fr; } }
-.g3 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); }
-.g4 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); }
+/* ---------- sections ---------- */
+.sec { padding-block: clamp(64px, 9vw, 112px); }
+.sec + .sec { border-top: 1px solid var(--line); }
+.sec.ink { background: var(--ink); color: var(--ivory); border: 0; }
+.sec.ink .label { color: var(--muted-d); }
+.sec.ivory { background: var(--ivory); }
+.head { display: grid; gap: 12px; margin-bottom: 40px; }
+.head h2 { font-size: clamp(34px, 5.4vw, 72px); }
+.lead { font-size: 19px; color: var(--muted); }
+.ink .lead { color: var(--muted-d); }
+h3 { font-size: clamp(20px, 2.2vw, 26px); margin-bottom: 8px; }
+.grid { display: grid; gap: 18px; }
+.c2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.c3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.c4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 900px) { .c4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } .c3 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .c2, .c3 { grid-template-columns: 1fr; } }
 .grid > * { min-width: 0; }
+.card { background: var(--white); border-radius: var(--r-card); padding: 24px; display: grid; gap: 8px; align-content: start; }
+.card p { font-size: 16px; color: var(--muted); }
+.ink .card { background: var(--ink-2); }
+.ink .card p { color: var(--muted-d); }
+.note { margin-top: 26px; background: var(--white); border-radius: 14px; padding: 16px 20px; font-size: 15.5px; display: flex; gap: 14px; align-items: baseline; }
+.note b { font: 500 13px var(--f-label); background: var(--ink); color: var(--white); border-radius: 999px; padding: 2px 10px; white-space: nowrap; }
 
-/* Act 1: story */
-.manifesto { background: var(--ink); color: var(--paper); border-radius: 24px; padding: clamp(28px, 5vw, 56px); display: grid; gap: 18px; }
-.manifesto .big { font: 900 clamp(28px, 5vw, 54px)/1.15 var(--display-he); max-width: 18ch; }
-.ghost { color: transparent; -webkit-text-stroke: 1.5px var(--paper); }
-.manifesto small { color: #cfc3c9; font-size: 15px; }
-.words { display: flex; flex-wrap: wrap; gap: 12px; }
-.word { font: 900 clamp(22px, 3.4vw, 32px)/1 var(--display-he); padding: 14px 22px; border-radius: 999px; border: 2px solid var(--ink); }
-.word:nth-child(2) { background: var(--fuchsia); border-color: var(--fuchsia); color: var(--paper); }
-.word:nth-child(3) { background: var(--ink); color: var(--paper); }
-.facts dt { font: 700 12px/1 var(--display-en); letter-spacing: .25em; color: var(--fuchsia); direction: ltr; text-align: right; margin-bottom: 8px; }
-.facts dd { margin: 0 0 22px; font-size: 18px; }
-.facts dd strong { font-family: var(--display-he); }
+/* 01 essence */
+.statement { font: 800 clamp(30px, 5.2vw, 72px)/1.08 var(--f-display); }
+.statement .hl { background: var(--fuchsia); color: var(--white); border-radius: 999px; padding: 0 .28em; }
+.facts { margin-top: 56px; }
+.facts .k { font: 500 13px var(--f-label); color: var(--fuchsia); }
+.ink .facts .card h3 { color: var(--white); }
+.words { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+.words span { font: 800 22px/1 var(--f-display); border-radius: 999px; padding: 12px 20px; background: var(--ivory); color: var(--ink); }
+.words span:first-child { background: var(--fuchsia); color: var(--white); }
+.big-num { font: 800 clamp(56px, 7vw, 96px)/.9 var(--f-display); color: var(--fuchsia); }
 
-/* Act 2: logo */
-.logo-tile { aspect-ratio: 4 / 3; max-width: 100%; border-radius: 18px; display: grid; place-items: center; position: relative; overflow: hidden; }
-.logo-tile .lockup { font-size: clamp(64px, 9vw, 92px); }
-.logo-tile .cap { position: absolute; bottom: 12px; inset-inline-start: 16px; font-size: 13px; }
-.t-white { background: var(--paper); border: 1px solid var(--line); }
-.t-black { background: var(--ink); color: var(--paper); }
-.t-black .lockup .d { color: var(--paper); }
-.t-pink { background: var(--fuchsia); color: var(--paper); }
-.t-pink .lockup .m, .t-pink .lockup .bf { color: var(--paper); }
-.t-pink .lockup .d { color: var(--ink); }
-.t-mono .lockup .m, .t-mono .lockup .bf { color: var(--ink); }
-.t-mono { background: var(--blush); }
-.marks { display: flex; flex-wrap: wrap; gap: 28px; align-items: center; margin-top: 8px; }
-.mono { width: 120px; height: 120px; border-radius: 50%; background: var(--fuchsia); display: grid; place-items: center; color: var(--paper); font: 800 74px/1 var(--script-en); }
-.mono span { transform: translateY(6px) rotate(-6deg); }
-.mono.b { background: var(--ink); color: var(--fuchsia); }
-.mark-bf { width: 120px; height: 120px; border-radius: 28px; background: var(--ink); display: grid; place-items: center; color: var(--fuchsia); }
-.mark-bf svg { width: 76px; height: 76px; }
-.rules { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
-.rules li { display: flex; gap: 10px; align-items: baseline; }
-.rules li::before { content: "✓"; font-weight: 700; color: var(--fuchsia); }
+/* 02 concept */
+.slate { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 0; border-top: 2px solid var(--ink); }
+.slate > div { padding: 18px 4px 22px; border-bottom: 1px solid var(--line); display: grid; gap: 6px; align-content: start; }
+.slate > div:nth-child(odd) { padding-inline-end: 22px; }
+.slate .t { font: 800 22px/1.1 var(--f-display); }
+.slate .t i { font: 500 15px var(--f-label); font-style: normal; color: var(--fuchsia); margin-inline-start: 8px; }
+.slate p { font-size: 15.5px; color: var(--muted); }
+
+/* 03 logo */
+.tile { border-radius: var(--r-card); aspect-ratio: 16 / 10; max-width: 100%; display: grid; place-items: center; position: relative; overflow: hidden; }
+.tile .logo { width: 62%; height: auto; aspect-ratio: 377 / 92; }
+.tile .cap { position: absolute; bottom: 12px; inset-inline-start: 16px; font: 500 13px var(--f-label); }
+.t-floor { background: var(--white); }
+.t-ink { background: var(--ink); color: var(--ivory); }
+.t-ink .logo use { --li: var(--white); }
+.t-pink { background: var(--fuchsia); color: var(--white); }
+.t-pink .logo use { --lm: var(--white); --li: var(--white); }
+.t-mono { background: var(--ivory); }
+.t-mono .logo use { --lm: var(--ink); --li: var(--ink); }
+.t-mono2 { background: var(--white); }
+.t-mono2 .logo use { --lm: var(--fuchsia); --li: var(--fuchsia); }
+.t-fav { background: var(--floor); border: 1px dashed var(--muted-d); }
+.fav { width: 30%; aspect-ratio: 1; border-radius: 22%; background: #171619; display: grid; place-items: center; }
+.fav svg { width: 74%; height: auto; }
+.files { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 8px; }
+.files code { font: 500 13px ui-monospace, Menlo, monospace; background: var(--white); border-radius: 8px; padding: 4px 10px; direction: ltr; }
+.rules { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; font-size: 16px; }
+.rules li { display: grid; grid-template-columns: 22px 1fr; gap: 6px; }
+.rules li::before { content: "✓"; color: var(--fuchsia); font-weight: 700; }
 .rules.no li::before { content: "✕"; color: var(--ink); }
-.clear { border: 2px dashed var(--fuchsia); border-radius: 12px; padding: 34px; display: inline-grid; place-items: center; position: relative; }
-.clear .lockup { font-size: 64px; }
-.clear::after { content: "M"; position: absolute; top: 4px; left: 8px; font: 800 18px var(--script-en); color: var(--fuchsia); }
 
-/* Act 3: color */
-.swatch { border-radius: 18px; overflow: hidden; border: 1px solid var(--line); display: flex; flex-direction: column; }
-.swatch .chip { height: 150px; display: flex; align-items: flex-end; padding: 14px 16px; font: 800 20px var(--display-en); direction: ltr; justify-content: flex-end; }
-.swatch .info { padding: 14px 16px 18px; display: grid; gap: 4px; font-size: 14px; }
-.swatch .info strong { font: 700 18px var(--display-he); }
-.swatch .codes { font-family: ui-monospace, Menlo, monospace; font-size: 12.5px; color: var(--muted); direction: ltr; text-align: right; font-variant-numeric: tabular-nums; }
-.swatch .role { font-size: 14px; }
-.tag { display: inline-block; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: var(--blush); color: var(--velvet); width: fit-content; }
-.copy { font: inherit; font-size: 12px; border: 1px solid var(--line); background: var(--paper); border-radius: 8px; padding: 3px 10px; cursor: pointer; width: fit-content; }
-.copy:hover, .copy:focus-visible { border-color: var(--fuchsia); outline: none; }
-.ratio { display: flex; height: 64px; border-radius: 14px; overflow: hidden; border: 1px solid var(--line); margin-top: 36px; }
-.ratio div { display: grid; place-items: center; font-size: 13px; font-weight: 700; }
-.ratio-legend { display: flex; flex-wrap: wrap; gap: 6px 22px; font-size: 14px; color: var(--muted); margin-top: 10px; }
+/* 04 colour */
+.ratio { display: flex; height: 92px; border-radius: var(--r-card); overflow: hidden; box-shadow: var(--shadow); }
+.ratio > div { display: grid; align-content: end; padding: 12px 14px; font: 500 13px/1.3 var(--f-label); }
+.sw { border-radius: var(--r-card); overflow: hidden; background: var(--white); display: flex; flex-direction: column; }
+.sw .chip { height: 112px; display: flex; align-items: flex-end; justify-content: flex-end; padding: 12px 14px; font: 800 18px var(--f-display); direction: ltr; }
+.sw .info { padding: 14px 16px 16px; display: grid; gap: 4px; }
+.sw .info strong { font: 800 18px var(--f-display); }
+.sw .role { font-size: 14.5px; color: var(--muted); line-height: 1.5; }
+.sw .codes { font: 12px/1.6 ui-monospace, Menlo, monospace; color: var(--muted); direction: ltr; text-align: right; font-variant-numeric: tabular-nums; }
+.sw button { justify-self: start; font: 500 13px var(--f-label); background: var(--floor); color: var(--ink); border: 0; border-radius: 999px; padding: 4px 12px; cursor: pointer; }
+.sw button:hover, .sw button:focus-visible { background: var(--fuchsia); color: var(--white); outline: none; }
+.group-t { font: 500 14px var(--f-label); color: var(--muted); margin: 30px 0 12px; }
 
-/* Act 4: type */
-.spec { border-radius: 20px; border: 1px solid var(--line); padding: 26px; display: grid; gap: 14px; align-content: start; }
-.spec .sample { font-size: clamp(40px, 5.6vw, 64px); line-height: 1; direction: ltr; text-align: left; overflow-wrap: anywhere; }
+/* 05 type */
+.spec { background: var(--white); border-radius: var(--r-card); padding: 26px; display: grid; gap: 12px; align-content: start; }
+.spec .s { line-height: 1; overflow-wrap: anywhere; }
 .spec .meta { display: flex; flex-wrap: wrap; gap: 6px; }
-.spec .meta span { font-size: 12px; border: 1px solid var(--line); border-radius: 999px; padding: 2px 10px; }
-.spec p { font-size: 15px; color: var(--muted); }
-.hier { margin-top: 28px; border-radius: 20px; background: var(--blush); padding: clamp(24px, 4vw, 44px); display: grid; gap: 14px; }
-.hier .row { display: grid; grid-template-columns: 110px 1fr; gap: 16px; align-items: baseline; }
-.hier .lbl { font: 700 11px/1.3 var(--display-en); letter-spacing: .2em; color: var(--velvet); direction: ltr; text-align: right; }
-@media (max-width: 560px) { .hier .row { grid-template-columns: 1fr; gap: 4px; } }
+.spec .meta span { font: 500 12.5px var(--f-label); background: var(--floor); border-radius: 999px; padding: 3px 10px; }
+.spec p { font-size: 15.5px; color: var(--muted); }
+.scale { margin-top: 18px; background: var(--white); border-radius: var(--r-card); overflow: hidden; }
+.scale .row { display: grid; grid-template-columns: 150px 1fr; gap: 16px; align-items: baseline; padding: 16px 22px; border-bottom: 1px solid var(--line); }
+.scale .row:last-child { border-bottom: 0; }
+.scale .row > span:first-child { font: 500 13px/1.4 var(--f-label); color: var(--muted); }
+.scale .row > * { min-width: 0; overflow-wrap: anywhere; }
+@media (max-width: 600px) { .scale .row { grid-template-columns: 1fr; gap: 4px; } }
 
-/* Act 5: symbols */
-.sym { border-radius: 18px; background: var(--ink); color: var(--paper); padding: 22px; display: grid; gap: 10px; align-content: start; }
-.sym svg { width: 64px; height: 64px; color: var(--fuchsia); }
-.sym p { font-size: 15px; color: #d9cdd3; }
+/* 06 visual language */
+.obj { background: var(--white); border-radius: var(--r-card); overflow: hidden; }
+.obj img { width: 100%; aspect-ratio: 1; object-fit: cover; }
+.obj figcaption { padding: 12px 16px 16px; font-size: 14.5px; color: var(--muted); }
+.obj figcaption b { display: block; color: var(--ink); font: 800 17px var(--f-display); }
+figure { margin: 0; }
+.bfly { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center; background: var(--white); border-radius: var(--r-card); padding: 20px; }
+.bfly img { width: 30%; max-width: 140px; }
+.crowd { border-radius: var(--r-card); overflow: hidden; position: relative; }
+.crowd img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+.crowd p { position: absolute; inset-inline: 0; bottom: 0; padding: 16px 20px; color: var(--white); background: linear-gradient(transparent, rgba(23,22,25,.85)); font-size: 15.5px; max-width: none; }
+.emb { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+.emb figure { background: var(--white); border-radius: var(--r-card); padding: 18px 14px 12px; display: grid; gap: 10px; justify-items: center; text-align: center; }
+.emb img { height: 84px; width: auto; object-fit: contain; }
+.emb figcaption { font-size: 14px; color: var(--muted); line-height: 1.4; }
+.emb figcaption b { display: block; color: var(--ink); font: 800 15px var(--f-display); }
+@media (max-width: 760px) { .emb { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.photo-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: start; }
+.photo-row img { border-radius: var(--r-card); width: 100%; height: 100%; object-fit: cover; background: var(--ink); }
+@media (max-width: 600px) { .photo-row { grid-template-columns: 1fr; } }
 
-/* Act 6: stickers */
-.board { border-radius: 24px; padding: clamp(18px, 3vw, 32px); background:
-  radial-gradient(circle at 1px 1px, rgba(163,0,90,.18) 1px, transparent 1.5px) 0 0 / 18px 18px, var(--blush); }
-.cell { display: grid; grid-template-rows: 210px auto; gap: 8px; text-align: center; }
-.cell .slot { display: grid; place-items: center; }
-.cell > b { font-family: var(--display-he); font-size: 16px; }
-.cell > span { font-size: 13.5px; color: var(--muted); line-height: 1.5; }
-.st { direction: ltr; }
-.st, .st-ticket-wrap { filter: drop-shadow(0 3px 2px rgba(80,0,40,.25)) drop-shadow(0 8px 14px rgba(80,0,40,.15)); }
-.st-pill { background: var(--ink); color: var(--paper); border: 6px solid var(--paper); border-radius: 999px; padding: 14px 26px; font: 800 26px/1 var(--display-en); letter-spacing: .06em; display: inline-flex; gap: 10px; align-items: center; direction: ltr; transform: rotate(-5deg); }
-.st-pill svg { width: 24px; height: 24px; color: var(--spot); }
-.st-clap { width: 190px; border: 6px solid var(--paper); border-radius: 14px; background: var(--ink); color: var(--paper); overflow: hidden; transform: rotate(4deg); direction: ltr; }
-.st-clap .bar { height: 30px; background: repeating-linear-gradient(-55deg, var(--paper) 0 14px, var(--ink) 14px 28px); border-bottom: 4px solid var(--paper); }
-.st-clap .tx { padding: 10px 14px 12px; display: grid; gap: 4px; text-align: left; }
-.st-clap .tx b { font: 800 30px/1 var(--display-en); color: var(--fuchsia); font-family: var(--display-en); }
-.st-clap .tx i { font: 700 13px/1 var(--display-en); font-style: normal; letter-spacing: .18em; }
-.st-ticket { width: 220px; height: 104px; background: var(--fuchsia); color: var(--paper); border-radius: 10px; position: relative; display: grid; grid-template-columns: 1fr 56px; transform: rotate(-4deg); direction: ltr;
-  -webkit-mask: radial-gradient(circle 14px at 0 50%, transparent 98%, #000) left / 51% 100% no-repeat, radial-gradient(circle 14px at 100% 50%, transparent 98%, #000) right / 51% 100% no-repeat;
-          mask: radial-gradient(circle 14px at 0 50%, transparent 98%, #000) left / 51% 100% no-repeat, radial-gradient(circle 14px at 100% 50%, transparent 98%, #000) right / 51% 100% no-repeat; }
-.st-ticket .main { display: grid; align-content: center; padding-left: 24px; gap: 4px; border-right: 3px dashed rgba(255,255,255,.7); }
-.st-ticket .main b { font: 800 26px/1 var(--display-en); }
-.st-ticket .main i { font: 700 12px/1 var(--display-en); font-style: normal; letter-spacing: .2em; color: var(--ink); }
-.st-ticket .stub { display: grid; place-items: center; font: 800 22px var(--display-en); writing-mode: vertical-rl; color: var(--ink); }
-.st-ticket-wrap { padding: 8px; }
-.outline { filter: drop-shadow(5px 0 0 #fff) drop-shadow(-5px 0 0 #fff) drop-shadow(0 5px 0 #fff) drop-shadow(0 -5px 0 #fff) drop-shadow(0 3px 2px rgba(80,0,40,.25)) drop-shadow(0 8px 14px rgba(80,0,40,.15)); padding: 8px; }
-.st-stamp { width: 168px; height: 168px; border-radius: 50%; background: var(--paper); border: 8px solid var(--fuchsia); outline: 6px solid var(--paper); display: grid; place-content: center; text-align: center; transform: rotate(-12deg); direction: ltr; }
-.st-stamp b { font: 800 36px/.95 var(--display-en); color: var(--ink); }
-.st-stamp i { font: 700 12px/1 var(--display-en); font-style: normal; letter-spacing: .3em; color: var(--fuchsia); margin-top: 6px; }
-.st-tape { background: var(--ink); color: var(--paper); padding: 14px 30px; text-align: center; font: 900 24px/1.1 var(--display-he); transform: rotate(-3deg);
-  clip-path: polygon(0 0, 100% 0, 97% 25%, 100% 50%, 97% 75%, 100% 100%, 0 100%, 3% 75%, 0 50%, 3% 25%); }
-.st-tape em { font-style: normal; color: var(--fuchsia); }
-.st-ghost { background: var(--paper); border-radius: 20px; padding: 16px 22px; font: 900 30px/1.05 var(--display-he); transform: rotate(3deg); text-align: center; border: 3px solid var(--ink); outline: 5px solid var(--paper); }
-.st-ghost .ghost { -webkit-text-stroke: 1.6px var(--ink); }
+/* 07 stickers */
+.sheet { background: var(--white); border-radius: var(--r-card); padding: clamp(18px, 3vw, 36px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 26px 20px; align-items: end; }
+.sheet figure { display: grid; gap: 10px; justify-items: center; text-align: center; }
+.sheet .img { height: 150px; display: grid; place-items: center; }
+.sheet img { max-height: 150px; width: auto; max-width: 100%; filter: drop-shadow(0 6px 10px rgba(36,42,48,.18)); }
+.sheet figcaption { font-size: 14.5px; color: var(--muted); line-height: 1.45; }
+.sheet figcaption b { display: block; font: 500 15px var(--f-label); color: var(--ink); direction: ltr; }
+.new { margin-top: 18px; background: var(--ink); border-radius: var(--r-card); padding: clamp(18px, 3vw, 36px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 26px 20px; align-items: end; color: var(--ivory); }
+.new figure { display: grid; gap: 12px; justify-items: center; text-align: center; }
+.new .img { height: 150px; display: grid; place-items: center; }
+.new figcaption { font-size: 14.5px; color: var(--muted-d); line-height: 1.45; }
+.new figcaption b { display: block; color: var(--white); font: 500 15px var(--f-label); direction: ltr; }
+.nst { position: relative; direction: ltr; font: 800 44px/.84 var(--f-label); text-transform: uppercase; letter-spacing: -.01em; border: 6px solid var(--white); filter: drop-shadow(0 6px 10px rgba(0,0,0,.3)); }
+.nst svg { position: absolute; height: auto; }
+.nst.a { background: #0c0c0c; color: var(--cream); padding: 12px 16px 14px; border-radius: 10px; transform: rotate(-4deg); }
+.nst.a svg { width: 72px; right: -18px; bottom: -14px; }
+.nst.b { background: var(--fuchsia); color: #0c0c0c; padding: 12px 18px; border-radius: 6px; transform: rotate(3deg); }
+.nst.b svg { width: 60px; left: -16px; top: -18px; }
+.nst.b svg use { --lm: var(--cream); }
+.nst.c { background: var(--cream); color: #0c0c0c; padding: 22px 20px; border-radius: 50%; width: 150px; height: 150px; display: grid; place-content: center; text-align: center; font-size: 34px; transform: rotate(-6deg); }
+.nst.c svg { width: 70px; left: 40px; bottom: -6px; }
+.nst.d { background: #0c0c0c; color: var(--cream); padding: 10px 26px 12px; border-radius: 999px; font-size: 38px; transform: rotate(-3deg); }
+.nst.d svg { width: 58px; right: -10px; top: -22px; }
+.nst.e { background: var(--cream); color: #0c0c0c; padding: 10px 18px 14px; border-radius: 10px; font: 800 46px/1 var(--f-display); text-transform: none; direction: rtl; transform: rotate(4deg); }
+.nst.e svg { width: 64px; left: -20px; bottom: -16px; }
+.nst svg use { --lm: var(--fuchsia); }
 
-/* Act 7: voice */
-.say { border-radius: 18px; padding: 22px; display: grid; gap: 10px; align-content: start; }
-.say.yes { background: var(--blush); }
-.say.no { border: 2px solid var(--ink); }
-.say ul { margin: 0; padding-inline-start: 18px; display: grid; gap: 6px; }
-.chips { display: flex; flex-wrap: wrap; gap: 8px; }
-.chips span { border-radius: 999px; padding: 4px 12px; font-weight: 500; font-size: 15px; }
-.yes .chips span { background: var(--fuchsia); color: var(--paper); }
-.no .chips span { background: var(--ink); color: var(--paper); text-decoration: line-through; text-decoration-color: var(--fuchsia); text-decoration-thickness: 2px; }
-.ba { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; margin-top: 20px; }
-.ba > div { padding: 18px 20px; min-width: 0; }
-.ba > div:nth-child(odd) { color: var(--muted); border-inline-end: 1px solid var(--line); }
-.ba > div:nth-child(even) { font-weight: 500; }
-.ba > div:nth-child(n+3) { border-top: 1px solid var(--line); }
-.ba .h { font: 700 12px var(--display-en); letter-spacing: .25em; color: var(--fuchsia); direction: ltr; text-align: right; }
-@media (max-width: 560px) { .ba { grid-template-columns: 1fr; } .ba > div:nth-child(odd) { border-inline-end: 0; } .ba > div:nth-child(n+2) { border-top: 1px solid var(--line); } }
+/* 08 components */
+.ui { background: var(--white); border-radius: var(--r-card); padding: 26px; display: grid; gap: 16px; align-content: start; }
+.btn { display: inline-flex; align-items: center; gap: 12px; background: var(--white); color: var(--ink); border-radius: 999px; padding: 6px 6px 6px 20px; box-shadow: var(--shadow); font: 500 16px var(--f-body); width: fit-content; }
+.btn i { width: 34px; height: 34px; border-radius: 50%; background: var(--fuchsia); color: var(--white); display: grid; place-items: center; font-style: normal; order: -1; }
+.btn.solid { background: var(--fuchsia); color: var(--white); padding: 10px 22px; }
+.btn.dark { background: var(--ink); color: var(--white); padding: 10px 22px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chips span { font: 500 15px var(--f-label); padding: 5px 12px; }
+.chips span:nth-child(1), .chips span:nth-child(5) { background: var(--fuchsia); color: var(--white); }
+.chips span:nth-child(2) { background: var(--ink); color: var(--white); }
+.chips span:nth-child(3) { background: var(--white); border: 1px solid var(--line); }
+.chips span:nth-child(4) { background: var(--floor); }
+.takes { display: flex; gap: 14px; }
+.takes span { font: 500 15px var(--f-label); padding-bottom: 8px; border-bottom: 2px solid var(--muted-d); color: var(--muted); flex: 1; }
+.takes span:first-child { color: var(--ink); border-color: var(--fuchsia); }
+.mini-stmt { background: var(--ink); color: var(--white); border-radius: 14px; padding: 18px; font: 800 24px/1.3 var(--f-display); }
+.mini-stmt span { background: var(--fuchsia); border-radius: 999px; padding: 0 10px; }
 
-/* Act 8: applications */
-.mock-row { display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); align-items: start; }
-.mock-row > * { min-width: 0; }
-.mock-cap { font-size: 14px; color: var(--muted); margin-top: 10px; }
-.post { aspect-ratio: 1; max-width: 100%; border-radius: 6px; overflow: hidden; position: relative; display: grid; padding: 26px; }
-.post.p1 { background: var(--ink); color: var(--paper); align-content: end; gap: 10px; }
-.post.p1 .q { font: 900 clamp(26px, 3.2vw, 34px)/1.12 var(--display-he); }
-.post.p1 .q .ghost { -webkit-text-stroke: 1.5px var(--fuchsia); }
-.post.p1 .sig { font: 800 30px/1 var(--script-en); color: var(--fuchsia); direction: ltr; text-align: left; }
-.post.p2 { background: repeating-linear-gradient(90deg, var(--velvet) 0 6px, var(--fuchsia) 18px 26px, var(--velvet) 40px); color: var(--paper); place-content: center; text-align: center; gap: 8px; }
-.post.p2::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,0,0,.25), transparent 35% 65%, rgba(0,0,0,.25)); }
-.post.p2 > * { position: relative; }
-.post.p2 b { font: 900 clamp(30px, 3.8vw, 40px)/1.05 var(--display-he); }
-.post.p2 span { font: 700 12px/1 var(--display-en); letter-spacing: .3em; color: var(--spot); direction: ltr; }
-.story { aspect-ratio: 9 / 16; max-width: 260px; width: 100%; border-radius: 22px; background: var(--fuchsia); color: var(--paper); display: grid; grid-template-rows: 1fr auto; padding: 26px 20px; overflow: hidden; position: relative; }
-.story .t { font: 900 32px/1.1 var(--display-he); align-self: center; padding-top: 60px; }
-.story .t small { display: block; font: 500 16px/1.5 var(--body-he); margin-top: 12px; }
-.story .btn { background: var(--paper); color: var(--ink); border-radius: 999px; padding: 12px; text-align: center; font: 700 16px var(--display-he); }
-.story svg { position: absolute; width: 74px; height: 74px; top: 20px; left: 18px; color: var(--velvet); transform: rotate(-18deg); }
-.hl { display: flex; flex-wrap: wrap; gap: 18px; }
-.hl figure { margin: 0; display: grid; justify-items: center; gap: 6px; font-size: 13px; }
-.hl .c { width: 72px; height: 72px; border-radius: 50%; background: var(--ink); display: grid; place-items: center; color: var(--fuchsia); box-shadow: 0 0 0 3px var(--paper), 0 0 0 5px var(--line); }
-.hl .c svg { width: 36px; height: 36px; }
-.cards { display: grid; gap: 16px; }
-.card { aspect-ratio: 85 / 55; max-width: 100%; border-radius: 10px; padding: 20px; position: relative; overflow: hidden; box-shadow: 0 10px 24px rgba(60,0,30,.14); }
-.card.front { background: var(--ink); display: grid; place-items: center; }
-.card.front .lockup { font-size: 60px; }
-.card.front .lockup .d { color: var(--paper); }
-.card.back { background: var(--fuchsia); color: var(--paper); display: grid; align-content: space-between; }
-.card.back b { font: 900 clamp(19px, 2.4vw, 26px)/1.2 var(--display-he); max-width: 16ch; }
-.card.back .ct { font-size: 12.5px; line-height: 1.6; color: var(--ink); }
-.card.back .ct span { background: rgba(255,255,255,.55); border-radius: 4px; padding: 0 5px; }
+/* 09 voice */
+.lines { display: grid; gap: 0; border-top: 2px solid var(--ivory); }
+.lines > div { display: grid; grid-template-columns: 200px 1fr; gap: 16px; padding: 18px 0; border-bottom: 1px solid var(--line-d); align-items: baseline; }
+.lines > div > span:first-child { font: 500 13px var(--f-label); color: var(--muted-d); }
+.lines q { quotes: none; font: 800 clamp(20px, 2.6vw, 30px)/1.25 var(--f-display); }
+.lines q em { font-style: normal; color: var(--fuchsia); }
+@media (max-width: 600px) { .lines > div { grid-template-columns: 1fr; gap: 4px; } }
+.do { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.do span { background: var(--fuchsia); color: var(--white); border-radius: 999px; padding: 4px 12px; font-size: 15px; }
+.dont span { background: var(--ink-2); color: var(--muted-d); text-decoration: line-through; text-decoration-color: var(--fuchsia); }
 
-/* Act 9: ideas */
-.idea { border-top: 3px solid var(--ink); padding-top: 16px; display: grid; gap: 8px; align-content: start; }
-.idea .k { font: 700 12px/1 var(--display-en); letter-spacing: .22em; color: var(--fuchsia); direction: ltr; text-align: right; }
-.idea p { font-size: 15.5px; }
+/* 10 ideas */
+.idea { border-top: 2px solid var(--ink); padding-top: 16px; display: grid; gap: 8px; align-content: start; }
+.idea .label { color: var(--fuchsia); }
+.idea p { font-size: 16px; color: var(--muted); }
 
-/* Act 10: needs */
-.needs { background: var(--ink); color: var(--paper); border-radius: 24px; padding: clamp(24px, 4vw, 48px); }
-.needs h2 { color: var(--paper); }
-.needs ol { margin: 26px 0 0; padding: 0; list-style: none; display: grid; gap: 18px; counter-reset: n; }
-.needs li { display: grid; grid-template-columns: 44px 1fr; gap: 14px; counter-increment: n; }
-.needs li::before { content: counter(n); width: 36px; height: 36px; border-radius: 50%; background: var(--fuchsia); display: grid; place-items: center; font: 800 16px var(--display-en); }
-.needs li b { display: block; font-family: var(--display-he); font-size: 18px; }
-.needs li span { color: #d9cdd3; font-size: 15.5px; }
-footer { padding-block: 48px; text-align: center; color: var(--muted); font-size: 14px; }
-footer .lockup { font-size: 54px; margin-bottom: 12px; }
-footer .lockup .d { color: var(--ink); }
+/* 11 audit */
+.audit { display: grid; gap: 12px; counter-reset: a; }
+.audit > div { background: var(--white); border-radius: 16px; padding: 18px 20px; display: grid; grid-template-columns: 44px 1fr; gap: 14px; counter-increment: a; }
+.audit > div::before { content: counter(a, decimal-leading-zero); font: 200 30px/1 var(--f-display); color: var(--fuchsia); }
+.audit b { display: block; font: 800 18px var(--f-display); margin-bottom: 4px; }
+.audit span { font-size: 16px; color: var(--muted); }
+.audit .st-ok { display: inline-block; margin-top: 6px; font: 500 12.5px var(--f-label); background: var(--ink); color: var(--white); border-radius: 999px; padding: 2px 10px; }
+.audit .st-q { background: var(--fuchsia); }
+footer { background: var(--ink); color: var(--muted-d); padding-block: 56px; text-align: center; }
+footer .logo { width: 220px; height: auto; aspect-ratio: 377 / 92; margin: 0 auto 14px; }
+footer .logo use { --li: var(--white); }
 a:focus-visible, button:focus-visible { outline: 2px solid var(--fuchsia); outline-offset: 2px; }
 </style>
 
-<!-- Icon sprite -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <symbol id="i-bf" viewBox="0 0 100 100">
-    <path d="M52 47C59 20 86 7 94 20c6 12-6 29-42 31z"/>
-    <path d="M52 54c25-1 41 10 34 25-7 14-25 6-34-21z"/>
-    <path d="M48 47C41 20 14 7 6 20c-6 12 6 29 42 31z"/>
-    <path d="M48 54c-25-1-41 10-34 25 7 14 25 6 34-21z"/>
-    <rect x="47" y="38" width="6" height="36" rx="3"/>
-    <path d="M49 40C46 30 42 25 36 22M51 40c3-10 7-15 13-18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
-    <circle cx="35" cy="21.5" r="3"/><circle cx="65" cy="21.5" r="3"/>
-  </symbol>
-  <symbol id="i-curtain" viewBox="0 0 100 100">
-    <rect x="6" y="8" width="88" height="14" rx="3"/>
-    <path d="M10 22h34c0 26-8 48-22 70H10z"/>
-    <path d="M90 22H56c0 26 8 48 22 70h12z"/>
-    <ellipse cx="50" cy="90" rx="16" ry="4"/>
-  </symbol>
-  <symbol id="i-star" viewBox="0 0 100 100">
-    <polygon points="50,6 61,38 95,38 67,58 78,92 50,72 22,92 33,58 5,38 39,38"/>
-  </symbol>
-  <symbol id="i-clap" viewBox="0 0 100 100">
-    <rect x="10" y="42" width="80" height="48" rx="6"/>
-    <polygon points="10,36 22,32 30,38 18,42"/><polygon points="30,30 44,26 52,32 38,36"/><polygon points="52,24 66,20 74,26 60,30"/><polygon points="74,18 86,14 90,20 82,24"/>
-    <rect x="10" y="30" width="6" height="12" rx="2"/>
-  </symbol>
-  <symbol id="i-chair" viewBox="0 0 100 100">
-    <rect x="18" y="14" width="64" height="22" rx="4"/>
-    <rect x="14" y="50" width="72" height="10" rx="3"/>
-    <path d="M24 36v14M76 36v14M24 60l52 30M76 60L24 90" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
-  </symbol>
-  <symbol id="i-bag" viewBox="0 0 100 100">
-    <path d="M18 34h64l-5 56H23z"/>
-    <path d="M36 40V28a14 14 0 0 1 28 0v12" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
-  </symbol>
-  <symbol id="i-heart" viewBox="0 0 100 100">
-    <path d="M50 88S10 62 10 36a20 20 0 0 1 40-6 20 20 0 0 1 40 6c0 26-40 52-40 52z"/>
-  </symbol>
+  <symbol id="logo" viewBox="16 38 377 92"><path style="fill:var(--lm,#EC0B8C)" d="M202.923 102.621L202.923 113.971C199.762 116.101 196.982 118.091 194.093 119.911C187.012 124.341 179.532 127.771 170.962 128.171C165.353 128.421 160.002 127.661 155.272 124.451C147.843 119.401 144.923 111.511 147.643 101.761C149.393 95.441 152.222 89.411 154.563 83.251C154.772 82.711 155.022 82.171 154.952 81.311C152.962 83.091 150.913 84.791 148.972 86.611C138.113 96.771 127.323 107.041 116.353 117.091C113.593 119.621 110.363 121.771 107.093 123.641C99.282 128.081 90.862 127.451 84.673 122.311C79.022 117.611 77.173 109.641 80.002 101.241C82.263 94.491 84.722 87.831 87.332 80.501C86.252 81.451 85.513 82.031 84.873 82.681C74.782 92.871 64.732 103.101 54.643 113.321C50.532 117.501 46.242 121.471 40.893 124.051C35.523 126.661 30.113 127.201 24.802 123.841C19.762 120.681 17.873 115.131 20.062 109.601C22.052 104.581 25.393 100.411 29.043 96.551C45.393 79.261 63.452 64.021 83.772 51.511C89.252 48.141 95.123 45.771 101.563 44.781C110.593 43.381 119.192 47.891 121.853 55.731C123.232 59.821 122.982 64.011 121.903 68.101C120.653 72.981 119.192 77.851 117.653 83.271C119.962 81.401 121.962 79.861 123.843 78.221C134.093 69.411 144.222 60.451 154.593 51.801C160.552 46.831 166.982 42.431 174.813 40.721C181.863 39.181 188.232 40.421 192.903 46.291C196.942 51.351 196.992 57.311 195.232 63.201C193.282 69.731 190.673 76.051 188.593 82.551C187.143 87.001 186.012 91.561 184.883 96.121C184.573 97.411 184.643 98.871 184.823 100.181C185.363 103.821 187.663 106.301 191.272 105.871C195.202 105.441 199.002 103.951 202.792 102.711C202.833 102.691 202.883 102.671 202.923 102.621Z"/><path style="fill:var(--li,#242A30)" d="M234.512 62.731C234.512 69.881 234.532 77.021 234.532 84.171L234.482 84.171L234.482 84.791L234.462 84.791L234.462 96.571C234.462 105.561 234.462 114.581 234.442 123.571C234.442 127.451 234.103 127.771 230.262 127.771C222.522 127.791 214.782 127.811 207.052 127.811C203.333 127.811 202.923 127.411 202.923 123.871L202.923 47.221C202.923 42.521 203.133 42.321 207.682 42.321C215.413 42.321 223.153 42.411 230.893 42.271C233.722 42.211 234.603 43.251 234.573 46.021C234.532 51.391 234.512 56.751 234.512 62.121L234.512 62.731Z"/><path style="fill:var(--li,#242A30)" d="M322.382 74.289C322.113 77.718 319.887 80.59 316.494 80.644C301.773 80.824 287.053 80.716 272.135 80.716L272.135 66.534C278.059 66.534 301.02 66.229 314.34 66.283C319.887 66.301 322.795 69.299 322.382 74.289ZM324.446 42.371C306.118 42.12 287.789 42.174 269.46 42.192C263.967 42.21 258.456 42.21 252.945 42.21C250.108 42.21 247.272 42.21 244.454 42.192C241.797 42.192 240.81 43.251 240.81 45.818L240.81 55.745C240.81 67.396 240.81 79.028 240.792 90.661C240.774 101.881 240.756 113.101 240.72 124.303C240.72 126.726 241.599 127.821 244.148 127.803C252.281 127.713 260.431 127.713 268.563 127.767C270.95 127.785 271.83 126.78 271.83 124.464C271.794 117.948 272.01 102.976 272.081 101.827C274.954 101.827 276.839 101.791 280.016 101.791C282.458 101.791 284.181 102.402 285.904 104.143C293.139 111.467 300.463 118.684 307.877 125.793C308.99 126.852 310.336 127.696 312.329 127.696C323.944 127.696 337.318 127.785 348.933 127.767C349.256 127.767 349.507 127.66 349.704 127.534C350.189 127.193 350.189 126.475 349.776 126.062C341.536 118.163 333.279 110.229 324.536 101.845C326.924 101.737 328.45 101.701 329.958 101.576C340.854 100.732 349.112 93.964 351.948 83.445C352.613 81.003 353.043 78.436 353.187 75.923C354.318 55.745 344.768 42.623 324.446 42.371Z"/><path style="fill:var(--li,#242A30)" d="M390.611 123.82C390.635 126.619 389.688 127.865 386.695 127.804C379.063 127.651 371.426 127.749 363.795 127.737C359.848 127.731 359.573 127.505 359.567 123.625C359.542 110.8 359.31 85.157 359.31 85.157C359.31 72.339 359.304 59.514 359.31 46.696C359.316 42.895 359.432 42.792 363.294 42.785C371.023 42.767 378.758 42.847 386.493 42.718C389.151 42.676 390.098 43.684 390.11 46.286C390.232 72.131 390.403 97.976 390.611 123.82Z"/></symbol>
+  <symbol id="m" viewBox="16 38 190 92"><path style="fill:var(--lm,#EC0B8C)" d="M202.923 102.621L202.923 113.971C199.762 116.101 196.982 118.091 194.093 119.911C187.012 124.341 179.532 127.771 170.962 128.171C165.353 128.421 160.002 127.661 155.272 124.451C147.843 119.401 144.923 111.511 147.643 101.761C149.393 95.441 152.222 89.411 154.563 83.251C154.772 82.711 155.022 82.171 154.952 81.311C152.962 83.091 150.913 84.791 148.972 86.611C138.113 96.771 127.323 107.041 116.353 117.091C113.593 119.621 110.363 121.771 107.093 123.641C99.282 128.081 90.862 127.451 84.673 122.311C79.022 117.611 77.173 109.641 80.002 101.241C82.263 94.491 84.722 87.831 87.332 80.501C86.252 81.451 85.513 82.031 84.873 82.681C74.782 92.871 64.732 103.101 54.643 113.321C50.532 117.501 46.242 121.471 40.893 124.051C35.523 126.661 30.113 127.201 24.802 123.841C19.762 120.681 17.873 115.131 20.062 109.601C22.052 104.581 25.393 100.411 29.043 96.551C45.393 79.261 63.452 64.021 83.772 51.511C89.252 48.141 95.123 45.771 101.563 44.781C110.593 43.381 119.192 47.891 121.853 55.731C123.232 59.821 122.982 64.011 121.903 68.101C120.653 72.981 119.192 77.851 117.653 83.271C119.962 81.401 121.962 79.861 123.843 78.221C134.093 69.411 144.222 60.451 154.593 51.801C160.552 46.831 166.982 42.431 174.813 40.721C181.863 39.181 188.232 40.421 192.903 46.291C196.942 51.351 196.992 57.311 195.232 63.201C193.282 69.731 190.673 76.051 188.593 82.551C187.143 87.001 186.012 91.561 184.883 96.121C184.573 97.411 184.643 98.871 184.823 100.181C185.363 103.821 187.663 106.301 191.272 105.871C195.202 105.441 199.002 103.951 202.792 102.711C202.833 102.691 202.883 102.671 202.923 102.621Z"/></symbol>
 </svg>
 
-<!-- ============ STAGE ============ -->
-<header class="stage">
-  <div class="valance"></div>
-  <div class="drape l"></div>
-  <div class="drape r"></div>
-  <div class="wrap stage-inner">
-    <div class="eyebrow en">BRAND BOOK 2027</div>
-    <div class="lockup" aria-label="Miri Deutsch">
-      <svg class="bf" aria-hidden="true"><use href="#i-bf"/></svg>
-      <span class="m">Miri</span><span class="d">DEUTSCH</span>
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="wrap">
+    <div class="bar">
+      <svg class="logo" viewBox="0 0 377 92" role="img" aria-label="MIRI"><use href="#logo"/></svg>
+      <span class="pill ltr">BRAND BOOK · 2026</span>
     </div>
-    <h1 class="tagline">מגיעה למוצר שלך <em>במה</em> שנראית בינלאומית ומוכרת</h1>
-    <nav class="toc" aria-label="תוכן">
-      <a href="#story">הסיפור</a><a href="#logo">לוגו</a><a href="#color">צבעים</a><a href="#type">טיפוגרפיה</a><a href="#symbols">סמלים</a><a href="#stickers">מדבקות</a><a href="#voice">שפה</a><a href="#apps">יישומים</a><a href="#ideas">רעיונות</a><a href="#needs">מה חסר</a>
-    </nav>
+    <div class="hero-grid">
+      <div>
+        <div class="label">00 · ספר המותג</div>
+        <h1>כל המותג.<br><span class="pink">במה אחת.</span></h1>
+        <p class="sub">הלוגו, הצבעים, הפונטים, המדבקות והשפה של מירי דייטש, במקום אחד. כל מה שכאן לקוח מהאתר החי ומהשיחות שכבר עשית, ומסודר כדי שכל פוסט, הצעת מחיר ומדבקה ייראו אותו דבר.</p>
+        <div class="src"><span class="ltr">mirideutsch.com</span><b>המקור</b></div>
+      </div>
+      <div class="photo">
+        <img src="brand/img/miri-cut.webp" alt="מירי עם מחשב נייד" width="1200" height="1191">
+        <img class="st" src="brand/stickers/center-stage.webp" alt="מדבקת Your brand. Center stage." width="799" height="799">
+      </div>
+    </div>
   </div>
+  <div class="wrap"><nav class="toc" aria-label="תוכן">
+    <a href="#essence">01 · מהות</a><a href="#concept">02 · הקונספט</a><a href="#logo">03 · לוגו</a><a href="#color">04 · צבע</a><a href="#type">05 · טיפוגרפיה</a><a href="#visual">06 · שפה חזותית</a><a href="#stickers">07 · מדבקות</a><a href="#ui">08 · רכיבים</a><a href="#voice">09 · קול</a><a href="#ideas">10 · רעיונות</a><a href="#audit">11 · מה עוד לסדר</a>
+  </nav></div>
 </header>
 
 <main>
-<!-- ============ 01 STORY ============ -->
-<section class="act" id="story">
+<!-- ============ 01 ESSENCE ============ -->
+<section class="sec ink" id="essence">
   <div class="wrap">
-    <div class="act-head"><div class="act-no">01</div><div class="act-kicker">THE STORY</div><h2>על מה המותג עומד</h2></div>
-    <div class="grid g2">
-      <div class="manifesto">
-        <small>אני מאמינה</small>
-        <div class="big">המוצר שלך שווה שכל העולם יראה אותו. אסור לתת לו להישאר <span class="ghost">שקוף</span>.</div>
-        <small>המילה "שקוף" כתובה במתאר בלבד. זה הטריק החזותי של המותג: מה שלא מקבל במה, נעלם.</small>
-      </div>
-      <dl class="facts">
-        <dt>WHAT</dt><dd><strong>במה שלמה למוצר:</strong> סיפור, מיתוג ואתר עם חנות שמובילים את הלקוחה צעד אחרי צעד עד הקנייה, עם מערכת פשוטה שהיא מנהלת לבד.</dd>
-        <dt>FOR WHO</dt><dd>בעלות ובעלי מוצר, עסק של אדם אחד או שניים, שכבר מוכרים קצת ורוצים לצאת לעולם עכשיו, לפני שמישהו יקדים אותם. בעיקר אופנה, ביוטי ולייפסטייל.</dd>
-        <dt>THE CHANGE</dt><dd>העולם מתחיל להכיר את המוצר, נכנסות הזמנות מאנשים שהיא לא מכירה, ויש סוף סוף תזרים.</dd>
-      </dl>
-    </div>
-    <h3 style="margin-top:44px">שלוש מילים שהמותג חייב להרגיש</h3>
-    <div class="words"><span class="word">בינלאומית</span><span class="word">אסטרטגית</span><span class="word">יצירתית</span></div>
-    <p style="margin-top:18px;color:var(--muted)">כל עיצוב, פוסט או הודעה עוברים את המבחן: האם זה נראה כמו מותג מחו"ל? האם יש פה סיבה עסקית? האם יש פה "וואו"? אם אחת מהשלוש חסרה, עוד לא סיימנו.</p>
-  </div>
-</section>
-
-<!-- ============ 02 LOGO ============ -->
-<section class="act" id="logo">
-  <div class="wrap">
-    <div class="act-head"><div class="act-no">02</div><div class="act-kicker">LOGO</div><h2>הלוגו והגרסאות שלו</h2></div>
-    <p class="lead">הצעה לסימן מילולי: "Miri" בכתב המברשת בפוקסיה, "DEUTSCH" בבלוק מתחת, ופרפר קטן שעף מהאות האחרונה. זו הצעת עבודה עד שאקבל ממך את קובץ הלוגו שעליו את עובדת.</p>
-    <div class="grid g2">
-      <div class="logo-tile t-white"><div class="lockup"><svg class="bf" aria-hidden="true"><use href="#i-bf"/></svg><span class="m">Miri</span><span class="d">DEUTSCH</span></div><span class="cap">ראשי · על לבן</span></div>
-      <div class="logo-tile t-black"><div class="lockup"><svg class="bf" aria-hidden="true"><use href="#i-bf"/></svg><span class="m">Miri</span><span class="d">DEUTSCH</span></div><span class="cap">הפוך · על שחור</span></div>
-      <div class="logo-tile t-pink"><div class="lockup"><svg class="bf" aria-hidden="true"><use href="#i-bf"/></svg><span class="m">Miri</span><span class="d">DEUTSCH</span></div><span class="cap">על פוקסיה</span></div>
-      <div class="logo-tile t-mono"><div class="lockup"><svg class="bf" aria-hidden="true"><use href="#i-bf"/></svg><span class="m">Miri</span><span class="d">DEUTSCH</span></div><span class="cap">צבע אחד · לחותמת, הטבעה, רקמה</span></div>
-    </div>
-    <h3 style="margin-top:44px">סימנים קטנים</h3>
-    <p style="color:var(--muted);margin-bottom:14px">לתמונת פרופיל, אייקון לאתר (favicon), חותמת על עבודות ומדבקת אריזה.</p>
-    <div class="marks">
-      <div class="mono"><span>M</span></div>
-      <div class="mono b"><span>M</span></div>
-      <div class="mark-bf"><svg aria-hidden="true"><use href="#i-bf"/></svg></div>
-      <div class="clear"><div class="lockup"><svg class="bf" aria-hidden="true"><use href="#i-bf"/></svg><span class="m">Miri</span><span class="d">DEUTSCH</span></div></div>
-    </div>
-    <div class="grid g2" style="margin-top:36px">
-      <div><h3>כן</h3><ul class="rules">
-        <li>שטח נקי סביב הלוגו בגובה האות M לפחות (המסגרת המקווקוות).</li>
-        <li>גודל מינימלי: 28 מ"מ רוחב בדפוס, 120 פיקסלים במסך. מתחת לזה, משתמשים במונוגרמה M.</li>
-        <li>על תמונה: רק על אזור שקט וכהה, או בגרסה הלבנה.</li>
-      </ul></div>
-      <div><h3>לא</h3><ul class="rules no">
-        <li>לא למתוח, לא לסובב מעבר לנטייה המובנית, לא להוסיף צל או מתאר.</li>
-        <li>לא להחליף את הצבעים בצבעים מחוץ לפלטה.</li>
-        <li>לא להפריד את הפרפר ולשים אותו במקום אחר בתוך הלוגו.</li>
-      </ul></div>
+    <div class="head"><div class="label">01 · מהות המותג</div></div>
+    <p class="statement">אני בונה חנויות<br><span class="hl">שמוכרות בכמויות.</span><br>שנראות בינלאומי.<br>שאתם מנהלים לבד.</p>
+    <div class="grid c3 facts">
+      <div class="card"><span class="k">מה</span><h3>במה שלמה למוצר</h3><p>סיפור, מיתוג ועיצוב בינלאומי, וחנות שמובילה את הלקוח צעד אחרי צעד עד הקנייה, עם מערכת פשוטה שמנהלים לבד.</p></div>
+      <div class="card"><span class="k">למי</span><h3>בעלי ובעלות מוצר</h3><p>מותגים פרטיים קטנים, בעיקר אופנה, ביוטי ולייפסטייל, שכבר מוכרים קצת ורוצים לצאת לעולם עכשיו, לפני שמישהו יקדים אותם.</p></div>
+      <div class="card"><span class="k">השינוי</span><h3>מוכרים בכמויות</h3><p>העולם מתחיל להכיר את המוצר, נכנסות הזמנות מאנשים זרים, ויש סוף סוף תזרים.</p></div>
+      <div class="card"><span class="k">אני מאמינה</span><h3>אסור לתת למוצר טוב להישאר שקוף</h3><p>המוצר שלך מדהים, ומגיע לכמה שיותר אנשים להכיר אותו.</p></div>
+      <div class="card"><span class="k">ההוכחה</span><div class="big-num">14</div><p>שנים של עיצוב מותגים, מהאפיון ועד ההשקה.</p></div>
+      <div class="card"><span class="k">שלוש מילים</span><div class="words"><span>בינלאומית</span><span>אסטרטגית</span><span>יצירתית</span></div></div>
     </div>
   </div>
 </section>
 
-<!-- ============ 03 COLOR ============ -->
-<section class="act" id="color">
+<!-- ============ 02 CONCEPT ============ -->
+<section class="sec" id="concept">
   <div class="wrap">
-    <div class="act-head"><div class="act-no">03</div><div class="act-kicker">COLOR</div><h2>הצבעוניות</h2></div>
-    <p class="lead">שלושה צבעי ליבה שכבר קיימים בדפי הפונטים שלך, ושלושה צבעי תמיכה שאני מציעה כדי שיהיה עומק ותנועה בלי לאבד את החדות.</p>
-    <div class="grid g3" id="swatches"></div>
-    <div class="ratio" aria-label="יחס שימוש בצבעים">
-      <div style="flex:58;background:var(--paper)">לבן 58%</div>
-      <div style="flex:25;background:var(--ink);color:var(--paper)">שחור 25%</div>
-      <div style="flex:12;background:var(--fuchsia);color:var(--paper)">12%</div>
-      <div style="flex:5;background:linear-gradient(var(--blush) 0 34%, var(--velvet) 34% 67%, var(--spot) 67%)"></div>
-    </div>
-    <div class="ratio-legend"><span>הפוקסיה עובדת כי היא נדירה: נקודת זרקור, לא רקע קבוע.</span><span>צבעי התמיכה ביחד לא יותר מ-5%.</span></div>
-    <div class="note"><b>נגישות</b><span>פוקסיה על לבן מספיק חזקה רק לכותרות וטקסט גדול (מעל 24 פיקסלים). טקסט רץ תמיד בשחור. על רקע פוקסיה כותבים בלבן או בשחור, בגדלים גדולים. ערכי ה-CMYK מקורבים: לפני הדפסה מבקשים מבית הדפוס הגהה צבעונית.</span></div>
-  </div>
-</section>
-
-<!-- ============ 04 TYPE ============ -->
-<section class="act" id="type">
-  <div class="wrap">
-    <div class="act-head"><div class="act-no">04</div><div class="act-kicker">TYPOGRAPHY</div><h2>טיפוגרפיה</h2></div>
-    <p class="lead">שני הפונטים שלך הם אנגלית בלבד, אז הם התבלין. לעברית אני מציעה את Rubik לכותרות ואת Heebo לטקסט: חינמיים, עובדים בכל מקום (Canva, Figma, אתרים), והפינות המעוגלות של Rubik מדברות עם Miri Block.</p>
-    <div class="grid g2">
-      <div class="spec"><div class="sample" style="font-family:var(--display-en);font-weight:800">Stage</div><h3>Miri Block</h3><div class="meta"><span>Thin 100</span><span>Regular 400</span><span>Bold 700</span><span>Extra Bold 800</span></div><p>כותרות באנגלית, מספרים גדולים, תוויות קטנות באותיות גדולות עם ריווח רחב. אין בפונט סימני פיסוק מלבד נקודה ונקודתיים.</p></div>
-      <div class="spec"><div class="sample" style="font-family:var(--script-en);font-weight:700;color:var(--fuchsia)">Wow it</div><h3>Miri Script</h3><div class="meta"><span>Thin 100</span><span>Regular 400</span><span>Bold 700</span><span>Extra Bold 800</span></div><p>מילה אחת עד שלוש בכל פעם: חתימה, הדגשה, מדבקה. אף פעם לא משפט שלם ולא טקסט רץ.</p></div>
-      <div class="spec"><div class="sample" style="font-family:var(--display-he);font-weight:900;direction:rtl;text-align:right">במה למוצר</div><h3>Rubik · עברית לכותרות</h3><div class="meta"><span>500</span><span>700</span><span>Black 900</span></div><p>כותרות ומסרים. Black 900 לכותרות ראשיות, 700 לכותרות משנה.</p></div>
-      <div class="spec"><div class="sample" style="font-family:var(--body-he);font-weight:400;font-size:clamp(28px,4vw,40px);direction:rtl;text-align:right;line-height:1.3">הלקוחה נכנסת, מבינה וקונה.</div><h3>Heebo · עברית לטקסט</h3><div class="meta"><span>400</span><span>500</span><span>700</span></div><p>פסקאות, כפתורים, טפסים, מיילים והצעות מחיר.</p></div>
-    </div>
-    <div class="hier">
-      <div class="row"><span class="lbl">EYEBROW</span><span style="font:700 12px/1 var(--display-en);letter-spacing:.3em;direction:ltr;text-align:right">LAUNCH SEASON</span></div>
-      <div class="row"><span class="lbl">H1</span><span style="font:900 clamp(28px,4.4vw,44px)/1.1 var(--display-he)">חנות שמוכרת מהיום הראשון</span></div>
-      <div class="row"><span class="lbl">ACCENT</span><span style="font:800 34px/1 var(--script-en);color:var(--fuchsia);direction:ltr;text-align:right">on stage</span></div>
-      <div class="row"><span class="lbl">BODY</span><span style="font:400 17px/1.7 var(--body-he);max-width:52ch">שיחה אחת כדי להבין את המוצר ואת מי שקונה אותו, ואז חנות בעיצוב של מותג בינלאומי, עם מערכת פשוטה לניהול ולדיוור.</span></div>
-      <div class="row"><span class="lbl">BUTTON</span><span><span style="display:inline-block;background:var(--ink);color:var(--paper);border-radius:999px;padding:10px 22px;font:700 16px var(--display-he)">אני רוצה במה</span></span></div>
+    <div class="head"><div class="label">02 · הקונספט</div><h2>סט צילום. <span class="pink">המוצר הוא הכוכב.</span></h2><p class="lead">כל המותג בנוי כמו הפקה: מירי היא הבמאית, המוצר עולה לבמה, וכל שלב בעבודה הוא סצנה. זה המילון שכבר עובד באתר, ומשם הוא עובר לכל השאר.</p></div>
+    <div class="slate">
+      <div><span class="t">במה<i>STAGE</i></span><p>המילה המרכזית. "במה שלמה", "במות למוצרים שאי אפשר להתעלם מהן". המטרה של כל פרויקט.</p></div>
+      <div><span class="t">פרפר<i>BUTTERFLY</i></span><p>הסמל האישי: חופש ותנועה, ומוצר שיוצא מהגולם אל העולם. פרפר ורוד אחד בתוך המון אפורים.</p></div>
+      <div><span class="t">טייקים<i>TAKE 01 · 02 · 03</i></span><p>ככה מוצגים כאבי הלקוח באתר: כל כאב הוא טייק, "היום" נחתך בקו פוקסיה ו"אחרי" נשאר.</p></div>
+      <div><span class="t">קלאפר<i>SLATE</i></span><p>השאלה "מה אני בונה?" כתובה על קלאפר בידיים מכסף. מילה אחת בכל פעם, כמו פתיחת סצנה.</p></div>
+      <div><span class="t">כתוביות סיום<i>END CREDITS</i></span><p>הלקוחות שעבדת איתם רצים כמו קרדיטים: שם אחד נדלק בכל פעם.</p></div>
+      <div><span class="t">מאחורי הקלעים<i>ON SET · BEHIND THE SCENES</i></span><p>התהליך עצמו הוא תוכן: שיחה, עיצוב ובנייה, השקה. "It's a wrap" כשהפרויקט עולה.</p></div>
     </div>
   </div>
 </section>
 
-<!-- ============ 05 SYMBOLS ============ -->
-<section class="act" id="symbols">
+<!-- ============ 03 LOGO ============ -->
+<section class="sec ivory" id="logo">
   <div class="wrap">
-    <div class="act-head"><div class="act-no">05</div><div class="act-kicker">SYMBOLS</div><h2>הסמלים של המותג</h2></div>
-    <p class="lead">עולם התיאטרון והבמה הוא השפה החזותית: כל מוצר הוא כוכב שעולה לבמה, ואת הבמאית. הפרפר הוא הסמל האישי שלך.</p>
-    <div class="grid g3">
-      <div class="sym"><svg aria-hidden="true"><use href="#i-bf"/></svg><h3>פרפר</h3><p>חופש ותנועה. וגם הסיפור של כל השקה: מוצר שיוצא מהגולם אל העולם. הסמל האישי והמרכזי.</p></div>
-      <div class="sym"><svg aria-hidden="true"><use href="#i-curtain"/></svg><h3>וילון</h3><p>רגע החשיפה. לטיזרים, להשקות, למסך הפתיחה של האתר ("הווילון עוד סגור").</p></div>
-      <div class="sym"><svg aria-hidden="true"><use href="#i-star"/></svg><h3>זרקור וכוכב</h3><p>המוצר במרכז. לסימון הדגשות, מבצעים ורגעי "וואו".</p></div>
-      <div class="sym"><svg aria-hidden="true"><use href="#i-clap"/></svg><h3>קלאפר</h3><p>אקשן, מאחורי הקלעים, תהליך העבודה. לתוכן שמראה איך בונים.</p></div>
-      <div class="sym"><svg aria-hidden="true"><use href="#i-chair"/></svg><h3>כיסא במאי</h3><p>את מחזיקה את התמונה המלאה: סיפור, מיתוג ואתר. לתוכן "מי אני" ולעמוד אודות.</p></div>
-      <div class="sym"><svg aria-hidden="true"><use href="#i-bag"/></svg><h3>שקית קנייה</h3><p>התוצאה. הבמה קיימת כדי שהלקוחה תקנה. לחנויות, הזמנות וסיפורי הצלחה.</p></div>
+    <div class="head"><div class="label">03 · לוגו</div><h2>MIRI</h2><p class="lead">M במברשת בפוקסיה, ו-IRI באותיות בלוק בצבע דיו. זה הלוגו מהאתר. חילצתי אותו לקבצים נפרדים בכל הגרסאות.</p></div>
+    <div class="grid c3">
+      <div class="tile t-floor"><svg class="logo" viewBox="0 0 377 92" role="img" aria-label="MIRI"><use href="#logo"/></svg><span class="cap">ראשי · על בהיר</span></div>
+      <div class="tile t-ink"><svg class="logo" viewBox="0 0 377 92" role="img" aria-label="MIRI"><use href="#logo"/></svg><span class="cap">על דיו</span></div>
+      <div class="tile t-pink"><svg class="logo" viewBox="0 0 377 92" role="img" aria-label="MIRI"><use href="#logo"/></svg><span class="cap">לבן על פוקסיה</span></div>
+      <div class="tile t-mono"><svg class="logo" viewBox="0 0 377 92" role="img" aria-label="MIRI"><use href="#logo"/></svg><span class="cap">צבע אחד · דיו</span></div>
+      <div class="tile t-mono2"><svg class="logo" viewBox="0 0 377 92" role="img" aria-label="MIRI"><use href="#logo"/></svg><span class="cap">צבע אחד · פוקסיה</span></div>
+      <div class="tile t-fav"><div class="fav"><svg viewBox="0 0 190 92" aria-hidden="true"><use href="#m"/></svg></div><span class="cap">אייקון · פרופיל ו-favicon</span></div>
+    </div>
+    <div class="files"><code>brand/logo/miri-logo.svg</code><code>miri-logo-on-dark.svg</code><code>miri-logo-white.svg</code><code>miri-logo-ink.svg</code><code>miri-logo-fuchsia.svg</code><code>miri-m.svg</code></div>
+    <div class="grid c2" style="margin-top:36px">
+      <div><h3>כן</h3><ul class="rules"><li>ה-M תמיד בפוקסיה, חוץ מגרסאות של צבע אחד.</li><li>על רקע כהה, IRI הופך ללבן וה-M נשאר פוקסיה.</li><li>שטח נקי סביב הלוגו בגובה האות I לפחות.</li><li>מתחת ל-100 פיקסלים רוחב משתמשים באייקון ה-M בלבד.</li></ul></div>
+      <div><h3>לא</h3><ul class="rules no"><li>לא שחור מלא: הדיו הוא ‎#242A30.</li><li>לא למתוח, לא להטות ולא להוסיף צל או מתאר.</li><li>לא להחליף את ה-M בכתב יד אחר או בפונט.</li><li>לא לשים את הלוגו על תמונה עמוסה.</li></ul></div>
     </div>
   </div>
 </section>
 
-<!-- ============ 06 STICKERS ============ -->
-<section class="act" id="stickers">
+<!-- ============ 04 COLOR ============ -->
+<section class="sec" id="color">
   <div class="wrap">
-    <div class="act-head"><div class="act-no">06</div><div class="act-kicker">STICKER SHEET</div><h2>המדבקות</h2></div>
-    <p class="lead">12 מדבקות עם שוליים לבנים, מוכנות לסטורי, לוואטסאפ ולהדפסה. כל אחת שמורה גם כקובץ PNG שקוף בתיקייה <span class="en">stickers/</span> בריפו.</p>
-    <div class="board"><div class="grid g4">
-
-      <div class="cell"><div class="slot"><svg class="st" data-sticker="butterfly" width="170" height="170" viewBox="-6 -6 112 112"><use href="#i-bf" style="color:var(--fuchsia);fill:var(--fuchsia);stroke:#fff;stroke-width:7;stroke-linejoin:round;paint-order:stroke"/></svg></div><b>פרפר</b><span>חתימה על כל פוסט. סטורי, אריזה, תיק עבודות.</span></div>
-
-      <div class="cell"><div class="slot"><svg class="st fit" data-sticker="wow" width="200" height="120" viewBox="0 0 200 130"><text x="100" y="92" text-anchor="middle" transform="rotate(-8 100 65)" style="font:800 92px var(--script-en);fill:var(--fuchsia);stroke:#fff;stroke-width:14;stroke-linejoin:round;paint-order:stroke">Wow</text></svg></div><b>Wow</b><span>מה שהלקוחות אומרות כשהן רואות את התוצר. לתגובות ולסטורי של "לפני / אחרי".</span></div>
-
-      <div class="cell"><div class="slot"><div class="st st-pill" data-sticker="on-stage"><svg aria-hidden="true"><use href="#i-star"/></svg>ON STAGE</div></div><b>ON STAGE</b><span>כשאתר של לקוחה עולה לאוויר.</span></div>
-
-      <div class="cell"><div class="slot"><svg class="st" data-sticker="bama" width="170" height="150" viewBox="0 0 170 150"><path d="M30 12h110a22 22 0 0 1 22 22v56a22 22 0 0 1-22 22H70l-34 28 8-28H30A22 22 0 0 1 8 90V34a22 22 0 0 1 22-22z" style="fill:var(--fuchsia)" stroke="#fff" stroke-width="8" stroke-linejoin="round"/><text x="85" y="78" text-anchor="middle" style="font:900 46px var(--display-he);fill:#fff">במה</text></svg></div><b>"במה" בוואטסאפ</b><span>ההנעה לפעולה: "שלחי לי במה בוואטסאפ". לסטורי ולפוסטים.</span></div>
-
-      <div class="cell"><div class="slot"><svg class="st" data-sticker="new-drop" width="180" height="180" viewBox="-4 -4 108 108"><polygon points="50.0,2.0 56.8,11.6 66.4,4.9 69.5,16.2 80.9,13.2 79.9,24.9 91.6,26.0 86.6,36.7 97.3,41.7 89.0,50.0 97.3,58.3 86.6,63.3 91.6,74.0 79.9,75.1 80.9,86.8 69.5,83.8 66.4,95.1 56.8,88.4 50.0,98.0 43.2,88.4 33.6,95.1 30.5,83.8 19.1,86.8 20.1,75.1 8.4,74.0 13.4,63.3 2.7,58.3 11.0,50.0 2.7,41.7 13.4,36.7 8.4,26.0 20.1,24.9 19.1,13.2 30.5,16.2 33.6,4.9 43.2,11.6" style="fill:var(--spot)" stroke="#fff" stroke-width="5" stroke-linejoin="round" paint-order="stroke"/><g transform="rotate(-12 50 50)" style="font-family:var(--display-en);font-weight:800" text-anchor="middle"><text x="50" y="47" font-size="19" style="fill:var(--ink)">NEW</text><text x="50" y="66" font-size="19" style="fill:var(--fuchsia)">DROP</text></g></svg></div><b>NEW DROP</b><span>קולקציה חדשה, חנות חדשה, עבודה חדשה בתיק.</span></div>
-
-      <div class="cell"><div class="slot"><div class="st st-clap" data-sticker="take-1"><div class="bar"></div><div class="tx"><b>TAKE 1</b><i>LAUNCH DAY</i></div></div></div><b>TAKE 1</b><span>מאחורי הקלעים: יום העבודה הראשון על פרויקט.</span></div>
-
-      <div class="cell"><div class="slot"><div class="st-ticket-wrap outline" data-sticker="admit-one"><div class="st-ticket"><div class="main"><b>ADMIT ONE</b><i>LAUNCH NIGHT</i></div><div class="stub">VIP</div></div></div></div><b>כרטיס להשקה</b><span>הזמנה להשקה של לקוחה, הצצה ראשונה לעוקבות, מתנה בחבילה.</span></div>
-
-      <div class="cell"><div class="slot"><div class="st st-stamp" data-sticker="sold-out"><b>SOLD<br>OUT</b><i>FIRST DAY</i></div></div><b>SOLD OUT</b><span>לחגוג הזמנות של לקוחות. המטרה של כל במה.</span></div>
-
-      <div class="cell"><div class="slot"><div class="st outline" data-sticker="tape"><div class="st-tape">מוכרת<br><em>מהיום הראשון</em></div></div></div><b>סרט הדבקה</b><span>על צילומי מסך של חנויות, במודעות ובהצעת מחיר.</span></div>
-
-      <div class="cell"><div class="slot"><div class="st" data-sticker="not-transparent"><div class="st-ghost">לא נשארים<br><span class="ghost">שקופים</span></div></div></div><b>לא שקופים</b><span>האמונה של המותג בגרסת מדבקה. לפוסטים של מסר.</span></div>
-
-      <div class="cell"><div class="slot"><svg class="st" data-sticker="bold-badge" width="180" height="180" viewBox="0 0 180 180"><defs><path id="arc" d="M90 90m-62 0a62 62 0 1 1 124 0a62 62 0 1 1-124 0"/></defs><circle cx="90" cy="90" r="84" style="fill:var(--ink)" stroke="#fff" stroke-width="8"/><text style="font:800 14px var(--display-en);letter-spacing:2.2px;fill:#fff"><textPath href="#arc" textLength="380" lengthAdjust="spacing">BOLD FOR BRIGHTER BRANDS</textPath></text><svg x="58" y="58" width="64" height="64" viewBox="0 0 100 100"><use href="#i-bf" style="fill:var(--fuchsia);color:var(--fuchsia)"/></svg></svg></div><b>תג עגול</b><span>הסלוגן מדפי הפונטים. לחותמת על תיק עבודות, אריזה וכרטיס ביקור.</span></div>
-
-      <div class="cell"><div class="slot"><svg class="st fit" data-sticker="signature" width="210" height="120" viewBox="0 0 210 130"><text x="100" y="96" text-anchor="middle" transform="rotate(-7 100 65)" style="font:800 96px var(--script-en);fill:var(--ink);stroke:#fff;stroke-width:14;stroke-linejoin:round;paint-order:stroke">Miri</text><svg x="160" y="6" width="44" height="44" viewBox="-8 -8 116 116"><use href="#i-bf" style="fill:var(--fuchsia);color:var(--fuchsia);stroke:#fff;stroke-width:10;paint-order:stroke;stroke-linejoin:round"/></svg></svg></div><b>חתימה</b><span>סוף כל סטורי, מייל והצעת מחיר.</span></div>
-
-    </div></div>
-    <div class="note"><b>להדפסה</b><span>בבית דפוס מבקשים "מדבקות חיתוך לפי צורה" (Die-cut), בגודל 5 עד 7 ס"מ. השוליים הלבנים כבר בתוך העיצוב, אז קו החיתוך עובר מסביבם.</span></div>
+    <div class="head"><div class="label">04 · צבע</div><h2 class="ltr" style="text-align:right">60 / 30 / <span class="pink">10</span></h2><p class="lead">היחס מלוח הזהות שלך, כמו שהוא כתוב בקוד האתר: 60% רצפת אולפן בהירה, 30% דיו, 10% פוקסיה. הפוקסיה עובדת כי היא נדירה: נגיעה אחת בכל פריים.</p></div>
+    <div class="ratio" aria-label="יחס צבעים">
+      <div style="flex:60;background:var(--floor)">60% · רצפה</div>
+      <div style="flex:30;background:var(--ink);color:var(--ivory)">30% · דיו</div>
+      <div style="flex:10;background:var(--fuchsia);color:var(--white)">10%</div>
+    </div>
+    <div class="group-t">ליבה</div>
+    <div class="grid c4" id="core"></div>
+    <div class="group-t">טקסט משני ומדבקות</div>
+    <div class="grid c4" id="support"></div>
+    <div class="note"><b>שימו לב</b><span>בדפי הפונטים הישנים בריפו מופיע ורוד אחר, ‎#FF1F8E. הגוון הרשמי הוא ‎#EC0B8C מהאתר. ערכי ה-CMYK מקורבים, ולפני הדפסה מבקשים הגהת צבע.</span></div>
   </div>
 </section>
 
-<!-- ============ 07 VOICE ============ -->
-<section class="act" id="voice">
+<!-- ============ 05 TYPE ============ -->
+<section class="sec ivory" id="type">
   <div class="wrap">
-    <div class="act-head"><div class="act-no">07</div><div class="act-kicker">TONE OF VOICE</div><h2>איך המותג מדבר</h2></div>
-    <p class="lead">נלהבת, תמציתית, בגובה העיניים. מדברת בלשון נקבה לבעלות מוצר, משפטים קצרים, ותמיד עם סיבה עסקית מאחורי ה"וואו".</p>
-    <div class="grid g2">
-      <div class="say yes"><h3>המילים שלנו</h3><div class="chips"><span>במה</span><span>השקה</span><span>וואו</span><span>לצאת לעולם</span><span>בינלאומית</span><span>מוכרת מהיום הראשון</span><span>מנהלת לבד</span><span>הזמנות</span></div></div>
-      <div class="say no"><h3>מה שלא אומרים</h3><div class="chips"><span>זול</span><span>מבצע</span><span>אתר פשוט</span><span>אולי</span><span>וורדפרס</span><span>פלאגין</span><span>שעות עבודה</span></div><p style="font-size:15px;color:var(--muted)">לא מדברים טכנולוגיה. מדברים על מה שהלקוחה מרוויחה.</p></div>
+    <div class="head"><div class="label">05 · טיפוגרפיה</div><h2>שלושה פונטים, משפחה אחת</h2><p class="lead">שלושתם של שוקי דיין (פונטשוק). כולם תומכים בעברית ובאנגלית, עם משקלים מ-100 עד 800.</p></div>
+    <div class="grid c3">
+      <div class="spec"><div class="s" style="font:800 64px/1 var(--f-display)">במה</div><h3>Nostela</h3><div class="meta"><span>200 · ספרות דקות</span><span>400</span><span>800 · כותרות</span></div><p>כותרות, משפטי מסר ומספרים גדולים. רחב וכבד, וזה מה שנותן את תחושת הבילבורד.</p></div>
+      <div class="spec"><div class="s" style="font:400 40px/1.15 var(--f-body)">מוכרים בכמויות</div><h3>Sprinter</h3><div class="meta"><span>400 · טקסט</span><span>500</span><span>700</span></div><p>טקסט רץ, כפתורים, טפסים, הצעות מחיר ומיילים.</p></div>
+      <div class="spec"><div class="s ltr" style="font:500 52px/1 var(--f-label);text-align:right">TAKE 01</div><h3>Pompei Narrow</h3><div class="meta"><span>500 · תוויות</span><span>800 · מדבקות</span></div><p>תוויות קטנות ("02 · מה אני בונה"), טייקים, תגיות, ובגרסה הכבדה גם המדבקות.</p></div>
     </div>
-    <div class="ba">
-      <div class="h">BEFORE</div><div class="h">MIRI</div>
-      <div>אני בונה אתרים וחנויות אונליין במחירים נוחים.</div><div>אני בונה למוצר שלך במה שנראית בינלאומית ומוכרת מהיום הראשון.</div>
-      <div>יש לי מקום פנוי החודש אם מישהי מעוניינת.</div><div>יש לך קולקציה שיוצאת? בואי נדאג שהיא תעלה לבמה בזמן.</div>
-      <div>האתר כולל מערכת ניהול מתקדמת.</div><div>את מעלה מוצרים ושולחת דיוור לבד, בלי לחכות לאף אחד.</div>
+    <div class="scale">
+      <div class="row"><span>תצוגה · Nostela 800</span><span style="font:800 clamp(40px,7vw,96px)/1 var(--f-display)">יש לך מוצר <span class="pink">מדהים?</span></span></div>
+      <div class="row"><span>כותרת · Nostela 800</span><span style="font:800 clamp(28px,4vw,56px)/1.05 var(--f-display)">במה שלמה, בשלושה שלבים.</span></div>
+      <div class="row"><span>כותרת משנה · Nostela 800</span><span style="font:800 26px/1.2 var(--f-display)">חנות שמוכרת מהיום הראשון</span></div>
+      <div class="row"><span>טקסט · Sprinter 400</span><span style="font:400 18px/1.65 var(--f-body)">שיחה להבנת המוצר והקהל, טקסטים שמובילים לקנייה ועיצוב ברמה של מותג.</span></div>
+      <div class="row"><span>תווית · Pompei Narrow</span><span style="font:500 14px var(--f-label);color:var(--muted)">03 · מוצרים שכבר קיבלו במה</span></div>
+      <div class="row"><span>ספרה · Nostela 200</span><span class="ltr" style="font:200 72px/1 var(--f-display);color:var(--fuchsia);text-align:right">01</span></div>
     </div>
+    <div class="note"><b>רישיון</b><span>הפונטים מוגנים בזכויות יוצרים, ולכן קבצי הפונט לא נשמרים בריפו הציבורי. כדאי לוודא שהרישיון מכסה גם דפוס, סושיאל ומצגות.</span></div>
   </div>
 </section>
 
-<!-- ============ 08 APPLICATIONS ============ -->
-<section class="act" id="apps">
+<!-- ============ 06 VISUAL ============ -->
+<section class="sec" id="visual">
   <div class="wrap">
-    <div class="act-head"><div class="act-no">08</div><div class="act-kicker">IN USE</div><h2>ככה זה נראה בעולם</h2></div>
-    <div class="mock-row">
-      <div><div class="post p1"><div class="q">אסור לתת למוצר טוב להישאר <span class="ghost">שקוף</span>.</div><div class="sig">Miri</div></div><p class="mock-cap">פוסט מסר · אינסטגרם 1080×1080</p></div>
-      <div><div class="post p2"><span>COMING SOON</span><b>הווילון<br>עוד סגור</b></div><p class="mock-cap">פוסט טיזר לחשיפת המיתוג והאתר</p></div>
-      <div><div class="story"><svg aria-hidden="true"><use href="#i-bf"/></svg><div class="t">יש לך מוצר מדהים שאף אחד עוד לא מכיר?<small>שלחי לי "במה" בוואטסאפ ונבדוק יחד איך הוא עולה לבמה.</small></div><div class="btn">שלחי "במה"</div></div><p class="mock-cap">סטורי עם הנעה לפעולה · <span class="en">1080×1920</span></p></div>
+    <div class="head"><div class="label">06 · שפה חזותית</div><h2>כסף נוזלי, <span class="pink">נגיעה אחת של פוקסיה</span></h2><p class="lead">ארבעה סוגי דימויים בונים את העולם של MIRI. בכולם הרקע אפור אולפן, והפוקסיה מופיעה פעם אחת בלבד.</p></div>
+    <h3>חפצים מכסף</h3>
+    <div class="grid c4" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,170px),1fr))">
+      <figure class="obj"><img src="brand/img/shop.webp" alt="תיק מכסף עם כנפי פרפר"><figcaption><b>חנויות</b>תיק עם כנפיים</figcaption></figure>
+      <figure class="obj"><img src="brand/img/site.webp" alt="מסגרת מכסף"><figcaption><b>אתרי תדמית</b>מסגרת</figcaption></figure>
+      <figure class="obj"><img src="brand/img/landing.webp" alt="מטוס נייר מכסף"><figcaption><b>דפי נחיתה</b>מטוס נייר</figcaption></figure>
+      <figure class="obj"><img src="brand/img/brand.webp" alt="חותמת שעווה מכסף"><figcaption><b>מיתוג</b>חותמת</figcaption></figure>
+      <figure class="obj"><img src="brand/img/app.webp" alt="אייקונים מכסף בערימה"><figcaption><b>אפליקציות</b>ערימת אייקונים</figcaption></figure>
     </div>
-    <h3 style="margin-top:48px">כיסויים להיילייטס באינסטגרם</h3>
-    <div class="hl">
-      <figure><div class="c"><svg aria-hidden="true"><use href="#i-star"/></svg></div><figcaption>עבודות</figcaption></figure>
-      <figure><div class="c"><svg aria-hidden="true"><use href="#i-bag"/></svg></div><figcaption>חנויות</figcaption></figure>
-      <figure><div class="c"><svg aria-hidden="true"><use href="#i-curtain"/></svg></div><figcaption>במה</figcaption></figure>
-      <figure><div class="c"><svg aria-hidden="true"><use href="#i-clap"/></svg></div><figcaption>מאחורי הקלעים</figcaption></figure>
-      <figure><div class="c"><svg aria-hidden="true"><use href="#i-heart"/></svg></div><figcaption>לקוחות</figcaption></figure>
-      <figure><div class="c"><svg aria-hidden="true"><use href="#i-bf"/></svg></div><figcaption>מי אני</figcaption></figure>
+    <h3 style="margin-top:40px">פרפרים</h3>
+    <div class="grid c2">
+      <div class="bfly"><img src="brand/img/bfly.webp" alt="פרפר כסף"><img src="brand/img/bfly-pink.webp" alt="פרפר פוקסיה"><img src="brand/img/bfly-dark.webp" alt="פרפר כהה"></div>
+      <div class="crowd"><img src="brand/img/crowd.webp" alt="המון פרפרים אפורים ואחד ורוד"><p>אחד ורוד בתוך המון אפורים: המוצר שבולט מתוך הקהל. זה הרקע של הפוטר באתר.</p></div>
     </div>
-    <h3 style="margin-top:48px">כרטיס ביקור</h3>
-    <div class="grid g2 cards">
-      <div class="card front"><div class="lockup"><svg class="bf" aria-hidden="true"><use href="#i-bf"/></svg><span class="m">Miri</span><span class="d">DEUTSCH</span></div></div>
-      <div class="card back"><b>מגיעה למוצר שלך במה שנראית בינלאומית ומוכרת</b><div class="ct">אתרים · חנויות · מיתוג<br><span>[וואטסאפ]</span> <span>[אינסטגרם]</span> <span>[אתר]</span></div></div>
+    <h3 style="margin-top:40px">סמלים</h3>
+    <div class="emb">
+      <figure><img src="brand/emblems/arrow.webp" alt=""><figcaption><b>חץ</b>תנועה קדימה, הנעה לפעולה</figcaption></figure>
+      <figure><img src="brand/emblems/hands.webp" alt=""><figcaption><b>ידיים ממסגרות</b>עין של במאית, פרויקטים</figcaption></figure>
+      <figure><img src="brand/emblems/panels.webp" alt=""><figcaption><b>פאנלים</b>תפאורה, שלבי בנייה</figcaption></figure>
+      <figure><img src="brand/emblems/podium.webp" alt=""><figcaption><b>פודיום</b>המוצר על הבמה</figcaption></figure>
+      <figure><img src="brand/emblems/star.webp" alt=""><figcaption><b>ניצוץ</b>רגע של וואו</figcaption></figure>
     </div>
-    <p class="mock-cap">כרטיס ביקור <span class="en">8.5×5.5</span> ס"מ. השדות בסוגריים מחכים לפרטים שלך.</p>
-  </div>
-</section>
-
-<!-- ============ 09 IDEAS ============ -->
-<section class="act" id="ideas">
-  <div class="wrap">
-    <div class="act-head"><div class="act-no">09</div><div class="act-kicker">IDEA BANK</div><h2>רעיונות להפעלת המותג</h2></div>
-    <div class="grid g3">
-      <div class="idea"><span class="k">TEASER</span><h3>הווילון עוד סגור</h3><p>סרטון קצר: בד פוקסיה, צל של פרפר מאחוריו, קלאפר. בלי תאריך, עם הנעה לשלוח "במה" בוואטסאפ. ואז חשיפה תוך שבוע.</p></div>
-      <div class="idea"><span class="k">WHATSAPP</span><h3>חבילת מדבקות לוואטסאפ</h3><p>12 המדבקות כחבילה שאת שולחת ללקוחות: Wow כשהן מאשרות עיצוב, SOLD OUT כשנכנסת הזמנה. כל שיחה עם לקוחה הופכת לחוויית מותג.</p></div>
-      <div class="idea"><span class="k">BEHIND THE SCENES</span><h3>סדרת TAKE</h3><p>רילס של תהליך הבנייה, ממוספרים: TAKE 1 שיחת היכרות, TAKE 2 לוח השראה, עד TAKE FINAL והשקה. מראה שיש שיטה מאחורי היצירתיות.</p></div>
-      <div class="idea"><span class="k">FAIRS</span><h3>ערכת דוכן לירידים</h3><p>הלקוחות שלך מסתובבות בירידים ובפופ-אפים. גלויה בגודל A6 עם ברקוד לתיק העבודות, ודף מדבקות קטן כמתנה.</p></div>
-      <div class="idea"><span class="k">LAUNCH KIT</span><h3>כרטיס ADMIT ONE ללקוחה</h3><p>בסוף כל פרויקט: כרטיס כניסה מודפס עם תאריך ההשקה שלה ושקית מדבקות. רגע שהיא תצלם ותתייג אותך.</p></div>
-      <div class="idea"><span class="k">PORTFOLIO</span><h3>במה לבהבר</h3><p>החנות של לבהבר כ"הצגת בכורה" בכל מקום: מוקאפ עם סרט ההדבקה "מוכרת מהיום הראשון" ומספר ההזמנות האמיתי.</p></div>
+    <h3 style="margin-top:40px">צילום</h3>
+    <div class="photo-row">
+      <img src="brand/img/miri-bw.webp" alt="מירי בשחור לבן">
+      <div class="card"><h3>מירי בפריים</h3><p>חולצה כהה, מחשב נייד ביד, רקע אפור אולפן וחיוך ישיר למצלמה. באתר התמונה מופיעה בשחור לבן ונצבעת בגלילה. מדבקה אחת על פינת התמונה, לא יותר.</p><p>עבודות מוצגות על מסך של מחשב או טלפון בתוך אותו עולם כסוף, כמו הלפטופ עם לבהבר ועם עוגן.</p></div>
     </div>
   </div>
 </section>
 
-<!-- ============ 10 NEEDS ============ -->
-<section class="act" id="needs">
+<!-- ============ 07 STICKERS ============ -->
+<section class="sec ivory" id="stickers">
   <div class="wrap">
-    <div class="needs">
-      <div class="act-kicker" style="color:var(--spot)">BACKSTAGE</div>
-      <h2 style="font-size:clamp(28px,4vw,40px);margin-top:8px">מה חסר כדי לסגור את הספר</h2>
-      <ol>
-        <li><div><b>קובץ הלוגו</b><span>הסקיצה הבולד/קיטשית ששלחת למרגלית (PNG, PDF או SVG). אחליף את ההצעה שלי בלוגו האמיתי ואבנה ממנו את כל הגרסאות.</span></div></li>
-        <li><div><b>אישור צבעים</b><span>האם הפוקסיה מדפי הפונטים היא הגוון הסופי? ומה דעתך על צבעי התמיכה, בעיקר הצהוב?</span></div></li>
-        <li><div><b>פרטי קשר</b><span>אינסטגרם, דומיין האתר, מספר וואטסאפ ומייל, לכרטיס הביקור, לחתימה ולסטוריז.</span></div></li>
-        <li><div><b>תמונות</b><span>צילום פורטרט שלך, צילומי מסך של לבהבר ושל עבודות אמיתיות, ותמונת הבמה והווילון מ-Midjourney לאתר.</span></div></li>
-        <li><div><b>המשפטים שלך</b><span>מה את ומה הלקוחות שלך אומרות הרבה? כל ביטוי כזה יכול להפוך למדבקה.</span></div></li>
-        <li><div><b>פונט עברי</b><span>Rubik ו-Heebo מתאימים, אבל אם יש פונט עברי שאת אוהבת או רכשת, אבנה סביבו.</span></div></li>
-        <li><div><b>איפה המדבקות יחיו</b><span>סטורי, חבילת וואטסאפ, הדפסה, או הכול? זה קובע את הפורמט: PNG שקוף, WEBP בגודל 512 לוואטסאפ, או קובץ וקטורי לדפוס.</span></div></li>
-      </ol>
+    <div class="head"><div class="label">07 · מדבקות</div><h2>דף המדבקות</h2><p class="lead">שבע המדבקות שכבר באתר. השפה שלהן: אותיות צרות וכבדות, נייר קרם או שחור, M מברשת בפוקסיה ושוליים לבנים של חיתוך.</p></div>
+    <div class="sheet">
+      <figure><div class="img"><img src="brand/stickers/center-stage.webp" alt="Your brand. Center stage."></div><figcaption><b>YOUR BRAND. CENTER STAGE.</b>הדגל. על תמונת הפתיחה ובפרופיל.</figcaption></figure>
+      <figure><div class="img"><img src="brand/stickers/on-set.webp" alt="On set"></div><figcaption><b>ON SET</b>"איך זה עובד" ותוכן תהליך.</figcaption></figure>
+      <figure><div class="img"><img src="brand/stickers/behind-the-scenes.webp" alt="Behind the scenes"></div><figcaption><b>BEHIND THE SCENES</b>אודות, סטוריז מהעבודה.</figcaption></figure>
+      <figure><div class="img"><img src="brand/stickers/make-it-bold.webp" alt="Make it bold."></div><figcaption><b>MAKE IT BOLD.</b>ליד משפט המסר.</figcaption></figure>
+      <figure><div class="img"><img src="brand/stickers/final-cut.webp" alt="Final cut"></div><figcaption><b>FINAL CUT</b>הגשה סופית ללקוח.</figcaption></figure>
+      <figure><div class="img"><img src="brand/stickers/its-a-wrap.webp" alt="It's a wrap"></div><figcaption><b>IT'S A WRAP</b>פרויקט עלה לאוויר.</figcaption></figure>
+      <figure><div class="img"><img src="brand/stickers/m-box.webp" alt="M"></div><figcaption><b>M</b>חתימה, אריזה, אייקון.</figcaption></figure>
+    </div>
+    <div class="grid c2" style="margin-top:28px">
+      <div><h3>כן</h3><ul class="rules"><li>מדבקה אחת או שתיים בכל מסך, מוטה קלות.</li><li>מודבקת על פינה של תמונה או ליד כותרת, כאילו הודבקה ביד.</li><li>תמיד עם השוליים הלבנים.</li></ul></div>
+      <div><h3>לא</h3><ul class="rules no"><li>לא בתוך טקסט רץ.</li><li>לא לצבוע מחדש ולא לשנות פונט.</li><li>לא לפזר הרבה מדבקות באותו פריים.</li></ul></div>
+    </div>
+    <h3 style="margin-top:44px">הצעות להרחבת הדף</h3>
+    <p class="lead" style="margin-bottom:18px">חמש מדבקות חדשות באותה שפה, לפי מה שחסר לך בתוכן. אלה טיוטות שבניתי בקוד עם הפונט והמברשת שלך, לא קבצים סופיים.</p>
+    <div class="new">
+      <figure><div class="img"><div class="nst a">TAKE<br>01<svg viewBox="0 0 190 92" aria-hidden="true"><use href="#m"/></svg></div></div><figcaption><b>TAKE 01</b>סדרת רילס על הכאבים: 01, 02, 03.</figcaption></figure>
+      <figure><div class="img"><div class="nst b">ACTION.<svg viewBox="0 0 190 92" aria-hidden="true"><use href="#m"/></svg></div></div><figcaption><b>ACTION.</b>יום ראשון של פרויקט.</figcaption></figure>
+      <figure><div class="img"><div class="nst c">NOW<br>SHOWING<svg viewBox="0 0 190 92" aria-hidden="true"><use href="#m"/></svg></div></div><figcaption><b>NOW SHOWING</b>חשיפה של חנות חדשה בתיק.</figcaption></figure>
+      <figure><div class="img"><div class="nst d">SOLD OUT.<svg viewBox="0 0 190 92" aria-hidden="true"><use href="#m"/></svg></div></div><figcaption><b>SOLD OUT.</b>לחגוג הזמנות של לקוחות.</figcaption></figure>
+      <figure><div class="img"><div class="nst e">במה.<svg viewBox="0 0 190 92" aria-hidden="true"><use href="#m"/></svg></div></div><figcaption><b>במה.</b>ההנעה לפעולה: "שלחו במה בוואטסאפ".</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 08 UI ============ -->
+<section class="sec" id="ui">
+  <div class="wrap">
+    <div class="head"><div class="label">08 · רכיבים</div><h2>אבני הבניין של האתר</h2><p class="lead">כרטיסים עם פינות של 20 פיקסלים, כפתורים עגולים לגמרי, צל רך אחד. מכאן בונים גם מצגות, הצעות מחיר וסטוריז.</p></div>
+    <div class="grid c3">
+      <div class="ui"><span class="label">כפתורים</span><span class="btn">ספרו לי על המוצר שלכם<i>←</i></span><span class="btn solid">ספרו לי על המוצר שלכם ←</span><span class="btn dark">לפרויקט המלא ←</span></div>
+      <div class="ui"><span class="label">תגיות פרויקט</span><div class="chips"><span>חנות אונליין</span><span>עיצוב</span><span>דפי מוצר</span><span>אזור אישי</span><span>מערכת ניהול</span></div><span class="label" style="margin-top:8px">טייקים</span><div class="takes"><span class="ltr">TAKE 01</span><span class="ltr">TAKE 02</span><span class="ltr">TAKE 03</span></div></div>
+      <div class="ui"><span class="label">משפט מסר עם הדגשות</span><div class="mini-stmt">אני בונה לכם חנות עם <span>סיפור</span>, <span>מיתוג</span> ועיצוב בינלאומי</div><span class="label">תווית מקטע</span><span style="font:500 14px var(--f-label);color:var(--muted)">02 · מה אני בונה</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 09 VOICE ============ -->
+<section class="sec ink" id="voice">
+  <div class="wrap">
+    <div class="head"><div class="label">09 · קול</div><h2>ישירה, נלהבת, <span class="pink">בכמויות.</span></h2><p class="lead">גוף ראשון ("אני בונה"). באתר הפנייה ללקוחות ברבים ("ספרו לי", "אתם מנהלים"). משפטים קצרים, והבטחה עסקית מאחורי כל "וואו".</p></div>
+    <div class="lines">
+      <div><span>כותרת האתר</span><q>יש לך מוצר מדהים? בואו נבנה לו <em>חנות שמוכרת בכמויות.</em></q></div>
+      <div><span>שורת התיאור</span><q>חנויות ואתרים שמוכרים בכמויות</q></div>
+      <div><span>משפט הבידול</span><q>מגיעה למוצר שלך <em>במה</em> שנראית בינלאומית ומוכרת</q></div>
+      <div><span>הכאב</span><q>"המוצר שלי מדהים, אבל אף אחד לא יודע שהוא קיים."</q></div>
+      <div><span>הקריאה לפעולה</span><q>ספרו לי על המוצר שלכם ←</q></div>
+    </div>
+    <div class="grid c2" style="margin-top:36px">
+      <div class="card"><h3>המילים שלנו</h3><div class="do"><span>במה</span><span>בכמויות</span><span>בינלאומי</span><span>מוצר מדהים</span><span>מנהלים לבד</span><span>מוכרת מהיום הראשון</span><span>צעד אחרי צעד</span></div></div>
+      <div class="card"><h3>מה לא אומרים</h3><div class="do dont"><span>זול</span><span>מבצע</span><span>אתר פשוט</span><span>תבנית</span><span>שעות עבודה</span><span>פלאגין</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 10 IDEAS ============ -->
+<section class="sec" id="ideas">
+  <div class="wrap">
+    <div class="head"><div class="label">10 · רעיונות</div><h2>מה עושים עם זה עכשיו</h2></div>
+    <div class="grid c3">
+      <div class="idea"><span class="label">טיזר · מהשיחה מ-12.11</span><h3>הווילון עוד סגור</h3><p>בד פוקסיה, צל של פרפר מאחוריו, קלאפר. בלי תאריך, עם הנעה לשלוח "במה" בוואטסאפ, וחשיפה עד שבוע אחרי.</p></div>
+      <div class="idea"><span class="label">וואטסאפ</span><h3>חבילת המדבקות</h3><p>שבע המדבקות כחבילת סטיקרים לוואטסאפ: FINAL CUT כשמגישים, IT'S A WRAP כשעולים לאוויר. כל שיחה עם לקוחה הופכת לחלק מהסט.</p></div>
+      <div class="idea"><span class="label">רילס</span><h3>סדרת הטייקים</h3><p>שלושת הכאבים מהאתר כשלושה רילס: TAKE 01 "המכירות שלי בוואטסאפ", ואז "היום" מול "אחרי".</p></div>
+      <div class="idea"><span class="label">פוסט</span><h3>כתוביות סיום</h3><p>בסוף כל פרויקט: פוסט בסגנון קרדיטים עם שם המותג, מה נבנה, ומדבקת IT'S A WRAP.</p></div>
+      <div class="idea"><span class="label">אינסטגרם</span><h3>כיסויי היילייטס</h3><p>חמשת הסמלים על רקע אפור: חץ (פניות), ידיים (פרויקטים), פאנלים (תהליך), פודיום (לקוחות), ניצוץ (מי אני).</p></div>
+      <div class="idea"><span class="label">ירידים ופופ-אפים</span><h3>גלויה עם ברקוד</h3><p>גלויה בגודל A6 עם מדבקת ON SET, משפט הכאב וברקוד לאתר. שם מסתובבות הלקוחות שלך.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11 AUDIT ============ -->
+<section class="sec ivory" id="audit">
+  <div class="wrap">
+    <div class="head"><div class="label">11 · מה עוד לסדר</div><h2>מה מצאתי שלא מסונכרן</h2><p class="lead">השוויתי בין האתר, הריפו ומסמכי האסטרטגיה. אלה הנקודות שעוד צריך להחליט עליהן.</p></div>
+    <div class="audit">
+      <div><div><b>שני גוונים של ורוד</b><span>האתר משתמש ב-‎#EC0B8C, ודפי הפונטים בריפו ב-‎#FF1F8E.</span><br><span class="st-ok">סודר: ‎#EC0B8C הוא הרשמי</span></div></div>
+      <div><div><b>לוגו בלי קבצים</b><span>הלוגו היה קיים רק בתוך קוד האתר.</span><br><span class="st-ok">סודר: שישה קבצי SVG בתיקייה brand/logo</span></div></div>
+      <div><div><b>הפונטים Miri Block ו-Miri Script</b><span>הם בריפו אבל לא מופיעים באתר. צריך להחליט: לארכיון, או רק לשימוש במדבקות.</span><br><span class="st-ok st-q">מחכה להחלטה שלך</span></div></div>
+      <div><div><b>דף המדבקות לא סופי</b><span>בקוד האתר כתוב להחליף את הקבצים כשיגיע הדף הסופי. הקבצים הנוכחיים ברוחב 800 פיקסלים, ולהדפסה צריך קבצים מקוריים או וקטוריים.</span><br><span class="st-ok st-q">צריך ממך את הקבצים המקוריים</span></div></div>
+      <div><div><b>"אתם" או "את"</b><span>האתר פונה ללקוחות ברבים, ומסמכי האסטרטגיה בלשון נקבה ("מגיעה למוצר שלך"). כדאי לבחור אחד לכל ערוץ.</span><br><span class="st-ok st-q">מחכה להחלטה שלך</span></div></div>
+      <div><div><b>חשבון האינסטגרם</b><span>הקישור באתר מוביל ל-mewe_studio. צריך לוודא שזה החשבון של המותג MIRI.</span><br><span class="st-ok st-q">לבדוק</span></div></div>
+      <div><div><b>רישיון הפונטים</b><span>לוודא מול פונטשוק שהרישיון של Nostela, Sprinter ו-Pompei Narrow מכסה דפוס וסושיאל, ולא רק את האתר.</span><br><span class="st-ok st-q">לבדוק</span></div></div>
     </div>
   </div>
 </section>
 </main>
 
 <footer>
-  <div class="lockup"><svg class="bf" aria-hidden="true"><use href="#i-bf"/></svg><span class="m">Miri</span><span class="d">DEUTSCH</span></div>
-  <p style="margin:0 auto">ספר מותג · גרסה 1 · נובמבר 2026</p>
+  <svg class="logo" viewBox="0 0 377 92" role="img" aria-label="MIRI"><use href="#logo"/></svg>
+  <p style="margin:0 auto">ספר מותג · גרסה 2 · נובמבר 2026 · מבוסס על mirideutsch.com</p>
 </footer>
 
 <script>
-const colors = [
-  { name: "פוקסיה במה", hex: "#FF1F8E", rgb: "255 31 142", cmyk: "0 88 44 0", role: "צבע הדגל. כותרות גדולות, כפתורים, הדגשות, מדבקות.", core: true, fg: "#fff" },
-  { name: "דיו", hex: "#111111", rgb: "17 17 17", cmyk: "60 40 40 100", role: "כל הטקסט, רקע לבמה, הגרסה ההפוכה של הלוגו.", core: true, fg: "#fff" },
-  { name: "נייר", hex: "#FFFFFF", rgb: "255 255 255", cmyk: "0 0 0 0", role: "הבסיס. הרבה אוויר, כדי שהפוקסיה תבלוט.", core: true, fg: "#111" },
-  { name: "וילון עמוק", hex: "#A3005A", rgb: "163 0 90", cmyk: "20 100 30 15", role: "צללים וקפלים בווילון, מצב ריחוף על כפתורים.", core: false, fg: "#fff" },
-  { name: "ורוד אבקה", hex: "#FFE3F0", rgb: "255 227 240", cmyk: "0 12 0 0", role: "רקעים רכים לאזורים, כרטיסים והערות.", core: false, fg: "#A3005A" },
-  { name: "זרקור", hex: "#FFE45C", rgb: "255 228 92", cmyk: "0 8 75 0", role: "רק במדבקות ובנקודות אור. אף פעם לא לטקסט על לבן.", core: false, fg: "#111" },
-];
-// Fit script-font stickers to their real text width once the fonts are in.
-document.fonts.ready.then(() => {
-  for (const svg of document.querySelectorAll("svg.fit")) {
-    const bb = svg.getBBox(), pad = 12;
-    svg.setAttribute("viewBox", `${bb.x - pad} ${bb.y - pad} ${bb.width + pad * 2} ${bb.height + pad * 2}`);
-    const h = 120, w = Math.min(220, h * (bb.width + pad * 2) / (bb.height + pad * 2));
-    svg.setAttribute("width", Math.round(w));
-    svg.setAttribute("height", Math.round(w * (bb.height + pad * 2) / (bb.width + pad * 2)));
+const colors = {
+  core: [
+    { n: "רצפת אולפן", hex: "#EAEAEA", rgb: "234 234 234", cmyk: "0 0 0 8", r: "הרקע הראשי של האתר. חלק מה-60%.", fg: "#242A30" },
+    { n: "שנהב", hex: "#F4F4F4", rgb: "244 244 244", cmyk: "0 0 0 4", r: "מקטעים בהירים וכרטיסים על רצפה.", fg: "#242A30" },
+    { n: "דיו", hex: "#242A30", rgb: "36 42 48", cmyk: "25 13 0 81", r: "השחור של המותג, אף פעם לא שחור מלא. טקסט ומקטעי מסר. 30%.", fg: "#F4F4F4" },
+    { n: "פוקסיה", hex: "#EC0B8C", rgb: "236 11 140", cmyk: "0 95 41 7", r: "ה-M, הדגשות, כפתורים. 10% בלבד.", fg: "#FFFFFF" },
+  ],
+  support: [
+    { n: "לבן", hex: "#FFFFFF", rgb: "255 255 255", cmyk: "0 0 0 0", r: "כרטיסים, כפתורים, IRI על כהה.", fg: "#242A30" },
+    { n: "אפור טקסט", hex: "#66626A", rgb: "102 98 106", cmyk: "4 8 0 58", r: "טקסט משני על רקע בהיר.", fg: "#FFFFFF" },
+    { n: "אפור בהיר", hex: "#A9A4AD", rgb: "169 164 173", cmyk: "2 5 0 32", r: "טקסט משני על דיו.", fg: "#242A30" },
+    { n: "נייר מדבקה", hex: "#F6F0EA", rgb: "246 240 234", cmyk: "0 2 5 4", r: "הקרם של המדבקות.", fg: "#242A30" },
+  ],
+};
+for (const [id, list] of Object.entries(colors)) {
+  const host = document.getElementById(id);
+  for (const c of list) {
+    const el = document.createElement("div");
+    el.className = "sw";
+    el.innerHTML = `<div class="chip" style="background:${c.hex};color:${c.fg}">${c.hex}</div><div class="info"><strong>${c.n}</strong><span class="role">${c.r}</span><span class="codes">RGB ${c.rgb} · CMYK ${c.cmyk}</span><button type="button" data-hex="${c.hex}">העתקה</button></div>`;
+    host.appendChild(el);
   }
-});
-const host = document.getElementById("swatches");
-for (const c of colors) {
-  const el = document.createElement("div");
-  el.className = "swatch";
-  el.innerHTML = `<div class="chip" style="background:${c.hex};color:${c.fg}">${c.hex}</div>
-    <div class="info"><span class="tag">${c.core ? "ליבה" : "תמיכה · הצעה"}</span><strong>${c.name}</strong>
-    <span class="role">${c.role}</span>
-    <span class="codes">HEX ${c.hex} · RGB ${c.rgb} · CMYK ${c.cmyk}</span>
-    <button class="copy" type="button" data-hex="${c.hex}">העתקת HEX</button></div>`;
-  host.appendChild(el);
+  host.addEventListener("click", async e => {
+    const b = e.target.closest("button"); if (!b) return;
+    try { await navigator.clipboard.writeText(b.dataset.hex); b.textContent = "הועתק"; }
+    catch { b.textContent = b.dataset.hex; }
+    setTimeout(() => { b.textContent = "העתקה"; }, 1600);
+  });
 }
-host.addEventListener("click", async e => {
-  const b = e.target.closest(".copy"); if (!b) return;
-  try { await navigator.clipboard.writeText(b.dataset.hex); b.textContent = "הועתק"; }
-  catch { b.textContent = b.dataset.hex; }
-  setTimeout(() => { b.textContent = "העתקת HEX"; }, 1600);
-});
 </script>

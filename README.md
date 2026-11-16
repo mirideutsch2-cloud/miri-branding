@@ -38,6 +38,12 @@ python3 tools/build.py
 ```
 
 ## ספר המותג
-- `brand-book.html`: ספר המותג המלא: סיפור, לוגו, צבעים, טיפוגרפיה, סמלים, מדבקות, שפה, יישומים ורעיונות
-- `stickers/*.png`: 12 המדבקות כקבצי PNG שקופים ברזולוציה גבוהה
-- ייצוא מחדש של המדבקות אחרי שינוי בספר: `node tools/export-stickers.js` (דורש Playwright)
+`brand-book.html` הוא ספר המותג, והוא בנוי על המיתוג החי של mirideutsch.com: לוגו MIRI, צבעים 60/30/10, הפונטים Nostela, Sprinter ו-Pompei Narrow, שפה חזותית, מדבקות, רכיבים, קול ורעיונות.
+
+- `brand/logo/`: הלוגו כ-SVG בכל הגרסאות, כולל ה-M לבד
+- `brand/stickers/`: שבע המדבקות מהאתר
+- `brand/emblems/`, `brand/img/`: סמלים, חפצי כסף, פרפרים וצילומים
+- `brand/fonts/`: לא נשמר בריפו, כי אלה פונטים ברישיון (פונטשוק). כדי לראות את הספר מקומית, מעתיקים לשם את `Nostela-VF.woff2`, `Sprinter-VF.woff2` ו-`PompeiNarrow-VF.woff2` מהאתר
+- עריכה: משנים את `tools/brand-book.template.html` ומריצים `python3 tools/build-brand-book.py`
+
+צבעים רשמיים: פוקסיה `#EC0B8C`, דיו `#242A30`, רצפה `#EAEAEA`, שנהב `#F4F4F4`.
