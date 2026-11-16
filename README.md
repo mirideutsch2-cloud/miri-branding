@@ -36,3 +36,8 @@
 pip install fonttools brotli numpy scipy scikit-image potracer opencv-python-headless skia-pathops
 python3 tools/build.py
 ```
+
+## ספר המותג
+- `brand-book.html`: ספר המותג המלא: סיפור, לוגו, צבעים, טיפוגרפיה, סמלים, מדבקות, שפה, יישומים ורעיונות
+- `stickers/*.png`: 12 המדבקות כקבצי PNG שקופים ברזולוציה גבוהה
+- ייצוא מחדש של המדבקות אחרי שינוי בספר: `node tools/export-stickers.js` (דורש Playwright)
